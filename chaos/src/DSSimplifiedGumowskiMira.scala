@@ -103,7 +103,7 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		// maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
 		// maps=maps enqueue("_210_124",{x => x*x -2*x +4 } , {x => x*x } )
 		
-		//
+		
 		maps=maps enqueue("_11_M1M2",{x =>(x-1)*(x-2) } , {x => x*x } )
 		maps=maps enqueue("_11_P1P2",{x =>(x+1)*(x+2) } , {x => x*x } )
 		maps=maps enqueue("_11_M1P2",{x =>(x-1)*(x+2) } , {x => x*x } )
