@@ -118,58 +118,58 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 					
 		params=params enqueue (
 					ParamRange.neighbor(-0.4 , 0.01 , 6) , // type of shape
-					ParamRange.neighbor( 1   , 0.1 , 1) , 
-					ParamRange.neighbor( 1   , 0.1 , 1) , 
-					ParamRange.neighbor( 0   , 0.1 , 1) , 
+					ParamRange.neighbor( 1   , 0.1 ,0) , 
+					ParamRange.neighbor( 1   , 0.1 ,0) , 
+					ParamRange.neighbor( 0   , 0.1 ,0) , 
 					1.0 )
 					
 		params=params enqueue (
 					ParamRange.neighbor( 0.3 , 0.1 , 6) , // type of shape
-					ParamRange.neighbor( 1   , 0.1 , 1) , 
-					ParamRange.neighbor( 1   , 0.1 , 1) , 
-					ParamRange.neighbor( 0   , 0.1 , 1) , 
+					ParamRange.neighbor( 1   , 0.1 ,0) , 
+					ParamRange.neighbor( 1   , 0.1 ,0) , 
+					ParamRange.neighbor( 0   , 0.1 ,0) , 
 					1.0 )
 					
 		params=params enqueue (
-					ParamRange.neighbor(-0.9  , 0.1   , 1 ) , // type of shape
-					ParamRange.neighbor( 0.96 , 0.1   , 1  ) , 
-					ParamRange.neighbor(-4.0  , 0.1   , 1  ) , 
-					ParamRange.neighbor( 0.0  , 0.01  , 1  ) , 
+					ParamRange.neighbor(-0.9  , 0.1   ,0) , // type of shape
+					ParamRange.neighbor( 0.96 , 0.1   ,0) , 
+					ParamRange.neighbor(-4.0  , 0.1   ,0) , 
+					ParamRange.neighbor( 0.0  , 0.01  ,0) , 
 					1.0 )
 					
 		params=params enqueue (
-					ParamRange.neighbor(-1.79160, 0.0001  ,  1 ) , // type of shape
-					ParamRange.neighbor( 0.9999 , 0.0001  ,  1  ) , 
-					ParamRange.neighbor( 1.07   , 0.01    ,  1  ) , 
-					ParamRange.neighbor( 0      , 0.1     ,  1 ) , 
+					ParamRange.neighbor(-1.79160, 0.0001  ,0) , // type of shape
+					ParamRange.neighbor( 0.9999 , 0.0001  ,0) , 
+					ParamRange.neighbor( 1.07   , 0.01    ,0) , 
+					ParamRange.neighbor( 0      , 0.1     ,0) , 
 					1.0 )
 					
 		params=params enqueue (
-					ParamRange.neighbor( 0  , 0.0001  , 1 ) , // type of shape
-					ParamRange.neighbor( 1  , 0.0001  , 1 ) , 
-					ParamRange.neighbor(-1  , 0.0001  , 1 ) , 
-					ParamRange.neighbor(-1  , 0.0001  , 1 ) , 
+					ParamRange.neighbor( 0  , 0.0001  ,0) , // type of shape
+					ParamRange.neighbor( 1  , 0.0001  ,0) , 
+					ParamRange.neighbor(-1  , 0.0001  ,0) , 
+					ParamRange.neighbor(-1  , 0.0001  ,0) , 
 					1.0 )
 					
 		params=params enqueue (
-					ParamRange.neighbor(-1.541 , 0.001 , 1 ) , // type of shape
-					ParamRange.neighbor( 1.0   , 0.001 , 1  ) , 
-					ParamRange.neighbor( 1.0   , 0.01  , 1  ) , 
-					ParamRange.neighbor( 0.0   , 0.1   , 1  ) , 
+					ParamRange.neighbor(-1.541 , 0.001 ,0) , // type of shape
+					ParamRange.neighbor( 1.0   , 0.001 ,0) , 
+					ParamRange.neighbor( 1.0   , 0.01  ,0) , 
+					ParamRange.neighbor( 0.0   , 0.1   ,0) , 
 					1.0 )
 					
 		params=params enqueue (
-					ParamRange.neighbor(-1.541 , 0.001 , 1 ) , // type of shape
-					ParamRange.neighbor( 1.0   , 0.001 , 1  ) , 
-					ParamRange.neighbor( 1.07  , 0.01  , 1  ) , 
-					ParamRange.neighbor(-0.1   , 0.1   , 1  ) , 
+					ParamRange.neighbor(-1.541 , 0.001 ,0) , // type of shape
+					ParamRange.neighbor( 1.0   , 0.001 ,0) , 
+					ParamRange.neighbor( 1.07  , 0.01  ,0) , 
+					ParamRange.neighbor(-0.1   , 0.1   ,0) , 
 					1.0 )
 					
 		params=params enqueue (
-					ParamRange.neighbor(-1.6   , 0.01  , 1 ) , // type of shape
-					ParamRange.neighbor( 1.0   , 0.001 , 1  ) , 
-					ParamRange.neighbor( 1.07  , 0.01  , 1  ) , 
-					ParamRange.neighbor( 0     , 0.1   , 1  ) , 
+					ParamRange.neighbor(-1.6   , 0.01  ,0) , // type of shape
+					ParamRange.neighbor( 1.0   , 0.001 ,0) , 
+					ParamRange.neighbor( 1.07  , 0.01  ,0) , 
+					ParamRange.neighbor( 0     , 0.1   ,0) , 
 					1.0 )
 		
 		// for(m<-maps;p<-params) {

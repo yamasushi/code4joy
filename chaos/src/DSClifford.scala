@@ -61,16 +61,16 @@ object DSClifford extends ChaosParameter[DSClifford]
 	def setup() : Unit = {
 		var maps:List[(String,(Double,Double)=>Double)] = Nil
 		// fillParam("",
-			// ParamRange.neighbor(-1.4  , 0.01 , 1) ,
-			// ParamRange.neighbor( 1.6  , 0.01 , 1) ,
-			// ParamRange.neighbor( 1    , 0.01 , 1) ,
-			// ParamRange.neighbor( 0.7  , 0.01 , 1) ,
+			// ParamRange.neighbor(-1.4  , 0.01 ,0) ,
+			// ParamRange.neighbor( 1.6  , 0.01 ,0) ,
+			// ParamRange.neighbor( 1    , 0.01 ,0) ,
+			// ParamRange.neighbor( 0.7  , 0.01 ,0) ,
 			// 1)
 		fillParam("",
-			ParamRange.neighbor( 1.1  , 0.01 , 1) ,
-			ParamRange.neighbor(-1.0  , 0.01 , 1) ,
-			ParamRange.neighbor( 1.0  , 0.01 , 1) ,
-			ParamRange.neighbor( 1.5  , 0.01 , 1) ,
+			ParamRange.neighbor( 1.1  , 0.01 ,0) ,
+			ParamRange.neighbor(-1.0  , 0.01 ,0) ,
+			ParamRange.neighbor( 1.0  , 0.01 ,0) ,
+			ParamRange.neighbor( 1.5  , 0.01 ,0) ,
 			1)
 	}
 }                       

@@ -80,17 +80,17 @@ object DSGumowskiMira extends ChaosParameter[DSGumowskiMira]
 		
 		params=params enqueue ( ( 0.008, 0.05 ) ,
 			ParamRange.neighbor( 0   , 0.1  , 20 ) , 
-			ParamRange.neighbor( 1.0 , 0.01 ,  1 ) , 
+			ParamRange.neighbor( 1.0 , 0.01 ,0) , 
 			0.1 )
 		
 		params=params enqueue ( ( 0.008, 0.05 ) ,
 			ParamRange.neighbor( 0.25 , 0.01 , 10 ) , 
-			ParamRange.neighbor( 1.0  , 0.01 ,  1 ) , 
+			ParamRange.neighbor( 1.0  , 0.01 ,0) , 
 			0.1 )
 		
 		params=params enqueue ( ( 0.008, 0.05 ) ,
-			ParamRange.neighbor(-0.475 , 0.001 , 1 ) , 
-			ParamRange.neighbor( 1.0   , 0.01  ,  1 ) , 
+			ParamRange.neighbor(-0.475 , 0.001 ,0) , 
+			ParamRange.neighbor( 1.0   , 0.01  ,0) , 
 			0.1 )
 		
 		for(m<-maps ; p<-params){

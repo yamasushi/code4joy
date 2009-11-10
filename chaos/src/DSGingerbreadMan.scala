@@ -90,8 +90,8 @@ object DSGingerbreadMan extends ChaosParameter[DSGingerbreadMan]
 		// maps = maps enqueue ("AA",{x=>abs(x)/(1+abs(x))} )
 		//
 		params = params enqueue (
-					ParamRange.neighbor(1 , 0.01  , 1),
-					ParamRange.neighbor(1 , 0.001 , 1),
+					ParamRange.neighbor(1 , 0.01  ,0),
+					ParamRange.neighbor(1 , 0.001 ,0),
 					5)
 		//
 		for(m<-maps ; p<-params){
