@@ -56,7 +56,11 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 		//
 		setup()
 		//
-		for( p <- param if p.isValid  ) {
+		for( p <- param if p.isValid ;
+			filename = p.chaosName +"."+imgType ;
+			file = new java.io.File(filename) ;
+			if (!file.exists ) ) {
+			
 			if ( p.isDivergence(100)(maxIter) ) {
 				println("unstable :"+p.chaosName)
 			}
@@ -64,7 +68,6 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 				//val lyapunov = Lyapunov.calc(p.chaosSystem,10000,(0.0,0.0))
 				//print("lyapunov["+lyapunov.formatted("%3f")+"]")
 				//
-				val filename = p.chaosName +"."+imgType
 				//
 				val minmax = p.calcMinMax(numTrajectory)(dropIter,maxIter)
 				val (minXY,maxXY) = minmax
