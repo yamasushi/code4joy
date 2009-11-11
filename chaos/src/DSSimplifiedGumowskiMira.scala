@@ -104,10 +104,25 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		// maps=maps enqueue("_210_124",{x => x*x -2*x +4 } , {x => x*x } )
 		
 		
+		maps=maps enqueue("_11_AM1AM2",{x =>abs(x-1)*abs(x-2) } , {x => x*x } )
+		maps=maps enqueue("_11_AP1AP2",{x =>abs(x+1)*abs(x+2) } , {x => x*x } )
+		maps=maps enqueue("_11_AM1AP2",{x =>abs(x-1)*abs(x+2) } , {x => x*x } )
+		maps=maps enqueue("_11_AP1AM2",{x =>abs(x+1)*abs(x-2) } , {x => x*x } )
+		
+		maps=maps enqueue("A11_AM1AM2",{x =>abs(x-1)*abs(x-2) } , {x => abs(x) } )
+		maps=maps enqueue("A11_AP1AP2",{x =>abs(x+1)*abs(x+2) } , {x => abs(x) } )
+		maps=maps enqueue("A11_AM1AP2",{x =>abs(x-1)*abs(x+2) } , {x => abs(x) } )
+		maps=maps enqueue("A11_AP1AM2",{x =>abs(x+1)*abs(x-2) } , {x => abs(x) } )
+		
 		maps=maps enqueue("_11_M1M2",{x =>(x-1)*(x-2) } , {x => x*x } )
 		maps=maps enqueue("_11_P1P2",{x =>(x+1)*(x+2) } , {x => x*x } )
 		maps=maps enqueue("_11_M1P2",{x =>(x-1)*(x+2) } , {x => x*x } )
 		maps=maps enqueue("_11_P1M2",{x =>(x+1)*(x-2) } , {x => x*x } )
+		
+		maps=maps enqueue("A11_M1M2",{x =>(x-1)*(x-2) } , {x => abs(x) } )
+		maps=maps enqueue("A11_P1P2",{x =>(x+1)*(x+2) } , {x => abs(x) } )
+		maps=maps enqueue("A11_M1P2",{x =>(x-1)*(x+2) } , {x => abs(x) } )
+		maps=maps enqueue("A11_P1M2",{x =>(x+1)*(x-2) } , {x => abs(x) } )
 		
 		params=params enqueue (
 					ParamRange.neighbor( 1 , 1 , 2) , // type of shape
