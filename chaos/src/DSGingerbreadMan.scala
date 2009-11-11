@@ -94,13 +94,13 @@ object DSGingerbreadMan extends ChaosParameter[DSGingerbreadMan]
 					ParamRange.neighbor(1 , 0.001 ,0),
 					5)
 		//
-		for(m<-maps ; p<-params){
-			fillParam(m._1,m._2,p._1,p._2,p._3)(rot)
-		}
-		
 		// for(m<-maps ; p<-params){
-			// fillParam("RAW-"+m._1,m._2,p._1,p._2,p._3){p=>p}
+			// fillParam(m._1,m._2,p._1,p._2,p._3)(rot)
 		// }
+		
+		for(m<-maps ; p<-params){
+			fillParam("RAW-"+m._1,m._2,p._1,p._2,p._3){p=>p}
+		}
 		
 	}
 }                       
