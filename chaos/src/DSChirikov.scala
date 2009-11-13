@@ -19,7 +19,11 @@ class DSChirikov( val header:String ,
 	//
 	val period = 2*Math.Pi
 	val radius = period*0.5
-	def remainder(x:Double):Double = {Math.IEEEremainder(x,period)}
+	def remainder(x:Double):Double = {
+		val rem = Math.IEEEremainder( x , period )
+		if(rem>=0) rem else rem + period
+	}
+	
 	def remainder(p:(Double,Double)):(Double,Double) = {(remainder(p._1),remainder(p._2))}
 	//
 	override val initialPoints = PointsOfRing( ( 0 , 0 ) , numRing , period ).points map remainder 
@@ -64,11 +68,6 @@ object DSChirikov extends ChaosParameter[DSChirikov]
 	
 	//----------------------------
 	def setup() : Unit = {
-		def mapS(xp:(Double,Double)):(Double,Double) = {
-			val (x,p) = xp
-			( Math.IEEEremainder( x + Math.Pi , 2*Math.Pi) , p )
-		}
-		
 		def mapD1(r:Double)(xp:(Double,Double)):(Double,Double) = {
 			val (x,p) = xp
 			val theta = x
@@ -92,7 +91,7 @@ object DSChirikov extends ChaosParameter[DSChirikov]
 		params = params enqueue ("MA",ParamRange.neighbor( 4.0 / 3.0     , 0.01 , 1 )) //Mather 1995
 		params = params enqueue ("_" ,ParamRange.neighbor( 2             , 0.01 , 1 )) //
 		
-		//maps = maps enqueue ("S" ,mapS     _ )
+		maps = maps enqueue (""  ,{ p => p })
 		maps = maps enqueue ("D1",mapD1(2*Math.Pi) _ )
 		maps = maps enqueue ("D2",mapD2(2*Math.Pi) _ )
 		

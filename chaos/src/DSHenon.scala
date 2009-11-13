@@ -17,7 +17,11 @@ class DSHenon(
 	override val colorFGMap   :(Int) => Color = ChaosImageParam.silverFGMap
 	
 	val radius = period*0.5
-	def remainder(x:Double):Double = {Math.IEEEremainder(x,period)}
+	def remainder(x:Double):Double = {
+		val rem = Math.IEEEremainder(x,period)
+		//if(rem>=0) rem else rem + period
+		rem
+	}
 	def remainder(p:(Double,Double)):(Double,Double) = {(remainder(p._1),remainder(p._2))}
 	override val initialPoints = PointsOfRing( ( 0 , 0 ) , numRing , period ).points map remainder 
 	//
