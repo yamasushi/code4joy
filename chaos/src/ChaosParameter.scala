@@ -75,25 +75,29 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 				val (minXY,maxXY) = minmax
 				val (minx ,miny)  = minXY
 				val (maxx ,maxy)  = maxXY
-				val width   = abs( maxx - minx ) + 0.000001
-				val height  = abs( maxy - miny ) + 0.000001
+				val width      = abs( maxx - minx ) + 0.000001
+				val height     = abs( maxy - miny ) + 0.000001
+				val aspectRatio= width/height
+				val scale      = scaleFactor*1000
 				//
 				val geom =	if (width>height)
-								(	(scaleFactor* 1600).asInstanceOf[Int] ,
-									(scaleFactor*  900).asInstanceOf[Int] )
+								(	scale              .asInstanceOf[Int] ,
+									(scale/aspectRatio).asInstanceOf[Int] )
 							else
-								(	(scaleFactor*  900).asInstanceOf[Int] ,
-									(scaleFactor* 1600).asInstanceOf[Int] )
+								(	(scale*aspectRatio).asInstanceOf[Int] ,
+									scale              .asInstanceOf[Int] )
 				//
-				val canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
-				print("Generating : " + filename ) // do not put newline
-				//
-				canvas.paint{ g:Graphics2D =>
-					// inside loan of graphics object g
-					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(minmax)(p.drawPoint(g))
-					print(" ... Writing") // do not put newline
+				if( geom._1 > 1 && geom._2 > 1 ){
+					val canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
+					print("Generating : " + filename ) // do not put newline
+					//
+					canvas.paint{ g:Graphics2D =>
+						// inside loan of graphics object g
+						p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(minmax)(p.drawPoint(g))
+						print(" ... Writing") // do not put newline
+					}
+					println(" ... Done")
 				}
-				println(" ... Done")
 			}
 		}
 	}
