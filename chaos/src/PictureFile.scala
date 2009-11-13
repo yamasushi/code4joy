@@ -18,19 +18,17 @@ class PictureFile(
 {
 	override val (imgWidth,imgHeight) = geom
 	
-	override def startPaint : BufferedImage = 
-	{
+	override def startPaint : BufferedImage = {
 		new BufferedImage(imgWidth,imgHeight,BufferedImage.TYPE_USHORT_555_RGB)
 	}
 	
-	override def endPaint(bi:BufferedImage)
-	{
+	override def endPaint(bi:BufferedImage):Unit = {
 		ImageIO.write(	bi , 
 						imgType , 
 						file)
 	}
 	
-	override def paint(op:Graphics2D => Unit ):Unit={
+	override def paint(op:Graphics2D => Unit ):Unit = {
 		doPaint({ bi:BufferedImage => 
 					val g = bi.createGraphics()
 					g.setPaint(colorBG)
