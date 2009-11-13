@@ -11,8 +11,9 @@ import Math.{sin,cos,log,sqrt,abs,exp}
 
 import DSChirikov._
 class DSChirikov( val header:String ,
-		val paramK : Double , 
-		val ovalR:Double) extends ChaosImageParam with ChaosStreamCanvas
+		val paramK : Double ,
+		val map    : ((Double,Double))=>(Double,Double) ,
+		val ovalR  : Double) extends ChaosImageParam with ChaosStreamCanvas
 {
 	override val colorFGMap   :(Int) => Color = ChaosImageParam.silverFGMap
 	//
@@ -36,8 +37,7 @@ class DSChirikov( val header:String ,
 			(xx,pp)
 		}
 		override def mapCoordinate(xp:(Double,Double)) : (Double,Double) = {
-			val (x,p) = xp
-			( Math.IEEEremainder( x + Math.Pi , 2*Math.Pi) , p )
+			map(xp)
 		}
 		override def validateParam : Boolean = {
 			// coefficient of pi
@@ -53,10 +53,10 @@ object DSChirikov extends ChaosParameter[DSChirikov]
 {
 	def fillParam(name:String   ,
 				kRange : Stream[Double] ,
+				map    : ((Double,Double))=>(Double,Double) , 
 				ovalR  : Double ) : Unit = {
 		for ( k<-kRange ){
-			add( new DSChirikov( name , 
-				k , ovalR ) )
+			add( new DSChirikov( name , k , map,ovalR ) )
 		}
 		//
 		()
@@ -64,31 +64,41 @@ object DSChirikov extends ChaosParameter[DSChirikov]
 	
 	//----------------------------
 	def setup() : Unit = {
+		def mapS(xp:(Double,Double)):(Double,Double) = {
+			val (x,p) = xp
+			( Math.IEEEremainder( x + Math.Pi , 2*Math.Pi) , p )
+		}
 		
-		fillParam("H",
-			ParamRange.neighbor( 1. / 34.0     , 0.01 , 20 ) , // Hermann 
-			1 )
-			
-		fillParam("CC",
-			ParamRange.neighbor( 419. / 500.0  , 0.01 , 20 ) , // Cellette,Chierchia 1995 
-			1 )
-			
-		fillParam("G",
-			ParamRange.neighbor( 0.971635406   , 0.01 , 20 ) , // Greene 
-			1 )
-			
-		fillParam("MP",
-			ParamRange.neighbor( 63.0 / 64.0   , 0.01 , 20 ) , // MacKay , Percival 1995
-			1 )
-			
-		fillParam("MA",
-			ParamRange.neighbor( 4.0 / 3.0     , 0.01 , 20 ) , // Mather 1995
-			1 )
-			
-		fillParam("_",
-			ParamRange.neighbor( 2   , 0.01 , 20 ) , 
-			1 )
-			
+		def mapD1(r:Double)(xp:(Double,Double)):(Double,Double) = {
+			val (x,p) = xp
+			val theta = x
+			val radius= p+r
+			( radius*cos(theta) , radius*sin(theta) )
+		}
+		def mapD2(r:Double)(xp:(Double,Double)):(Double,Double) = {
+			val (x,p) = xp
+			val theta = p
+			val radius= x+r
+			( radius*cos(theta) , radius*sin(theta) )
+		}
+		
+		var params = new Queue[(String,Stream[Double])]
+		var maps   = new Queue[(String,((Double,Double))=>(Double,Double))]
+		
+		params = params enqueue ("H" ,ParamRange.neighbor( 1. / 34.0     , 0.01 , 1 )) //Hermann 
+		params = params enqueue ("CC",ParamRange.neighbor( 419. / 500.0  , 0.01 , 1 )) //Cellette,Chierchia 1995 
+		params = params enqueue ("G" ,ParamRange.neighbor( 0.971635406   , 0.01 , 1 )) //Greene 
+		params = params enqueue ("MP",ParamRange.neighbor( 63.0 / 64.0   , 0.01 , 1 )) //MacKay , Percival 1995
+		params = params enqueue ("MA",ParamRange.neighbor( 4.0 / 3.0     , 0.01 , 1 )) //Mather 1995
+		params = params enqueue ("_" ,ParamRange.neighbor( 2             , 0.01 , 1 )) //
+		
+		//maps = maps enqueue ("S" ,mapS     _ )
+		maps = maps enqueue ("D1",mapD1(2*Math.Pi) _ )
+		maps = maps enqueue ("D2",mapD2(2*Math.Pi) _ )
+		
+		for( hp<-params ; m<-maps) {
+			fillParam(hp._1+"-"+m._1  , hp._2 , m._2 , 1 )
+		}
 	}
 }
 
