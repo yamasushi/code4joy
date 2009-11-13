@@ -3,18 +3,21 @@
 // 2009-09-24 shuji
 // 2009-09-30 shuji TYPE_USHORT_555_RGB
 // 15:43 2009/11/06 divide into traits --> Picture,Canvas
+// 18:57 2009/11/13 filename ---> File object
+
 import java.awt._
 import java.awt.image._
 import javax.imageio._
 import java.io._
 
 class PictureFile( 
-		val fileName : String ,
-		val imgWidth : Int    ,
-		val imgHeight: Int    ,
+		val file     : File     ,
+		val geom     : (Int,Int),
 		val imgType  : String , 
 		val colorBG  : Color  ) extends Picture[BufferedImage]
 {
+	override val (imgWidth,imgHeight) = geom
+	
 	override def startPaint : BufferedImage = 
 	{
 		new BufferedImage(imgWidth,imgHeight,BufferedImage.TYPE_USHORT_555_RGB)
@@ -22,10 +25,9 @@ class PictureFile(
 	
 	override def endPaint(bi:BufferedImage)
 	{
-		val outFile = new File(fileName)
 		ImageIO.write(	bi , 
 						imgType , 
-						outFile)
+						file)
 	}
 	
 	override def paint(op:Graphics2D => Unit ):Unit={

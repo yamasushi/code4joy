@@ -76,18 +76,14 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 				val width   = abs( maxx - minx ) + 0.000001
 				val height  = abs( maxy - miny ) + 0.000001
 				//
-				val (imgWidth,imgHeight)=if (width>height)
-											(	(scaleFactor* 1600).asInstanceOf[Int] ,
-												(scaleFactor*  900).asInstanceOf[Int] )
-										else
-											(	(scaleFactor*  900).asInstanceOf[Int] ,
-												(scaleFactor* 1600).asInstanceOf[Int] )
-				
-				val canvas = new PictureFile(filename  ,
-											imgWidth  , 
-											imgHeight , 
-											imgType   ,
-											colorBG   ) with Canvas
+				val geom =	if (width>height)
+								(	(scaleFactor* 1600).asInstanceOf[Int] ,
+									(scaleFactor*  900).asInstanceOf[Int] )
+							else
+								(	(scaleFactor*  900).asInstanceOf[Int] ,
+									(scaleFactor* 1600).asInstanceOf[Int] )
+				//
+				val canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
 				print("Generating : " + filename ) // do not put newline
 				//
 				canvas.paint{ g:Graphics2D =>
