@@ -18,30 +18,32 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 	//
 	private var param = new Queue[T]
 	//
+	var fileFilter:(java.io.File)=>Boolean = {!_.exists}
+	//
+	val paramScaleFactor:(String)=>Double = {
+		case "poor" => 0.5
+		case "low"  => 1.0
+		case "high" => 3.0
+		case _      => 1.0
+	}
+	val paramNumTrajectoryPerRing:(String)=>Int = {
+		case "poor" => 10
+		case "low"  => 100
+		case "high" => 500
+		case _      => 100
+	}
+	
 	def parse(cmdParam:Array[String]) : Unit = {
-		cmdParam.toList match {
-		case "poor" :: Nil =>
-			scaleFactor          =   0.5
-			numTrajectoryPerRing =  10
+		scaleFactor          = paramScaleFactor(cmdParam(0))
+		numTrajectoryPerRing = paramNumTrajectoryPerRing(cmdParam(0))
+		
+		(cmdParam drop 1).toList match {
+		case "ow" :: Nil =>
+			print("[overwrite only]")
+			// overwriting mode
+			fileFilter={_.exists}
 			
-		case "low" :: Nil =>
-			scaleFactor          =   1.
-			numTrajectoryPerRing = 100
-			
-		case "high" :: Nil =>
-			scaleFactor          =   3.
-			numTrajectoryPerRing = 500
-			
-		case str0 :: str1 :: str2 :: Nil =>
-			scaleFactor          = str0 .toDouble
-			numTrajectoryPerRing = str1 .toInt
-			numRing              = str2 .toInt
-			
-		case str0 :: str1 :: Nil =>
-			scaleFactor          = str0 .toDouble
-			numTrajectoryPerRing = str1 .toInt
-			
-		case _ => exit(0)
+		case _ => 
 		}
 		println(
 			"scaleFactor="          +scaleFactor         .formatted("%f")+
@@ -59,7 +61,7 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 		for( p <- param if p.isValid ;
 			filename = p.chaosName +"."+imgType ;
 			file = new java.io.File(filename) ;
-			if (!file.exists ) ) {
+			if fileFilter(file) ) {
 			
 			if ( p.isDivergence(100)(maxIter) ) {
 				println("unstable :"+p.chaosName)
