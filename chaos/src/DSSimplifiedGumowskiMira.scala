@@ -103,31 +103,33 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		// maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
 		// maps=maps enqueue("_210_124",{x => x*x -2*x +4 } , {x => x*x } )
 		
+		maps=maps enqueue("_11_AP1AP2",{x =>abs(x+1)*abs(x+2) } , {x => x*x } )
+		maps=maps enqueue("_11_AP1AM2",{x =>abs(x+1)*abs(x-2) } , {x => x*x } )
 		
 		// maps=maps enqueue("_11_AM1AM2",{x =>abs(x-1)*abs(x-2) } , {x => x*x } )
 		// maps=maps enqueue("_11_AP1AP2",{x =>abs(x+1)*abs(x+2) } , {x => x*x } )
 		// maps=maps enqueue("_11_AM1AP2",{x =>abs(x-1)*abs(x+2) } , {x => x*x } )
 		// maps=maps enqueue("_11_AP1AM2",{x =>abs(x+1)*abs(x-2) } , {x => x*x } )
 		
-		maps=maps enqueue("AM1AM2_0" , {x => 1 } , {x =>abs(x-1)*abs(x-2) } )
-		maps=maps enqueue("AP1AP2_0" , {x => 1 } , {x =>abs(x+1)*abs(x+2) } )
-		maps=maps enqueue("AM1AP2_0" , {x => 1 } , {x =>abs(x-1)*abs(x+2) } )
-		maps=maps enqueue("AP1AM2_0" , {x => 1 } , {x =>abs(x+1)*abs(x-2) } )
+		// maps=maps enqueue("AM1AM2_0" , {x => 1 } , {x =>abs(x-1)*abs(x-2) } )
+		// maps=maps enqueue("AP1AP2_0" , {x => 1 } , {x =>abs(x+1)*abs(x+2) } )
+		// maps=maps enqueue("AM1AP2_0" , {x => 1 } , {x =>abs(x-1)*abs(x+2) } )
+		// maps=maps enqueue("AP1AM2_0" , {x => 1 } , {x =>abs(x+1)*abs(x-2) } )
 		
-		maps=maps enqueue("AM1AM2_1" , {x => x } , {x =>abs(x-1)*abs(x-2) } )
-		maps=maps enqueue("AP1AP2_1" , {x => x } , {x =>abs(x+1)*abs(x+2) } )
-		maps=maps enqueue("AM1AP2_1" , {x => x } , {x =>abs(x-1)*abs(x+2) } )
-		maps=maps enqueue("AP1AM2_1" , {x => x } , {x =>abs(x+1)*abs(x-2) } )
+		// maps=maps enqueue("AM1AM2_1" , {x => x } , {x =>abs(x-1)*abs(x-2) } )
+		// maps=maps enqueue("AP1AP2_1" , {x => x } , {x =>abs(x+1)*abs(x+2) } )
+		// maps=maps enqueue("AM1AP2_1" , {x => x } , {x =>abs(x-1)*abs(x+2) } )
+		// maps=maps enqueue("AP1AM2_1" , {x => x } , {x =>abs(x+1)*abs(x-2) } )
 		
-		maps=maps enqueue("AM1AM2_2" , {x => x*x } , {x =>abs(x-1)*abs(x-2) } )
-		maps=maps enqueue("AP1AP2_2" , {x => x*x } , {x =>abs(x+1)*abs(x+2) } )
-		maps=maps enqueue("AM1AP2_2" , {x => x*x } , {x =>abs(x-1)*abs(x+2) } )
-		maps=maps enqueue("AP1AM2_2" , {x => x*x } , {x =>abs(x+1)*abs(x-2) } )
+		// maps=maps enqueue("AM1AM2_2" , {x => x*x } , {x =>abs(x-1)*abs(x-2) } )
+		// maps=maps enqueue("AP1AP2_2" , {x => x*x } , {x =>abs(x+1)*abs(x+2) } )
+		// maps=maps enqueue("AM1AP2_2" , {x => x*x } , {x =>abs(x-1)*abs(x+2) } )
+		// maps=maps enqueue("AP1AM2_2" , {x => x*x } , {x =>abs(x+1)*abs(x-2) } )
 		
-		maps=maps enqueue("A111_11_AM1AM2",{x =>abs(x-1)*abs(x-2) } , {x => abs(x*x+x+1) } )
-		maps=maps enqueue("A111_11_AP1AP2",{x =>abs(x+1)*abs(x+2) } , {x => abs(x*x+x+1) } )
-		maps=maps enqueue("A111_11_AM1AP2",{x =>abs(x-1)*abs(x+2) } , {x => abs(x*x+x+1) } )
-		maps=maps enqueue("A111_11_AP1AM2",{x =>abs(x+1)*abs(x-2) } , {x => abs(x*x+x+1) } )
+		// maps=maps enqueue("A111_11_AM1AM2",{x =>abs(x-1)*abs(x-2) } , {x => abs(x*x+x+1) } )
+		// maps=maps enqueue("A111_11_AP1AP2",{x =>abs(x+1)*abs(x+2) } , {x => abs(x*x+x+1) } )
+		// maps=maps enqueue("A111_11_AM1AP2",{x =>abs(x-1)*abs(x+2) } , {x => abs(x*x+x+1) } )
+		// maps=maps enqueue("A111_11_AP1AM2",{x =>abs(x+1)*abs(x-2) } , {x => abs(x*x+x+1) } )
 		
 		// maps=maps enqueue("_11_M1M2",{x =>(x-1)*(x-2) } , {x => x*x } )
 		// maps=maps enqueue("_11_P1P2",{x =>(x+1)*(x+2) } , {x => x*x } )
@@ -140,67 +142,74 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		// maps=maps enqueue("A11_P1M2",{x =>(x+1)*(x-2) } , {x => abs(x) } )
 		
 		params=params enqueue (
-					ParamRange.neighbor( 1 , 1 , 2) , // type of shape
-					ParamRange.neighbor( 0 , 1 , 2) , 
-					ParamRange.neighbor( 0 , 1 , 2) , 
-					ParamRange.neighbor( 0 , 1 , 2) , 
+					ParamRange.neighbor( 0 , 0.001 , 3) , // type of shape
+					ParamRange.neighbor( 1 , 0.001 , 3) , 
+					ParamRange.neighbor( 1 , 0.001 , 3) , 
+					ParamRange.neighbor( 0 , 0.001 , 3) , 
+					1.0 )
+		
+		params=params enqueue (
+					ParamRange.neighbor( 0.1 , 0.001 , 3) , // type of shape
+					ParamRange.neighbor( 1   , 0.001 , 3) , 
+					ParamRange.neighbor( 1   , 0.001 , 3) , 
+					ParamRange.neighbor( 0   , 0.001 , 3) , 
+					1.0 )
+		
+		params=params enqueue (
+					ParamRange.neighbor(-0.9  , 0.01 , 3) , // type of shape
+					ParamRange.neighbor( 0.96 , 0.01 , 3) , 
+					ParamRange.neighbor(-4.0  , 0.01 , 3) , 
+					ParamRange.neighbor( 0.0  , 0.01 , 3) , 
 					1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor(-0.4 , 0.01 , 6) , // type of shape
-					ParamRange.neighbor( 1   , 0.1 ,0) , 
-					ParamRange.neighbor( 1   , 0.1 ,0) , 
-					ParamRange.neighbor( 0   , 0.1 ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor(-0.4 , 0.01 , 6) , // type of shape
+					// ParamRange.neighbor( 1   , 0.1 ,0) , 
+					// ParamRange.neighbor( 1   , 0.1 ,0) , 
+					// ParamRange.neighbor( 0   , 0.1 ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor( 0.3 , 0.1 , 6) , // type of shape
-					ParamRange.neighbor( 1   , 0.1 ,0) , 
-					ParamRange.neighbor( 1   , 0.1 ,0) , 
-					ParamRange.neighbor( 0   , 0.1 ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor( 0.3 , 0.1 , 6) , // type of shape
+					// ParamRange.neighbor( 1   , 0.1 ,0) , 
+					// ParamRange.neighbor( 1   , 0.1 ,0) , 
+					// ParamRange.neighbor( 0   , 0.1 ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor(-0.9  , 0.1   ,0) , // type of shape
-					ParamRange.neighbor( 0.96 , 0.1   ,0) , 
-					ParamRange.neighbor(-4.0  , 0.1   ,0) , 
-					ParamRange.neighbor( 0.0  , 0.01  ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor(-1.79160, 0.0001  ,0) , // type of shape
+					// ParamRange.neighbor( 0.9999 , 0.0001  ,0) , 
+					// ParamRange.neighbor( 1.07   , 0.01    ,0) , 
+					// ParamRange.neighbor( 0      , 0.1     ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor(-1.79160, 0.0001  ,0) , // type of shape
-					ParamRange.neighbor( 0.9999 , 0.0001  ,0) , 
-					ParamRange.neighbor( 1.07   , 0.01    ,0) , 
-					ParamRange.neighbor( 0      , 0.1     ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor( 0  , 0.0001  ,0) , // type of shape
+					// ParamRange.neighbor( 1  , 0.0001  ,0) , 
+					// ParamRange.neighbor(-1  , 0.0001  ,0) , 
+					// ParamRange.neighbor(-1  , 0.0001  ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor( 0  , 0.0001  ,0) , // type of shape
-					ParamRange.neighbor( 1  , 0.0001  ,0) , 
-					ParamRange.neighbor(-1  , 0.0001  ,0) , 
-					ParamRange.neighbor(-1  , 0.0001  ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor(-1.541 , 0.001 ,0) , // type of shape
+					// ParamRange.neighbor( 1.0   , 0.001 ,0) , 
+					// ParamRange.neighbor( 1.0   , 0.01  ,0) , 
+					// ParamRange.neighbor( 0.0   , 0.1   ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor(-1.541 , 0.001 ,0) , // type of shape
-					ParamRange.neighbor( 1.0   , 0.001 ,0) , 
-					ParamRange.neighbor( 1.0   , 0.01  ,0) , 
-					ParamRange.neighbor( 0.0   , 0.1   ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor(-1.541 , 0.001 ,0) , // type of shape
+					// ParamRange.neighbor( 1.0   , 0.001 ,0) , 
+					// ParamRange.neighbor( 1.07  , 0.01  ,0) , 
+					// ParamRange.neighbor(-0.1   , 0.1   ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor(-1.541 , 0.001 ,0) , // type of shape
-					ParamRange.neighbor( 1.0   , 0.001 ,0) , 
-					ParamRange.neighbor( 1.07  , 0.01  ,0) , 
-					ParamRange.neighbor(-0.1   , 0.1   ,0) , 
-					1.0 )
-					
-		params=params enqueue (
-					ParamRange.neighbor(-1.6   , 0.01  ,0) , // type of shape
-					ParamRange.neighbor( 1.0   , 0.001 ,0) , 
-					ParamRange.neighbor( 1.07  , 0.01  ,0) , 
-					ParamRange.neighbor( 0     , 0.1   ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor(-1.6   , 0.01  ,0) , // type of shape
+					// ParamRange.neighbor( 1.0   , 0.001 ,0) , 
+					// ParamRange.neighbor( 1.07  , 0.01  ,0) , 
+					// ParamRange.neighbor( 0     , 0.1   ,0) , 
+					// 1.0 )
 		
 		// for(m<-maps;p<-params) {
 			// fillParam( "RAW-"+m._1 , m._2,m._3 , p._1,p._2,p._3,p._4,p._5){ _ =>{p=>p}}
