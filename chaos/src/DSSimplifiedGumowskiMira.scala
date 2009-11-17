@@ -103,7 +103,14 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		// maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
 		// maps=maps enqueue("_210_124",{x => x*x -2*x +4 } , {x => x*x } )
 		
-		maps=maps enqueue("AP1AP2_R"  , {x =>       sqrt(abs(x)) } , {x =>abs(x+1)*abs(x+2) } ) 
+		maps=maps enqueue("AP1AP2_TC"   , {x => cos( x ) } , {x =>abs(x+1)*abs(x+2) } ) // experimental
+		
+		maps=maps enqueue("AP1AP2_TS"   , {x => sin( x ) } , {x =>abs(x+1)*abs(x+2) } ) // experimental
+		maps=maps enqueue("AP1AP2_ATS"  , {x => abs(sin( x )) } , {x =>abs(x+1)*abs(x+2) } ) // favorite
+		maps=maps enqueue("AP1AP2_ATSA" , {x => abs(sin( abs(x) )) } , {x =>abs(x+1)*abs(x+2) } ) // favorite
+		maps=maps enqueue("AP1AP2_TSA"  , {x => sin( abs(x) ) } , {x =>abs(x+1)*abs(x+2) } ) // favorite
+		
+		maps=maps enqueue("AP1AP2_R"  , {x =>       sqrt(abs(x)) } , {x =>abs(x+1)*abs(x+2) } ) // favorite
 		maps=maps enqueue("AP1AP2_1R" , {x =>x     *sqrt(abs(x)) } , {x =>abs(x+1)*abs(x+2) } ) 
 		maps=maps enqueue("AP1AP2_AR" , {x =>abs(x)*sqrt(abs(x)) } , {x =>abs(x+1)*abs(x+2) } ) 
 		
