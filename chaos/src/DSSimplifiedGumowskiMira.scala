@@ -142,24 +142,24 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		// maps=maps enqueue("A11_P1M2",{x =>(x+1)*(x-2) } , {x => abs(x) } )
 		
 		params=params enqueue (
-					ParamRange.neighbor( 0 , 0.001 , 2) , // type of shape
-					ParamRange.neighbor( 1 , 0.001 , 2) , 
-					ParamRange.neighbor( 1 , 0.001 , 2) , 
-					ParamRange.neighbor( 0 , 0.001 , 2) , 
+					ParamRange.neighbor( 0 , 0.001 , 0) , // type of shape
+					ParamRange.neighbor( 1 , 0.001 , 0) , 
+					ParamRange.neighbor( 1 , 0.001 , 0) , 
+					ParamRange.neighbor( 0 , 0.001 , 0) , 
 					1.0 )
 		
 		params=params enqueue (
-					ParamRange.neighbor( 0.1 , 0.001 , 2) , // type of shape
-					ParamRange.neighbor( 1   , 0.001 , 2) , 
-					ParamRange.neighbor( 1   , 0.001 , 2) , 
-					ParamRange.neighbor( 0   , 0.001 , 2) , 
+					ParamRange.neighbor( 0.1 , 0.001 , 0) , // type of shape
+					ParamRange.neighbor( 1   , 0.001 , 0) , 
+					ParamRange.neighbor( 1   , 0.001 , 0) , 
+					ParamRange.neighbor( 0   , 0.001 , 0) , 
 					1.0 )
 		
 		params=params enqueue (
-					ParamRange.neighbor(-0.9  , 0.01 , 2) , // type of shape
-					ParamRange.neighbor( 0.96 , 0.01 , 2) , 
-					ParamRange.neighbor(-4.0  , 0.01 , 2) , 
-					ParamRange.neighbor( 0.0  , 0.01 , 2) , 
+					ParamRange.neighbor(-0.9  , 0.01 , 0) , // type of shape
+					ParamRange.neighbor( 0.96 , 0.01 , 0) , 
+					ParamRange.neighbor(-4.0  , 0.01 , 0) , 
+					ParamRange.neighbor( 0.0  , 0.01 , 0) , 
 					1.0 )
 					
 		// params=params enqueue (
