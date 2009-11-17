@@ -83,14 +83,14 @@ object DSHenon extends ChaosParameter[DSHenon]
 		
 		// params = params enqueue ParamRange.neighbor( 0.47 , 0.001 , 0 )
 		// params = params enqueue ParamRange.neighbor( 0.07 , 0.001 , 0 )
-		params = params enqueue ParamRange.neighbor( 0.30 , 0.001 , 6 )
+		params = params enqueue ParamRange.neighbor( 0.30 , 0.01 , 0 )
 		// params = params enqueue ParamRange.neighbor( 0.39 , 0.001 , 0 )
 		// params = params enqueue ParamRange.neighbor( 0.61 , 0.001 , 0 )
 		// params = params enqueue ParamRange.neighbor( 0.84 , 0.001 , 0 )
 		
 		// maps = maps enqueue (""  , { p:(Double,Double) => p } )
 		maps = maps enqueue ("D1",mapD1(period) _ )
-		maps = maps enqueue ("D2",mapD2(period) _ )
+		// maps = maps enqueue ("D2",mapD2(period) _ )
 		
 		for(f<-funs ; p<-params ; m<-maps ){
 			add( new DSHenon(f._1+"-"+m._1 , 
