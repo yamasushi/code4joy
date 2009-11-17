@@ -74,14 +74,21 @@ object DSHenon extends ChaosParameter[DSHenon]
 		var params= new Queue[Double] 
 		var maps  = new Queue[(String,(((Double,Double))=>(Double,Double)))]
 		
+		// grav-lens : sq-d1 0.3pi
+		
 		funs = funs enqueue ("sq",{x:Double=>x*x             })
-		funs = funs enqueue ("cu",{x:Double=>x*x*x           })
-		funs = funs enqueue ("si",{x:Double=>0.8*Math.sin(x) })
-		funs = funs enqueue ("in",{x:Double=>0.1/x           })
+		// funs = funs enqueue ("cu",{x:Double=>x*x*x           })
+		// funs = funs enqueue ("si",{x:Double=>0.8*Math.sin(x) })
+		// funs = funs enqueue ("in",{x:Double=>0.1/x           })
 		
-		params = params enqueue List(0.47,0.07,0.30,0.39,0.61,0.84)
+		// params = params enqueue ParamRange.neighbor( 0.47 , 0.001 , 0 )
+		// params = params enqueue ParamRange.neighbor( 0.07 , 0.001 , 0 )
+		params = params enqueue ParamRange.neighbor( 0.30 , 0.001 , 6 )
+		// params = params enqueue ParamRange.neighbor( 0.39 , 0.001 , 0 )
+		// params = params enqueue ParamRange.neighbor( 0.61 , 0.001 , 0 )
+		// params = params enqueue ParamRange.neighbor( 0.84 , 0.001 , 0 )
 		
-		maps = maps enqueue (""  , { p:(Double,Double) => p } )
+		// maps = maps enqueue (""  , { p:(Double,Double) => p } )
 		maps = maps enqueue ("D1",mapD1(period) _ )
 		maps = maps enqueue ("D2",mapD2(period) _ )
 		
