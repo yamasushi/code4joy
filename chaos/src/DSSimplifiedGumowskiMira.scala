@@ -114,6 +114,8 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		maps=maps enqueue("AP1AP2_1R" , {x =>x     *sqrt(abs(x)) } , {x =>abs(x+1)*abs(x+2) } ) 
 		maps=maps enqueue("AP1AP2_AR" , {x =>abs(x)*sqrt(abs(x)) } , {x =>abs(x+1)*abs(x+2) } ) 
 		
+		// _11_AP1AM2 0   , 1 , 1 , 0 : doggy face
+		// _11_AP1AM2 0.1 , 1 , 1 , 0 : Teddy bear
 		// maps=maps enqueue("AP1AP2_0" , {x => 1 } , {x =>abs(x+1)*abs(x+2) } ) // favorite
 		// maps=maps enqueue("_11_AP1AM2",{x =>abs(x+1)*abs(x-2) } , {x => x*x } ) // favorite
 		
