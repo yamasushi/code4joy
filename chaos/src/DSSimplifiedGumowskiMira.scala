@@ -122,18 +122,18 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		var maps  =new Queue[(String,(Double)=>Double,(Double)=>Double)]
 		var params=new Queue[(Stream[Double],Stream[Double],Double)]
 		
-		maps=maps enqueue("_"       ,{x=>x*x         },{x=>x*x        })
-		maps=maps enqueue("A"       ,{x=>abs(x)      },{x=>abs(x)     })
-		maps=maps enqueue("Q"       ,{x=>x*x*x*x     },{x=>x*x*x*x    })
-		maps=maps enqueue("C"       ,{x=>abs(x*x*x)  },{x=>abs(x*x*x) })
-		maps=maps enqueue("A10"     ,{x=>x+1         },{x=>abs(x)     })
-		maps=maps enqueue("AA10"    ,{x=>abs(x+1)    },{x=>abs(x)     })
+		// maps=maps enqueue("_"       ,{x=>x*x         },{x=>x*x        })
 		maps=maps enqueue("WA"      ,{x=>abs(x)      },psiW )
+		maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
+		maps=maps enqueue("C"       ,{x=>abs(x*x*x)  },{x=>abs(x*x*x) })
+		maps=maps enqueue("Q"       ,{x=>x*x*x*x     },{x=>x*x*x*x    })
 		maps=maps enqueue("W0"      ,{x=> 1          },psiW )
 		maps=maps enqueue("WR"      ,{x=>sqrt(abs(x))},psiW )
 		maps=maps enqueue("WW"      ,psiW             ,psiW )
-		maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
 		maps=maps enqueue("_210_124",{x => x*x -2*x +4 } , {x => x*x } )
+		maps=maps enqueue("A"       ,{x=>abs(x)      },{x=>abs(x)     })
+		maps=maps enqueue("A10"     ,{x=>x+1         },{x=>abs(x)     })
+		maps=maps enqueue("AA10"    ,{x=>abs(x+1)    },{x=>abs(x)     })
 		
 		maps=maps enqueue("AP1AP2_TC"   , {x => cos( x ) } , {x =>abs(x+1)*abs(x+2) } ) // experimental
 		
@@ -187,8 +187,8 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		maps=maps enqueue("A11_P1M2",{x =>(x+1)*(x-2) } , {x => abs(x) } )
 		
 		params=params enqueue (
-					ParamRange.neighbor( 0   , 0.1 , 10 ) , 
-					ParamRange.neighbor( 0   , 0.1 , 10 ) , 
+					ParamRange.neighbor( 0   , 0.5 , 5 ) , 
+					ParamRange.neighbor( 0   , 0.5 , 5 ) , 
 					1.0 )
 					
 		// params=params enqueue (
