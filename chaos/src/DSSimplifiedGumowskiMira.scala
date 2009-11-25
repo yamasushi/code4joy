@@ -187,29 +187,29 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		maps=maps enqueue("A11_P1M2",{x =>(x+1)*(x-2) } , {x => abs(x) } )
 		
 		params=params enqueue (
-					ParamRange.neighbor( 1   , 0.1 ,0) , 
-					ParamRange.neighbor( 0   , 0.1 ,0) , 
+					ParamRange.neighbor( 0   , 0.1 , 10 ) , 
+					ParamRange.neighbor( 0   , 0.1 , 10 ) , 
 					1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor( 1.07   , 0.01    ,0) , 
-					ParamRange.neighbor( 0      , 0.1     ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor( 1.07   , 0.01    ,0) , 
+					// ParamRange.neighbor( 0      , 0.1     ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor(-1  , 0.0001  ,0) , 
-					ParamRange.neighbor(-1  , 0.0001  ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor(-1  , 0.0001  ,0) , 
+					// ParamRange.neighbor(-1  , 0.0001  ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor( 1.07  , 0.01  ,0) , 
-					ParamRange.neighbor(-0.1   , 0.1   ,0) , 
-					1.0 )
+		// params=params enqueue (
+					// ParamRange.neighbor( 1.07  , 0.01  ,0) , 
+					// ParamRange.neighbor(-0.1   , 0.1   ,0) , 
+					// 1.0 )
 					
-		params=params enqueue (
-					ParamRange.neighbor(-4.0  , 0.01 , 0) , 
-					ParamRange.neighbor( 0.0  , 0.01 , 0) , 
-					1.0 ) // favorite
+		// params=params enqueue (
+					// ParamRange.neighbor(-4.0  , 0.01 , 0) , 
+					// ParamRange.neighbor( 0.0  , 0.01 , 0) , 
+					// 1.0 ) // favorite
 		
 		// for(m<-maps;p<-params) {
 			// fillParam( "RAW-"+m._1 , m._2,m._3 , p._1,p._2,p._3,p._4,p._5){ _ =>{p=>p}}
