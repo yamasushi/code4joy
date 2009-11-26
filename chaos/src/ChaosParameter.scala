@@ -82,7 +82,7 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 				//
 				val freqLimit  = 1000 // limit fo freq
 				val gamma      = 2    // gamma correction
-				val degree     = 1    // sampling degree
+				val degree     = 2    // sampling degree
 				//
 				val geom =	if (width>height)
 								(	scale              .asInstanceOf[Int] ,
@@ -102,7 +102,13 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 						(count:Int,p:(Int,Int)) =>
 							// val freq =	if (count<0)	histgram(p._1)(p._2) + 1
 										// else			histgram(p._1)(p._2) + 1
-							val freq = 2.0
+							val freq =	if (count<0){
+											val i = count + dropIter
+											i.asInstanceOf[Double] / dropIter.asInstanceOf[Double]
+										}
+										else {
+											2.0
+										}
 							//
 							histgram(p._1)(p._2) = freq
 							maxFreq = max( freq , maxFreq)
@@ -132,10 +138,10 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 								val avgFreq:Double=	if (num >= 1) sumFreq / num.asInstanceOf[Double]
 													else 0
 								
-								if( avgFreq>1 ){
-									// val ratio0 = avgFreq / maxFreq
-									val ratio = log(avgFreq) / log(maxFreq)
-									//println(ratio)
+								if( avgFreq>0 ){
+									val ratio = avgFreq / maxFreq
+									// val ratio = log(avgFreq) / log(maxFreq)
+									// println(ratio)
 									val alpha = pow(ratio,1.0/gamma)
 									//
 									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
