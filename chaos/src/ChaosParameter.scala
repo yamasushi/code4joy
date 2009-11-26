@@ -80,6 +80,10 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 				val aspectRatio= width/height
 				val scale      = scaleFactor*1000
 				//
+				val freqLimit  = 1000 // limit fo freq
+				val gamma      = 2    // gamma correction
+				val degree     = 1    // sampling degree
+				//
 				val geom =	if (width>height)
 								(	scale              .asInstanceOf[Int] ,
 									(scale/aspectRatio).asInstanceOf[Int] )
@@ -103,37 +107,46 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 							maxFreq = max( freq , maxFreq)
 					}
 					//
-					canvas.paint{ g:Graphics2D =>
-						// inside loan of graphics object g
-						val gamma  = 10
-						val degree = 1
-						for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
-							var sumFreq = 0.0
-							var num = 0
-							for(	jx <- (ix-degree) to (ix+degree) ;
-									jy <- (iy-degree) to (iy+degree) ){
-								if(	jx >= 0 && jx < geom._1 && 
-									jy >= 0 && jy < geom._2 ) {
+					assert( maxFreq>0 )
+					print("[maxFreq="+maxFreq+"]")
+					//
+					if( maxFreq > freqLimit ){
+						println(" ...too simple")
+					}
+					else {
+						canvas.paint{ g:Graphics2D =>
+							// inside loan of graphics object g
+							for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
+								var sumFreq = 0.0
+								var num = 0
+								for(	jx <- (ix-degree) to (ix+degree) ;
+										jy <- (iy-degree) to (iy+degree) ){
+									if(	jx >= 0 && jx < geom._1 && 
+										jy >= 0 && jy < geom._2 ) {
+										//
+										sumFreq += histgram(jx)(jy)
+										num += 1
+									}
+								}
+								val avgFreq:Double=	if (num >= 1) sumFreq / num.asInstanceOf[Double]
+													else 0
+								
+								if( avgFreq>1 ){
+									// val ratio0 = avgFreq / maxFreq
+									val ratio = log(avgFreq) / log(maxFreq)
+									//println(ratio)
+									val alpha = pow(ratio,1.0/gamma)
 									//
-									sumFreq += histgram(jx)(jy)
-									num += 1
+									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
+									//
+									g.setColor( new Color(icol,icol,icol) )
+									g.drawLine( ix , iy , ix , iy )
 								}
 							}
-							if(num>1 && sumFreq>0 && maxFreq>=1){
-								val avgFreq = sumFreq / num.asInstanceOf[Double]
-								// val ratio0 = avgFreq / maxFreq
-								val ratio = log(avgFreq) / log(maxFreq)
-								val alpha = pow(ratio,1.0/gamma)
-								//
-								val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
-								//
-								g.setColor( new Color(icol,icol,icol) )
-								g.drawLine( ix , iy , ix , iy )
-							}
+							print(" ... Writing") // do not put newline
 						}
-						print(" ... Writing") // do not put newline
+						println(" ... Done")
 					}
-					println(" ... Done")
 				}
 			}
 		}
