@@ -42,7 +42,7 @@ trait Canvas
 		
 		{ p =>
 			val (x,y) = p
-			(			(  x*ratio ).asInstanceOf[Int] + offsetX, 
-			imgHeight -	( (y*ratio ).asInstanceOf[Int] + offsetY ) ) }
+			(	( x*ratio + offsetX).asInstanceOf[Int], 
+				(-y*ratio - offsetY + imgHeight).asInstanceOf[Int] ) }
 	}
 }
