@@ -91,9 +91,20 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 					val canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
 					print("Generating : " + filename ) // do not put newline
 					//
+					val histgram = new Array[Array[Double]](geom._1,geom._2)
+					//
+					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(minmax) {
+						(count:Int,p:(Int,Int)) =>
+							histgram(p._1)(p._2) += 1. 
+					}
+					//
 					canvas.paint{ g:Graphics2D =>
 						// inside loan of graphics object g
-						p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(minmax)(p.drawPoint(g))
+						for(	ix<- 0 until geom._1 ; iy <- 0 until geom._2 ;
+								if (histgram(ix)(iy) > 0.0 ) ){
+							g.setColor( Color.WHITE )
+							g.drawLine( ix , iy , ix , iy )
+						}
 						print(" ... Writing") // do not put newline
 					}
 					println(" ... Done")
