@@ -96,14 +96,16 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 					var maxFreq = 0.0
 					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(minmax) {
 						(count:Int,p:(Int,Int)) =>
-							val freq = histgram(p._1)(p._2) + 1
+							val freq =	if (count<0)	histgram(p._1)(p._2) + 1
+										else			histgram(p._1)(p._2) + 1
+							//
 							histgram(p._1)(p._2) = freq
 							maxFreq = max( freq , maxFreq)
 					}
 					//
 					canvas.paint{ g:Graphics2D =>
 						// inside loan of graphics object g
-						val gamma  = 2
+						val gamma  = 10
 						val degree = 1
 						for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
 							var sumFreq = 0.0
@@ -119,16 +121,14 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 							}
 							if(num>1 && sumFreq>0 && maxFreq>=1){
 								val avgFreq = sumFreq / num.asInstanceOf[Double]
-								if( avgFreq>=1 ){
-									// val ratio0 = avgFreq / maxFreq
-									val ratio = log(avgFreq) / log(maxFreq)
-									val alpha = pow(ratio,1.0/gamma)
-									//
-									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
-									//
-									g.setColor( new Color(icol,icol,icol) )
-									g.drawLine( ix , iy , ix , iy )
-								}
+								// val ratio0 = avgFreq / maxFreq
+								val ratio = log(avgFreq) / log(maxFreq)
+								val alpha = pow(ratio,1.0/gamma)
+								//
+								val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
+								//
+								g.setColor( new Color(icol,icol,icol) )
+								g.drawLine( ix , iy , ix , iy )
 							}
 						}
 						print(" ... Writing") // do not put newline
