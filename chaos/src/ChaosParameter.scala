@@ -1,6 +1,6 @@
 import scala.collection.immutable._
 import java.awt.{Graphics2D,Color}
-import Math.{abs,min,max,log,sqrt}
+import Math.{abs,min,max,log,sqrt,pow}
 
 abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 {
@@ -103,7 +103,8 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 					//
 					canvas.paint{ g:Graphics2D =>
 						// inside loan of graphics object g
-						val degree = 2
+						val gamma  = 2
+						val degree = 1
 						for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
 							var sumFreq = 0.0
 							var num = 0
@@ -112,11 +113,8 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 								if(	jx >= 0 && jx < geom._1 && 
 									jy >= 0 && jy < geom._2 ) {
 									//
-									val r = sqrt( (ix-jx)*(ix-jx)+(iy-jy)*(iy-jy) )
-									if( r < degree ){
-										sumFreq += histgram(jx)(jy)
-										num += 1
-									}
+									sumFreq += histgram(jx)(jy)
+									num += 1
 								}
 							}
 							if(num>1 && sumFreq>0 && maxFreq>=1){
@@ -124,8 +122,9 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 								if( avgFreq>=1 ){
 									// val ratio0 = avgFreq / maxFreq
 									val ratio = log(avgFreq) / log(maxFreq)
+									val alpha = pow(ratio,1.0/gamma)
 									//
-									val icol = min( (255*ratio).asInstanceOf[Int] , 255 )
+									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
 									//
 									g.setColor( new Color(icol,icol,icol) )
 									g.drawLine( ix , iy , ix , iy )

@@ -123,14 +123,14 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		var params=new Queue[(Stream[Double],Stream[Double],Double)]
 		
 		// maps=maps enqueue("_"       ,{x=>x*x         },{x=>x*x        })
-		maps=maps enqueue("WA"      ,{x=>abs(x)      },psiW )
-		maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
-		maps=maps enqueue("C"       ,{x=>abs(x*x*x)  },{x=>abs(x*x*x) })
-		maps=maps enqueue("Q"       ,{x=>x*x*x*x     },{x=>x*x*x*x    })
-		maps=maps enqueue("W0"      ,{x=> 1          },psiW )
-		maps=maps enqueue("WR"      ,{x=>sqrt(abs(x))},psiW )
-		maps=maps enqueue("WW"      ,psiW             ,psiW )
-		maps=maps enqueue("_210_124",{x => x*x -2*x +4 } , {x => x*x } )
+		// maps=maps enqueue("WA"      ,{x=>abs(x)      },psiW )
+		// maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
+		// maps=maps enqueue("C"       ,{x=>abs(x*x*x)  },{x=>abs(x*x*x) })
+		// maps=maps enqueue("Q"       ,{x=>x*x*x*x     },{x=>x*x*x*x    })
+		// maps=maps enqueue("W0"      ,{x=> 1          },psiW )
+		// maps=maps enqueue("WR"      ,{x=>sqrt(abs(x))},psiW )
+		// maps=maps enqueue("WW"      ,psiW             ,psiW )
+		// maps=maps enqueue("_210_124",{x => x*x -2*x +4 } , {x => x*x } )
 		maps=maps enqueue("A"       ,{x=>abs(x)      },{x=>abs(x)     })
 		maps=maps enqueue("A10"     ,{x=>x+1         },{x=>abs(x)     })
 		maps=maps enqueue("AA10"    ,{x=>abs(x+1)    },{x=>abs(x)     })
@@ -186,30 +186,30 @@ object DSSimplifiedGumowskiMira extends ChaosParameter[DSSimplifiedGumowskiMira]
 		maps=maps enqueue("A11_M1P2",{x =>(x-1)*(x+2) } , {x => abs(x) } )
 		maps=maps enqueue("A11_P1M2",{x =>(x+1)*(x-2) } , {x => abs(x) } )
 		
+		// params=params enqueue (
+					// ParamRange.neighbor( 0   , 0.5 , 5 ) , 
+					// ParamRange.neighbor( 0   , 0.5 , 5 ) , 
+					// 1.0 )
+					
 		params=params enqueue (
-					ParamRange.neighbor( 0   , 0.5 , 5 ) , 
-					ParamRange.neighbor( 0   , 0.5 , 5 ) , 
+					ParamRange.neighbor( 1.07   , 0.01    ,0) , 
+					ParamRange.neighbor( 0      , 0.1     ,0) , 
 					1.0 )
 					
-		// params=params enqueue (
-					// ParamRange.neighbor( 1.07   , 0.01    ,0) , 
-					// ParamRange.neighbor( 0      , 0.1     ,0) , 
-					// 1.0 )
+		params=params enqueue (
+					ParamRange.neighbor(-1  , 0.0001  ,0) , 
+					ParamRange.neighbor(-1  , 0.0001  ,0) , 
+					1.0 )
 					
-		// params=params enqueue (
-					// ParamRange.neighbor(-1  , 0.0001  ,0) , 
-					// ParamRange.neighbor(-1  , 0.0001  ,0) , 
-					// 1.0 )
+		params=params enqueue (
+					ParamRange.neighbor( 1.07  , 0.01  ,0) , 
+					ParamRange.neighbor(-0.1   , 0.1   ,0) , 
+					1.0 )
 					
-		// params=params enqueue (
-					// ParamRange.neighbor( 1.07  , 0.01  ,0) , 
-					// ParamRange.neighbor(-0.1   , 0.1   ,0) , 
-					// 1.0 )
-					
-		// params=params enqueue (
-					// ParamRange.neighbor(-4.0  , 0.01 , 0) , 
-					// ParamRange.neighbor( 0.0  , 0.01 , 0) , 
-					// 1.0 ) // favorite
+		params=params enqueue (
+					ParamRange.neighbor(-4.0  , 0.01 , 0) , 
+					ParamRange.neighbor( 0.0  , 0.01 , 0) , 
+					1.0 ) // favorite
 		
 		// for(m<-maps;p<-params) {
 			// fillParam( "RAW-"+m._1 , m._2,m._3 , p._1,p._2,p._3,p._4,p._5){ _ =>{p=>p}}
