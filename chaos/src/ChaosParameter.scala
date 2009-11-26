@@ -100,8 +100,9 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 					var maxFreq = 0.0
 					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(minmax) {
 						(count:Int,p:(Int,Int)) =>
-							val freq =	if (count<0)	histgram(p._1)(p._2) + 1
-										else			histgram(p._1)(p._2) + 1
+							// val freq =	if (count<0)	histgram(p._1)(p._2) + 1
+										// else			histgram(p._1)(p._2) + 1
+							val freq = 2.0
 							//
 							histgram(p._1)(p._2) = freq
 							maxFreq = max( freq , maxFreq)
