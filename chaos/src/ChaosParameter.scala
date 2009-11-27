@@ -11,7 +11,7 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 	val maxIter      :Int    = 1000 
 	//
 	var scaleFactor  :Double = 0.0  
-	var numRing      :Int    = 3    
+	var numRing      :Int    = 5    
 	var numTrajectoryPerRing = 0    
 	//
 	val gammaCorrection = 2 // gamma correction
@@ -30,13 +30,13 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 		case _      => 1.0
 	}
 	val paramNumTrajectoryPerRing:(String)=>Int = {
-		case "poor" =>  50
+		case "poor" => 100
 		case "low"  => 100
 		case "high" => 500
 		case _      => 100
 	}
 	val paramSamplingDegree:(String)=>Int = {
-		case "poor" => 3
+		case "poor" => 2
 		case "low"  => 2
 		case "high" => 2
 		case _      => 2
