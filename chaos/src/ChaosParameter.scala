@@ -82,7 +82,7 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 				//
 				val freqLimit  = 1000 // limit fo freq
 				val gamma      = 2    // gamma correction
-				val degree     = 2    // sampling degree
+				val degree     = 1    // sampling degree
 				//
 				val geom =	if (width>height)
 								(	scale              .asInstanceOf[Int] ,
@@ -124,18 +124,26 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 						canvas.paint{ g:Graphics2D =>
 							// inside loan of graphics object g
 							for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
-								var sumFreq = 0.0
-								var num = 0
-								for(	jx <- (ix-degree) to (ix+degree) ;
-										jy <- (iy-degree) to (iy+degree) ){
+								var sumFreq  = 0.0
+								var sumRatio = 0.0
+								val maxDist = sqrt(2)*degree
+								for(	dx <- -degree to degree ;
+										dy <- -degree to degree ){
+									val jx    = ix + dx
+									val jy    = iy + dy
 									if(	jx >= 0 && jx < geom._1 && 
 										jy >= 0 && jy < geom._2 ) {
-										//
-										sumFreq += histgram(jx)(jy)
-										num += 1
+										val hist = histgram(jx)(jy)
+										if(hist>0){
+											val dist  = sqrt(dx*dx + dy*dy)
+											val ratio = abs(dist-maxDist)/maxDist
+											//
+											sumFreq  += ratio*hist
+											sumRatio += ratio
+										}
 									}
 								}
-								val avgFreq:Double=	if (num >= 1) sumFreq / num.asInstanceOf[Double]
+								val avgFreq:Double=	if (sumRatio > 0) sumFreq / sumRatio
 													else 0
 								
 								if( avgFreq>0 ){
