@@ -36,9 +36,9 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 		case _      => 100
 	}
 	val paramSamplingDegree:(String)=>Int = {
-		case "poor" => 5
-		case "low"  => 3
-		case "high" => 3
+		case "poor" => 3
+		case "low"  => 2
+		case "high" => 2
 		case _      => 2
 	}
 	
@@ -117,7 +117,7 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 											i.asInstanceOf[Double] / dropIter.asInstanceOf[Double]
 										}
 										else {
-											2.0
+											log(Math.E + count)
 										}
 							//
 							histgram(p._1)(p._2) = freq
@@ -134,9 +134,9 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 						canvas.paint{ g:Graphics2D =>
 							// inside loan of graphics object g
 							for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
-								var sumFreq        = 0.0
-								var sumRatio       = 0.0
-								val maxDist :Double= sqrt(2)*samplingDegree
+								var sumFreq   = 0.0
+								var sumRatio  = 0.0
+								val maxDistSq:Int = 2*samplingDegree*samplingDegree
 								for(	dx <- -samplingDegree to samplingDegree ;
 										dy <- -samplingDegree to samplingDegree ){
 									val jx    = ix + dx
@@ -144,8 +144,8 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 									if(	jx >= 0 && jx < geom._1 && 
 										jy >= 0 && jy < geom._2 ) {
 										val hist = histgram(jx)(jy)
-										val dist:Double = sqrt(dx*dx + dy*dy)
-										val r   :Double = abs(dist-maxDist)/maxDist
+										val distSq:Int = dx*dx + dy*dy
+										val r   :Double = abs(distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
 										val ratio= r
 										//println("dist,r,ratio="+(dist,r,ratio))
 										//
