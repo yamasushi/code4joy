@@ -14,6 +14,9 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 	var numRing      :Int    = 3    
 	var numTrajectoryPerRing = 0    
 	//
+	val gammaCorrection = 2 // gamma correction
+	var samplingDegree  = 1 // sampling degree
+	//
 	def setup() : Unit
 	//
 	private var param = new Queue[T]
@@ -27,16 +30,23 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 		case _      => 1.0
 	}
 	val paramNumTrajectoryPerRing:(String)=>Int = {
-		case "poor" => 100
+		case "poor" =>  50
 		case "low"  => 100
 		case "high" => 500
 		case _      => 100
+	}
+	val paramSamplingDegree:(String)=>Int = {
+		case "poor" => 5
+		case "low"  => 3
+		case "high" => 3
+		case _      => 2
 	}
 	
 	def parse(cmdParam:Array[String]) : Unit = {
 		scaleFactor          = paramScaleFactor(cmdParam(0))
 		numTrajectoryPerRing = paramNumTrajectoryPerRing(cmdParam(0))
-		
+		samplingDegree       = paramSamplingDegree(cmdParam(0))
+		//
 		(cmdParam drop 1).toList match {
 		case "ow" :: Nil =>
 			print("[overwrite only]")
@@ -48,7 +58,9 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 		println(
 			"scaleFactor="          +scaleFactor         .formatted("%f")+
 			",numTrajectoryPerRing="+numTrajectoryPerRing.formatted("%d")+
-			",numRing="             +numRing             .formatted("%d"))
+			",numRing="             +numRing             .formatted("%d")+
+			",samplingDegree="      +samplingDegree      .formatted("%d")+
+			",gammaCorrection="     +gammaCorrection     .formatted("%d"))
 	}
 	//
 	def doMain(cmdParam : Array[String]) : Unit = {
@@ -81,8 +93,6 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 				val scale      = scaleFactor*1000
 				//
 				val freqLimit  = 1000 // limit fo freq
-				val gamma      = 2    // gamma correction
-				val degree     = 1    // sampling degree
 				//
 				val geom =	if (width>height)
 								(	scale              .asInstanceOf[Int] ,
@@ -124,23 +134,23 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 						canvas.paint{ g:Graphics2D =>
 							// inside loan of graphics object g
 							for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
-								var sumFreq  = 0.0
-								var sumRatio = 0.0
-								val maxDist = sqrt(2)*degree
-								for(	dx <- -degree to degree ;
-										dy <- -degree to degree ){
+								var sumFreq        = 0.0
+								var sumRatio       = 0.0
+								val maxDist :Double= sqrt(2)*samplingDegree
+								for(	dx <- -samplingDegree to samplingDegree ;
+										dy <- -samplingDegree to samplingDegree ){
 									val jx    = ix + dx
 									val jy    = iy + dy
 									if(	jx >= 0 && jx < geom._1 && 
 										jy >= 0 && jy < geom._2 ) {
 										val hist = histgram(jx)(jy)
-										if(hist>0){
-											val dist  = sqrt(dx*dx + dy*dy)
-											val ratio = abs(dist-maxDist)/maxDist
-											//
-											sumFreq  += ratio*hist
-											sumRatio += ratio
-										}
+										val dist:Double = sqrt(dx*dx + dy*dy)
+										val r   :Double = abs(dist-maxDist)/maxDist
+										val ratio= r
+										//println("dist,r,ratio="+(dist,r,ratio))
+										//
+										sumFreq  += ratio*hist
+										sumRatio += ratio
 									}
 								}
 								val avgFreq:Double=	if (sumRatio > 0) sumFreq / sumRatio
@@ -150,7 +160,7 @@ abstract class ChaosParameter[ T<:ChaosImageParam with ChaosStreamCanvas ]
 									val ratio = avgFreq / maxFreq
 									// val ratio = log(avgFreq) / log(maxFreq)
 									// println(ratio)
-									val alpha = pow(ratio,1.0/gamma)
+									val alpha = pow(ratio,1.0/gammaCorrection)
 									//
 									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
 									//
