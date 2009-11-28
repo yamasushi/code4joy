@@ -21,7 +21,8 @@ class DSHenonLozi(
 											//phi(x,y) = y^2 - |x| --> modified Lozi
 		param  :(Double,Double) ,
 		//
-		val ovalR :Double) extends ChaosImageParam with ChaosStreamCanvas
+		val numRing:Int   ,
+		val ovalR :Double) extends ChaosStreamCanvas
 {
 	val (alpha,beta) = param
 	//

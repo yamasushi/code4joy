@@ -9,10 +9,10 @@ class DSHenon(
 		val func  :(Double)=>Double , 
 		val alpha :Double ,
 		val map    : ((Double,Double))=>(Double,Double) ,
-		val period:Double ) extends ChaosImageParam with ChaosStreamCanvas
+		//
+		val numRing:Int   ,
+		val period:Double ) extends ChaosStreamCanvas
 {
-	override val colorFGMap   :(Int) => Color = ChaosImageParam.silverFGMap
-	
 	val radius = period*0.5
 	def remainder(x:Double):Double = {
 		val rem = Math.IEEEremainder(x,period)

@@ -9,10 +9,10 @@ import Math.{sin,cos,log,sqrt,abs,exp}
 class DSChirikov( val header:String ,
 		val paramK : Double ,
 		val map    : ((Double,Double))=>(Double,Double) ,
-		val ovalR  : Double) extends ChaosImageParam with ChaosStreamCanvas
+		//
+		val numRing:Int   ,
+		val ovalR  : Double) extends ChaosStreamCanvas
 {
-	override val colorFGMap   :(Int) => Color = ChaosImageParam.silverFGMap
-	//
 	val period = 2*Math.Pi
 	val radius = period*0.5
 	def remainder(x:Double):Double = {

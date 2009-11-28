@@ -7,6 +7,8 @@
 //   http://www.scipress.org/journals/forma/pdf/1502/15020121.pdf
 //   http://math.cmaisonneuve.qc.ca/alevesque/chaos_fract/Attracteurs/Attracteurs.html
 
+import Math.{abs,min,max,log,sqrt,pow}
+
 class DSSimplifiedGumowskiMira(
 				val header       :String , 
 				//
@@ -14,7 +16,9 @@ class DSSimplifiedGumowskiMira(
 				val psi          :(Double)=>Double ,
 				val param        :(Double,Double,Double,Double)    ,
 				val map          :((Double,Double))=>(Double,Double) ,
-				ovalR:Double) extends ChaosImageParam with ChaosStreamCanvas
+				//
+				val numRing:Int   ,
+				val ovalR:Double) extends ChaosStreamCanvas
 {
 	val (paramA,paramB,paramC,paramD) = param
 	//

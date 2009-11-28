@@ -10,10 +10,9 @@ class DSClifford(
 		//
 		param  :(Double,Double,Double,Double) ,
 		//
-		val ovalR :Double) extends ChaosImageParam with ChaosStreamCanvas
+		val numRing:Int   ,
+		val ovalR :Double) extends ChaosStreamCanvas
 {
-	override val colorFGMap   :(Int) => Color = ChaosImageParam.silverFGMap
-
 	val (a,b,c,d) = param
 	//
 	override val initialPoints = PointsOfRing((0,0),numRing,ovalR ).points

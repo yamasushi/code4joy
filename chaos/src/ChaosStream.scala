@@ -3,6 +3,7 @@ import Math.{log,abs,max,min}
 trait ChaosStream
 {
 	val chaosSystem:ChaosSystem
+	val chaosName  :String
 	val initialPoints:Stream[(Double,Double)]
 	//
 	def pointsFrom(dropIter:Int,maxIter:Int)( pt0:(Double,Double) ) : Stream[(Int,(Double,Double))] = {

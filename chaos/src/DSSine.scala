@@ -9,7 +9,8 @@ class DSSine(
 		val header:String           , 
 		param  :(Double,Double) ,
 		//
-		val ovalR :Double) extends ChaosImageParam with ChaosStreamCanvas
+		val numRing:Int   ,
+		val ovalR  :Double) extends ChaosStreamCanvas
 {
 	val (a,b) = param
 	//

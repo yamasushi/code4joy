@@ -19,6 +19,8 @@
 //  "A Chaotic Gingerbreadman." §3.2.3 in The Science of Fractal Images. 
 //  New York: Springer-Verlag, pp. 149-150, 1988.
 
+import Math.{abs,min,max,log,sqrt,pow}
+
 class DSGingerbreadMan(
 		val header:String           , 
 		//
@@ -26,7 +28,8 @@ class DSGingerbreadMan(
 		param  :(Double,Double) ,
 		val map:((Double,Double))=>(Double,Double) ,
 		//
-		val ovalR :Double) extends ChaosImageParam with ChaosStreamCanvas
+		val numRing:Int   ,
+		val ovalR :Double) extends ChaosStreamCanvas
 {
 	val (mu,nu) = param
 	//

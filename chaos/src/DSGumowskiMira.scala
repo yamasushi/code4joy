@@ -14,7 +14,9 @@ class DSGumowskiMira( val header:String ,
 		val phi      :((Double)=>Double) , 
 		val paramAB  :(Double,Double)    ,
 		val paramMuNu:(Double,Double)    , 
-		val ovalR:Double) extends ChaosImageParam with ChaosStreamCanvas
+		//
+		val numRing:Int   ,
+		val ovalR:Double) extends ChaosStreamCanvas
 {
 	val (paramA,paramB) = paramAB
 	val (mu    ,nu)     = paramMuNu

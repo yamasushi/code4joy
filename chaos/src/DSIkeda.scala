@@ -5,10 +5,10 @@
 class DSIkeda(
 		val paramAB:(Double,Double) , 
 		val paramKP:(Double,Double) , 
-		val ovalR:Double) extends ChaosImageParam with ChaosStreamCanvas
+		//
+		val numRing:Int   ,
+		val ovalR:Double) extends ChaosStreamCanvas
 {
-	override val colorFGMap   :(Int) => Color = ChaosImageParam.silverFGMap
-	//
 	val (paramA,paramB) = paramAB
 	val (paramK,paramP) = paramKP
 	override val initialPoints = PointsOfRing((0,0),numRing,ovalR).points
