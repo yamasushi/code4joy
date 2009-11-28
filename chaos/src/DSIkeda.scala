@@ -1,10 +1,7 @@
 // Ikeda Strange Attractor
 // 2009-09-28
 
-import scala.collection.immutable._
-import java.awt.{Graphics2D,Color}
 
-import DSIkeda._
 class DSIkeda(
 		val paramAB:(Double,Double) , 
 		val paramKP:(Double,Double) , 
@@ -34,30 +31,3 @@ class DSIkeda(
 	
 }
 
-object DSIkeda extends ChaosParameter[DSIkeda]
-{
-	def setup() : Unit = {
-		var paramsAB = new Queue[(Stream[Double],Stream[Double])]
-		var paramsKP = new Queue[(Stream[Double],Stream[Double])]
-		//
-		paramsAB=paramsAB enqueue (
-						ParamRange.neighbor(0.9,0.01,20) ,
-						ParamRange.neighbor(0.9,0.01,0) )
-		
-		paramsKP=paramsKP enqueue (
-						ParamRange.neighbor(0.4,0.01,0) ,
-						ParamRange.neighbor(6.0,0.01,0) )
-		
-		paramsKP=paramsKP enqueue (
-						ParamRange.neighbor(0.4,0.01,0) ,
-						ParamRange.neighbor(7.7,0.01,0) )
-		
-		for( abRange<-paramsAB ; kpRange <-paramsKP ){
-			for( a<-abRange._1 ; b<-abRange._2 ; k<-kpRange._1 ; p<-kpRange._2 ) {
-				add( new DSIkeda(
-							(a,b),(k,p), 0.1  ) )
-			}
-		}
-		
-	}
-}
