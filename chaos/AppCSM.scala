@@ -1,5 +1,6 @@
 // Chirikov Standard map Strange Attractor
 import scala.collection.immutable._
+import Math.{sin,cos,log,sqrt,abs,exp}
 
 chaosParam.doMain(args)
 
@@ -10,7 +11,7 @@ object chaosParam extends ChaosParameter[DSChirikov]
 				map    : ((Double,Double))=>(Double,Double) , 
 				ovalR  : Double ) : Unit = {
 		for ( k<-kRange ){
-			add( new DSChirikov( name , k , map,ovalR ) )
+			add( new DSChirikov( name , k , map, numRing,ovalR ) )
 		}
 		//
 		()

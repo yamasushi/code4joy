@@ -16,7 +16,7 @@ object chaosParam extends ChaosParameter[DSGingerbreadMan]
 				ovalR   : Double )(map:((Double,Double))=>(Double,Double)) : Unit = {
 		for ( mu<-muRange ; nu<-nuRange ){
 			add( new DSGingerbreadMan( name , 
-				phi , (mu,nu) , map , ovalR ) )
+				phi , (mu,nu) , map ,  numRing,ovalR ) )
 		}
 		//
 		()

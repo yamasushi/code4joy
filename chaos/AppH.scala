@@ -2,6 +2,7 @@
 // 2009-09-13
 // 2009-09-28
 import scala.collection.immutable._
+import Math.{sin,cos,log,sqrt,abs,exp}
 
 chaosParam.doMain(args)
 
@@ -51,7 +52,7 @@ object chaosParam extends ChaosParameter[DSHenon]
 		
 		for(f<-funs ; p<-params ; m<-maps ){
 			add( new DSHenon(f._1+"-"+m._1 , 
-						f._2,p,m._2,period) )
+						f._2,p,m._2, numRing,period) )
 		}
 	}
 }                       

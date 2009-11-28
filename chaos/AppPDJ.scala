@@ -13,7 +13,7 @@ object chaosParam extends ChaosParameter[DSPeterDeJong]
 				ovalR   : Double ) : Unit = {
 		for ( a<-aRange ; b<-bRange ; c<-cRange ; d<-dRange){
 			add( new DSPeterDeJong( name , 
-				(a,b,c,d) , ovalR ) )
+				(a,b,c,d) ,  numRing,ovalR ) )
 		}
 		//
 		()

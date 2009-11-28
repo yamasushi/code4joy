@@ -18,7 +18,7 @@ object chaosParam extends ChaosParameter[DSGumowskiMira]
 		val (paramA,paramB)        = paramAB
 		for ( mu<-muRange ; nu<-nuRange ){
 			add( new DSGumowskiMira( name , 
-				phi , ( paramA , paramB ),(mu,nu) , ovalR ) )
+				phi , ( paramA , paramB ),(mu,nu) ,  numRing,ovalR ) )
 		}
 		//
 		()

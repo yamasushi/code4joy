@@ -11,7 +11,7 @@ object chaosParam extends ChaosParameter[DSSine]
 				ovalR   : Double ) : Unit = {
 		for ( a<-aRange ; b<-bRange ){
 			add( new DSSine( name , 
-				(a,b) , ovalR )) 
+				(a,b) , numRing,ovalR )) 
 		}
 		//
 		()

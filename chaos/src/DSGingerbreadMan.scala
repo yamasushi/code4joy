@@ -20,7 +20,7 @@
 //  New York: Springer-Verlag, pp. 149-150, 1988.
 
 import Math.{abs,min,max,log,sqrt,pow}
-
+	
 class DSGingerbreadMan(
 		val header:String           , 
 		//

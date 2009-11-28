@@ -12,7 +12,7 @@ object chaosParam extends ChaosParameter[DSClifford]
 				ovalR   : Double ) : Unit = {
 		for ( a<-aRange ; b<-bRange ; c<-cRange ; d<-dRange){
 			add( new DSClifford( name , 
-				(a,b,c,d) , ovalR ) )
+				(a,b,c,d) ,  numRing,ovalR ) )
 		}
 		//
 		()

@@ -1,6 +1,8 @@
 // Henon/Lozi Strange Attractor
 // 9:00 2009/11/03
+
 import scala.collection.immutable._
+import Math.{sin,cos,log,sqrt,abs,exp}
 
 chaosParam.doMain(args)
 
@@ -14,7 +16,7 @@ object chaosParam extends ChaosParameter[DSHenonLozi]
 				ovalR      : Double ) : Unit = {
 		for ( alpha<-alphaRange ; beta<-betaRange ){
 			add( new DSHenonLozi( name , 
-				phi , (alpha,beta) , ovalR ) )
+				phi , (alpha,beta) ,  numRing,ovalR ) )
 		}
 		//
 		()

@@ -17,7 +17,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 		for ( c<-cRange ; d<-dRange) {
 			val par = (0.0,-1.0,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
-						pi , psi , par , map(par) , ovalR ) )
+						pi , psi , par , map(par) ,  numRing,ovalR ) )
 		}
 		//
 		()
@@ -33,7 +33,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 		for ( c<-cRange ; d<-dRange) {
 			val par = (0.0, 1.0,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
-						pi , psi , par , map(par) , ovalR ) )
+						pi , psi , par , map(par) ,  numRing,ovalR ) )
 		}
 		//
 		()
@@ -50,7 +50,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 		for ( a<-aRange ; b<-bRange ; c<-cRange ; d<-dRange) {
 			val par = (a,b,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
-						pi , psi , par , map(par) , ovalR ) )
+						pi , psi , par , map(par) ,  numRing,ovalR ) )
 		}
 		//
 		()

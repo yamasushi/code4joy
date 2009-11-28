@@ -24,7 +24,7 @@ object chaosParam extends ChaosParameter[DSIkeda]
 		for( abRange<-paramsAB ; kpRange <-paramsKP ){
 			for( a<-abRange._1 ; b<-abRange._2 ; k<-kpRange._1 ; p<-kpRange._2 ) {
 				add( new DSIkeda(
-							(a,b),(k,p), 0.1  ) )
+							(a,b),(k,p), numRing, 0.1  ) )
 			}
 		}
 		
