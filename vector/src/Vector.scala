@@ -8,6 +8,9 @@ trait Vector[T]
 
 object Vector
 {
+    def apply[T](x:T,y:T)     : Vector[T] = t2v((x,y))
+    def apply[T](x:T,y:T,z:T) : Vector[T] = t2v((x,y,z))
+    
     implicit def f2v[T]( v:(Int)=>T ) : Vector[T] = new Vector[T]{
         def apply(i:Int) = v(i)
     }
