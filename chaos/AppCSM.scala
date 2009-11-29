@@ -8,7 +8,7 @@ object chaosParam extends ChaosParameter[DSChirikov]
 {
 	def fillParam(name:String   ,
 				kRange : Stream[Double] ,
-				map    : ((Double,Double))=>(Double,Double) , 
+				map    : (Vector[Double])=>Vector[Double] , 
 				ovalR  : Double ) : Unit = {
 		for ( k<-kRange ){
 			add( new DSChirikov( name , k , map, numRing,ovalR ) )
@@ -19,21 +19,21 @@ object chaosParam extends ChaosParameter[DSChirikov]
 	
 	//----------------------------
 	def setup() : Unit = {
-		def mapD1(r:Double)(xp:(Double,Double)):(Double,Double) = {
-			val (x,p) = xp
+		def mapD1(r:Double)(xp:Vector[Double]):Vector[Double] = {
+			val (x,p) = ( xp.x , xp.y )
 			val theta = x
 			val radius= p+r
 			( radius*cos(theta) , radius*sin(theta) )
 		}
-		def mapD2(r:Double)(xp:(Double,Double)):(Double,Double) = {
-			val (x,p) = xp
+		def mapD2(r:Double)(xp:Vector[Double]):Vector[Double] = {
+			val (x,p) = ( xp.x , xp.y )
 			val theta = p
 			val radius= x+r
 			( radius*cos(theta) , radius*sin(theta) )
 		}
 		
 		var params = new Queue[(String,Stream[Double])]
-		var maps   = new Queue[(String,((Double,Double))=>(Double,Double))]
+		var maps   = new Queue[(String,(Vector[Double])=>Vector[Double])]
 		
 		params = params enqueue ("H" ,ParamRange.neighbor( 1. / 34.0     , 0.01 , 1 )) //Hermann 
 		params = params enqueue ("CC",ParamRange.neighbor( 419. / 500.0  , 0.01 , 1 )) //Cellette,Chierchia 1995 

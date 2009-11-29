@@ -17,20 +17,20 @@ object chaosParam extends ChaosParameter[DSHenon]
 		def hFuncF_si(x:Double) : Double = 0.8*Math.sin(x)
 		def hFuncF_in(x:Double) : Double = 0.1 / x
 		
-		def mapD1(r:Double)(p:(Double,Double)):(Double,Double) = {
-			val theta = p._1
-			val radius= p._2 + r
+		def mapD1(r:Double)(p:Vector[Double]):Vector[Double] = {
+			val theta = p.x
+			val radius= p.y + r
 			( radius*cos(theta) , radius*sin(theta) )
 		}
-		def mapD2(r:Double)(p:(Double,Double)):(Double,Double) = {
-			val theta = p._2
-			val radius= p._1 + r
+		def mapD2(r:Double)(p:Vector[Double]):Vector[Double] = {
+			val theta = p.y
+			val radius= p.x + r
 			( radius*cos(theta) , radius*sin(theta) )
 		}
 		val period=2*Math.Pi
 		var funs  = new Queue[(String,(Double)=>Double)]
 		var params= new Queue[Double] 
-		var maps  = new Queue[(String,(((Double,Double))=>(Double,Double)))]
+		var maps  = new Queue[(String,((Vector[Double])=>Vector[Double]))]
 		
 		// grav-lens : sq-d1 0.3pi
 		

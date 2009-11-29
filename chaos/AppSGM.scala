@@ -13,7 +13,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 				psi    : (Double)=>Double       ,
 				cRange : Stream[Double] ,
 				dRange : Stream[Double] ,
-				ovalR  : Double )(map:((Double,Double,Double,Double))=>((Double,Double))=>(Double,Double) ) : Unit = {
+				ovalR  : Double )(map:((Double,Double,Double,Double))=>(Vector[Double])=>Vector[Double] ) : Unit = {
 		for ( c<-cRange ; d<-dRange) {
 			val par = (0.0,-1.0,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
@@ -29,7 +29,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 				psi    : (Double)=>Double       ,
 				cRange : Stream[Double] ,
 				dRange : Stream[Double] ,
-				ovalR  : Double )(map:((Double,Double,Double,Double))=>((Double,Double))=>(Double,Double) ) : Unit = {
+				ovalR  : Double )(map:((Double,Double,Double,Double))=>(Vector[Double])=>Vector[Double] ) : Unit = {
 		for ( c<-cRange ; d<-dRange) {
 			val par = (0.0, 1.0,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
@@ -46,7 +46,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 				bRange : Stream[Double] ,
 				cRange : Stream[Double] ,
 				dRange : Stream[Double] ,
-				ovalR  : Double )(map:((Double,Double,Double,Double))=>((Double,Double))=>(Double,Double) ) : Unit = {
+				ovalR  : Double )(map:((Double,Double,Double,Double))=>(Vector[Double])=>Vector[Double] ) : Unit = {
 		for ( a<-aRange ; b<-bRange ; c<-cRange ; d<-dRange) {
 			val par = (a,b,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
@@ -59,7 +59,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 	def setup() : Unit = {
 		import GumowskiMiraPhi._
 		
-		def mapA(param:(Double,Double,Double,Double)) : ((Double,Double))=>(Double,Double) = {
+		def mapA(param:(Double,Double,Double,Double)) : (Vector[Double])=>Vector[Double] = {
 			val (a,b,c,d) = param
 			val ratio = abs(a)+1 //4*abs(phi(1.0)) // experimental scale ratio for width
 			
