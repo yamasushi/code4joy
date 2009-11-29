@@ -4,13 +4,13 @@ trait ChaosStream
 {
 	val chaosSystem:ChaosSystem
 	val chaosName  :String
-	val initialPoints:Stream[(Double,Double)]
+	val initialPoints:Stream[Vector[Double]]
 	//
-	def pointsFrom(dropIter:Int,maxIter:Int)( pt0:(Double,Double) ) : Stream[(Int,(Double,Double))] = {
+	def pointsFrom(dropIter:Int,maxIter:Int)( pt0:Vector[Double] ) : Stream[(Int,Vector[Double])] = {
 		(Stream.from(-dropIter) zip chaosSystem.from(pt0) 
 		) take( dropIter + maxIter ) 
 	}
-	def generatePoints(numTrajectory:Int)(dropIter:Int,maxIter:Int)(op:(Int,(Double,Double)) => Unit  ) : Unit = {
+	def generatePoints(numTrajectory:Int)(dropIter:Int,maxIter:Int)(op:(Int,Vector[Double]) => Unit  ) : Unit = {
 		initialPoints take(numTrajectory) foreach { pt0 =>
 			pointsFrom(dropIter,maxIter)(pt0) foreach {ip =>op(ip._1,ip._2) }
 		}
@@ -26,7 +26,7 @@ trait ChaosStream
 	{
 		initialPoints take(numTrajectory) foreach { pt0 =>
 			(chaosSystem.from(pt0) take numIter) foreach { p =>
-				val xylog = log(abs(p._1)) + log(abs(p._2))
+				val xylog = log(abs(p.x)) + log(abs(p.y))
 				if( xylog > 10 ) return true
 			}
 		}
@@ -35,11 +35,11 @@ trait ChaosStream
 	}
 
 	// calculate min/max
-	def calcMinMax(dropIter:Int,maxIter:Int)(pt0:(Double,Double)) : ((Double,Double),(Double,Double)) = {
+	def calcMinMax(dropIter:Int,maxIter:Int)(pt0:Vector[Double]) : ((Double,Double),(Double,Double)) = {
 		val limit = 1e7
 		( ((limit,limit),(-limit,-limit)) /: ((chaosSystem.from(pt0) drop dropIter) take maxIter)) {
 			(acc,p) =>
-				val (x,y) = p
+				val (x,y) = (p.x , p.y)
 				val (minXY,maxXY) = acc
 				val (minx,miny) = minXY
 				val (maxx,maxy) = maxXY

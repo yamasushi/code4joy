@@ -20,7 +20,7 @@ class DSGumowskiMira( val header:String ,
 {
 	val (paramA,paramB) = paramAB
 	val (mu    ,nu)     = paramMuNu
-	override val initialPoints = PointsOfRing((0,0),numRing,ovalR).points
+	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR).points
 	//
 	override val chaosName = "gmchaos_" + header + "_" + 
 						"("+paramA.formatted("%7.5f")+","+paramB.formatted("%7.5f")+")" +
@@ -35,8 +35,8 @@ class DSGumowskiMira( val header:String ,
 			nu *y + paramA * (1-paramB*y*y)*y
 		}
 		//
-		override def mapDifference( p:(Double,Double) ) : (Double,Double) = {
-			val (x,y) = p
+		override def mapDifference( p:Vector[Double] ) : Vector[Double] = {
+			val (x,y) = (p.x,p.y)
 			//
 			val xx = gmG(y) + gmF(x)
 			val yy = -x + gmF(xx)

@@ -26,17 +26,17 @@ class DSHenonLozi(
 {
 	val (alpha,beta) = param
 	//
-	override val initialPoints = PointsOfRing((0,0),numRing,ovalR ).points
+	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR ).points
 	override val chaosName = "hlchaos_"+header+"_" + 
 						"("+alpha.formatted("%7.5f")+"," +
 							beta .formatted("%7.5f")+")"
 						
 	override val chaosSystem = new ChaosSystem {
-		override def mapDifference(p:(Double,Double)) : (Double,Double) = {
-			val (x,y) = p
+		override def mapDifference(p:Vector[Double]) : Vector[Double] = {
+			val (x,y) = (p.x,p.y)
 			( 1 + y - alpha*phi(x,y) , beta*x)
 		}
-		override def mapCoordinate(p:(Double,Double)) : (Double,Double) = {
+		override def mapCoordinate(p:Vector[Double]) : Vector[Double] = {
 			p
 		}
 		override def validateParam : Boolean = {

@@ -15,14 +15,14 @@ class DSSimplifiedGumowskiMira(
 				val pi           :(Double)=>Double ,
 				val psi          :(Double)=>Double ,
 				val param        :(Double,Double,Double,Double)    ,
-				val map          :((Double,Double))=>(Double,Double) ,
+				val map          :(Vector[Double])=>Vector[Double] ,
 				//
 				val numRing:Int   ,
 				val ovalR:Double) extends ChaosStreamCanvas
 {
 	val (paramA,paramB,paramC,paramD) = param
 	//
-	override val initialPoints = PointsOfRing((0,0),numRing,ovalR).points
+	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR).points
 	override val chaosName     = "sgmchaos_" + header + "_" + 
 						"("+paramA.formatted("%7.5f")+","+
 							paramB.formatted("%7.5f")+","+
@@ -32,10 +32,10 @@ class DSSimplifiedGumowskiMira(
 	override val chaosSystem = new ChaosSystem{
 		val (a,b,c,d) = param
 		//
-		override def mapCoordinate( p:(Double,Double) ) : (Double,Double) = { map(p) }
+		override def mapCoordinate( p:Vector[Double] ) : Vector[Double] = { map(p) }
 		//
-		override def mapDifference( p:(Double,Double) ) : (Double,Double) = {
-			val (x,y) = p
+		override def mapDifference( p:Vector[Double] ) : Vector[Double] = {
+			val (x,y) = (p.x , p.y)
 			//
 			val xx = a*x + b*y + (c*pi(x)+d)/(1+psi(x))
 			val yy = -x

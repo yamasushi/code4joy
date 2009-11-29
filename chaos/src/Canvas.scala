@@ -9,7 +9,7 @@ trait Canvas
 		( ix >= 0 && ix<imgWidth && iy >= 0 && iy < imgHeight )
 	}
 	//
-	def transform( minmax:((Double,Double),(Double,Double)) ):((Double,Double))=>(Int,Int)={
+	def transform( minmax:((Double,Double),(Double,Double)) ):(Vector[Double])=>(Int,Int)={
 		// println("minmax = "+minmax)
 		val (minXY,maxXY) = minmax
 		val (minx ,miny)  = minXY
@@ -41,7 +41,7 @@ trait Canvas
 		// println("ratio = "+ratio+" , (offsetX,offsetY)="+(offsetX,offsetY))
 		
 		{ p =>
-			val (x,y) = p
+			val (x,y) = (p.x,p.y)
 			(	( x*ratio + offsetX).asInstanceOf[Int], 
 				(-y*ratio - offsetY + imgHeight).asInstanceOf[Int] ) }
 	}

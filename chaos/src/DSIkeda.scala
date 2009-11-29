@@ -11,15 +11,15 @@ class DSIkeda(
 {
 	val (paramA,paramB) = paramAB
 	val (paramK,paramP) = paramKP
-	override val initialPoints = PointsOfRing((0,0),numRing,ovalR).points
+	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR).points
 	//
 	override val chaosName = "ichaos_" + 
 						"("+paramA.formatted("%7.5f")+","+paramB.formatted("%7.5f")+")" +
 						"("+paramK.formatted("%7.5f")+","+paramP.formatted("%7.5f")+")"
 	
 	override val chaosSystem = new ChaosSystem {
-			override def mapDifference( pt:(Double,Double) ) : (Double,Double) = {
-			val (x,y) = pt
+			override def mapDifference( pt:Vector[Double] ) : Vector[Double] = {
+			val (x,y) = (pt.x,pt.y)
 			//
 			val tn    = paramK - paramP/(1 + (x*x + y*y) )
 			val sinTn = Math.sin(tn)

@@ -2,24 +2,20 @@ import Math.{log,sin,cos,sqrt,abs}
 
 object Transform
 {
-	
-	def map(m0x:(Double,Double),m1x:(Double,Double))(v:(Double,Double)) : (Double,Double) = {
-		val (x,y) = v
-		val (m00,m01) = m0x
-		val (m10,m11) = m1x
-		( m00*x + m01*y , m10*x + m11*y ) 
+	def map( m:Vector[Vector[Double]] )(v:Vector[Double]) : Vector[Double] = {
+		( m(0)(0)*v.x + m(0)(1)*v.y , m(1)(0)*v.x + m(1)(1)*v.y ) 
 	}
 	
-	def offset(off:(Double,Double)) : ((Double,Double))=>(Double,Double) = {
-		{(p)=> val (x,y) = p;(x + off._1 , y + off._2 )}
+	def offset(off:Vector[Double]) : (Vector[Double])=>Vector[Double] = {
+		{(p)=>(p.x + off.x , p.y + off.y )}
 	}
 	
-	def rotate(theta:Double) : ((Double,Double)) => (Double,Double) = {
+	def rotate(theta:Double) : (Vector[Double]) => Vector[Double] = {
 		val sinT = sin(theta)
 		val cosT = cos(theta)
-		map((cosT,-sinT),(sinT,cosT))
+		map(Vector(Vector(cosT,-sinT),Vector(sinT,cosT)))
 	}
-	def scale(scale0:Double,scale1:Double) : ((Double,Double)) => (Double,Double) = {
-		map((scale0,0),(0,scale1))
+	def scale(scale0:Double,scale1:Double) : (Vector[Double]) => Vector[Double] = {
+		map(Vector(Vector(scale0,0),Vector(0,scale1)))
 	}
 }

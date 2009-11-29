@@ -16,7 +16,7 @@ class DSPeterDeJong(
 {
 	val (a,b,c,d) = param
 	//
-	override val initialPoints = PointsOfRing((0,0),numRing,ovalR ).points
+	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR ).points
 	override val chaosName = "pdjchaos_"+header+"_" + 
 						"("+a.formatted("%7.5f")+"," +
 							b.formatted("%7.5f")+"," +
@@ -25,12 +25,12 @@ class DSPeterDeJong(
 						
 	//
 	override val chaosSystem = new ChaosSystem {
-		override def mapDifference(p:(Double,Double)) : (Double,Double) = {
-			val (x,y) = p
+		override def mapDifference(p:Vector[Double]) : Vector[Double] = {
+			val (x,y) = ( p.x , p.y )
 			(	sin(a*Math.Pi*y) - cos(b*Math.Pi*x) , 
 				sin(c*Math.Pi*x) - cos(d*Math.Pi*y))
 		}
-		override def mapCoordinate(p:(Double,Double)) : (Double,Double) = {
+		override def mapCoordinate(p:Vector[Double]) : Vector[Double] = {
 			p
 		}
 		override def validateParam : Boolean = {

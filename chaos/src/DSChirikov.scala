@@ -8,7 +8,7 @@ import Math.{sin,cos,log,sqrt,abs,exp}
 
 class DSChirikov( val header:String ,
 		val paramK : Double ,
-		val map    : ((Double,Double))=>(Double,Double) ,
+		val map    : (Vector[Double])=>Vector[Double] ,
 		//
 		val numRing:Int   ,
 		val ovalR  : Double) extends ChaosStreamCanvas
@@ -20,23 +20,23 @@ class DSChirikov( val header:String ,
 		if(rem>=0) rem else rem + period
 	}
 	
-	def remainder(p:(Double,Double)):(Double,Double) = {(remainder(p._1),remainder(p._2))}
+	def remainder(p:Vector[Double]):Vector[Double] = {Vector(remainder(p.x),remainder(p.y))}
 	//
-	override val initialPoints = PointsOfRing( ( 0 , 0 ) , numRing , period ).points map remainder 
+	override val initialPoints = PointsOfRing( Vector( 0 , 0 ) , numRing , period ).points map remainder 
 	//
 	override val chaosName = "csmchaos_" + header + "_" + 
 						"("+paramK.formatted("%7.5f")+")" 
 	//
 	override val chaosSystem = new ChaosSystem {
-		override def mapDifference( xp:(Double,Double) ) : (Double,Double) = {
-			val (x,p) = xp
+		override def mapDifference( xp:Vector[Double] ) : Vector[Double] = {
+			val (x,p) = (xp.x , xp.y)
 			//
 			val pp = remainder( p + paramK * sin(x) )  
 			val xx = remainder( x + pp              )
 			//
 			(xx,pp)
 		}
-		override def mapCoordinate(xp:(Double,Double)) : (Double,Double) = {
+		override def mapCoordinate(xp:Vector[Double]) : Vector[Double] = {
 			map(xp)
 		}
 		override def validateParam : Boolean = {

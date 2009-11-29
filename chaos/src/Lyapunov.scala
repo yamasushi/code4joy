@@ -8,10 +8,10 @@ object Lyapunov
 	def calc(sys:ChaosSystem,numIter:Int,pt0:(Double,Double)) : Double = {
 		val eps = 1e-7
 		def calc( pt0:(Double,Double),pt1:(Double,Double)) : Double = {
-			def dist(pp:((Double,Double),(Double,Double))) : Double = {
+			def dist(pp:(Vector[Double],Vector[Double])) : Double = {
 				val ( s, e) = pp
-				val (sx,sy) = s
-				val (ex,ey) = e
+				val (sx,sy) = (s.x,s.y)
+				val (ex,ey) = (e.x,e.y)
 				sqrt( (sx-ex)*(sx-ex) + (sy-ey)*(sy-ey) )
 			}
 			//
