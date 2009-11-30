@@ -32,7 +32,7 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 	val paramNumTrajectoryPerRing:(String)=>Int = {
 		case "poor" =>   3
 		case "low"  => 100
-		case "high" => 500
+		case "high" => 300
 		case _      => 100
 	}
 	val paramSamplingDegree:(String)=>Int = {
