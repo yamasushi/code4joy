@@ -84,12 +84,9 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 				//print("lyapunov["+lyapunov.formatted("%3f")+"]")
 				//
 				//
-				val minmax = p.calcMinMax(numTrajectory)(dropIter,maxIter)
-				val (minXY,maxXY) = minmax
-				val (minx ,miny)  = minXY
-				val (maxx ,maxy)  = maxXY
-				val width      = abs( maxx - minx ) + 0.000001
-				val height     = abs( maxy - miny ) + 0.000001
+				val frame = p.calcMinMax(numTrajectory)(dropIter,maxIter)
+				val width      = abs( frame.max.x - frame.min.x ) + 0.000001
+				val height     = abs( frame.max.y - frame.min.y ) + 0.000001
 				val aspectRatio= width/height
 				val scale      = scaleFactor*1000
 				//
@@ -109,7 +106,7 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 					val histgram = new Array[Array[Double]](geom._1,geom._2)
 					//
 					var maxFreq = 0.0
-					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(minmax) {
+					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(frame) {
 						(count:Int,p:Vector[Int]) =>
 							val freq =	if (count<0){
 											val i = count + dropIter

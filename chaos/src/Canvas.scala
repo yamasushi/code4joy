@@ -8,11 +8,9 @@ trait Canvas
 		( p.x >= 0 && p.x<imgWidth && p.y >= 0 && p.y < imgHeight )
 	}
 	//
-	def transform( minmax:((Double,Double),(Double,Double)) ):(Vector[Double])=>Vector[Int]={
-		// println("minmax = "+minmax)
-		val (minXY,maxXY) = minmax
-		val (minx ,miny)  = minXY
-		val (maxx ,maxy)  = maxXY
+	def transform( fr:Frame[Double] ):(Vector[Double])=>Vector[Int]={
+		val (minx ,miny)  = (fr.min.x , fr.min.y)
+		val (maxx ,maxy)  = (fr.max.x , fr.max.y)
 		val width         = Math.abs( maxx - minx ) + 0.000001
 		val height        = Math.abs( maxy - miny ) + 0.000001
 		//

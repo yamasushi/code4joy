@@ -13,7 +13,7 @@ object chaosParam extends ChaosParameter[DSGingerbreadMan]
 				phi:(Double)=>Double ,
 				muRange : Stream[Double] ,
 				nuRange : Stream[Double] ,
-				ovalR   : Double )(map:((Double,Double))=>(Double,Double)) : Unit = {
+				ovalR   : Double )(map:(Vector[Double])=>Vector[Double]) : Unit = {
 		for ( mu<-muRange ; nu<-nuRange ){
 			add( new DSGingerbreadMan( name , 
 				phi , (mu,nu) , map ,  numRing,ovalR ) )
@@ -45,9 +45,9 @@ object chaosParam extends ChaosParameter[DSGingerbreadMan]
 					ParamRange.neighbor(1 , 0.001 ,0),
 					5)
 		//
-		// for(m<-maps ; p<-params){
-			// fillParam(m._1,m._2,p._1,p._2,p._3)(rot)
-		// }
+		for(m<-maps ; p<-params){
+			fillParam(m._1,m._2,p._1,p._2,p._3)(rot)
+		}
 		
 		for(m<-maps ; p<-params){
 			fillParam("RAW-"+m._1,m._2,p._1,p._2,p._3){p=>p}

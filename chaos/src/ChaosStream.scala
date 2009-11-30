@@ -35,34 +35,21 @@ trait ChaosStream
 	}
 
 	// calculate min/max
-	def calcMinMax(dropIter:Int,maxIter:Int)(pt0:Vector[Double]) : ((Double,Double),(Double,Double)) = {
-		val limit = 1e7
-		( ((limit,limit),(-limit,-limit)) /: ((chaosSystem.from(pt0) drop dropIter) take maxIter)) {
-			(acc,p) =>
-				val (x,y) = (p.x , p.y)
-				val (minXY,maxXY) = acc
-				val (minx,miny) = minXY
-				val (maxx,maxy) = maxXY
-				(	(if(x<minx) x else minx , if(y<miny)y else miny) ,
-					(if(x>maxx) x else maxx , if(y>maxy)y else maxy) )
+	def calcMinMax(dropIter:Int,maxIter:Int)(pt0:Vector[Double]) : Frame[Double] = {
+		val limit:Double = 1e7
+		val f = Frame[Double](Vector(limit,limit),Vector(-limit,-limit))
+		( f /: ((chaosSystem.from(pt0) drop dropIter) take maxIter)) {
+			(acc,p) => acc.inflate(p)
 		}
 	}
 	
-	def calcMinMax(numTrajectory:Int)(dropIter:Int,maxIter:Int) : ((Double,Double),(Double,Double)) = {
-		val limit = 1e7
-		
+	def calcMinMax(numTrajectory:Int)(dropIter:Int,maxIter:Int) : Frame[Double] = {
+		val limit:Double = 1e7
 		val mms = (initialPoints take numTrajectory) map { pt0 => calcMinMax(dropIter,maxIter)(pt0) }
-		( ((limit,limit),(-limit,-limit)) /: mms ) {
-			(acc,mm) =>
-				val (accMinXY,accMaxXY) = acc
-				val (accMinX ,accMinY ) = accMinXY
-				val (accMaxX ,accMaxY ) = accMaxXY
-				val (mmMinXY ,mmMaxXY ) = mm
-				val (mmMinX  ,mmMinY  ) = mmMinXY
-				val (mmMaxX  ,mmMaxY  ) = mmMaxXY
-				
-				(	(if(mmMinX < accMinX) mmMinX else accMinX , if(mmMinY < accMinY) mmMinY else accMinY ) ,
-					(if(mmMaxX > accMaxX) mmMaxX else accMaxX , if(mmMaxY > accMaxY) mmMaxY else accMaxY ) )
-		}	
+		//
+		val f = Frame[Double](Vector(limit,limit),Vector(-limit,-limit))
+		( f /: mms ) {
+			(acc,mm) => acc.inflate(mm)
+		}
 	}
 }
