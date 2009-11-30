@@ -55,12 +55,6 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 			
 		case _ => 
 		}
-		println(
-			"scaleFactor="          +scaleFactor         .formatted("%f")+
-			",numTrajectoryPerRing="+numTrajectoryPerRing.formatted("%d")+
-			",numRing="             +numRing             .formatted("%d")+
-			",samplingDegree="      +samplingDegree      .formatted("%d")+
-			",gammaCorrection="     +gammaCorrection     .formatted("%d"))
 	}
 	//
 	def doMain(cmdParam : Array[String]) : Unit = {
@@ -69,6 +63,13 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 		val numTrajectory = numRing*numTrajectoryPerRing
 		//
 		setup()
+		//
+		println(
+			"scaleFactor="          +scaleFactor         .formatted("%f")+
+			",numTrajectoryPerRing="+numTrajectoryPerRing.formatted("%d")+
+			",numRing="             +numRing             .formatted("%d")+
+			",samplingDegree="      +samplingDegree      .formatted("%d")+
+			",gammaCorrection="     +gammaCorrection     .formatted("%d"))
 		//
 		for( p <- param if p.isValid ;
 			filename = p.chaosName +"."+imgType ;
