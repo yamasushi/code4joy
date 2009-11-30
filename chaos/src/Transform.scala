@@ -3,7 +3,7 @@ import Math.{log,sin,cos,sqrt,abs}
 object Transform
 {
 	def map( m:Matrix[Double] )(v:Vector[Double]) : Vector[Double] = {
-		(m map{ u=> u operate(v , _ * _) } ) map { u => u.x + u.y }
+		m map { u=> u metric(v , _ * _ , { u => u.x + u.y } ) }
 	}
 	
 	def offset(off:Vector[Double]) : (Vector[Double])=>Vector[Double] = {

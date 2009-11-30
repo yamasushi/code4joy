@@ -20,6 +20,11 @@ trait Vector[T]
 			def apply(i:Int) = op( left(i) , right(i) )
 		}
 	}
+	//
+	def metric(v:Vector[T],binOp:(T,T)=>T,foldOp:Vector[T]=>T) : T = {
+		foldOp( operate(v,binOp) )
+	}
+	//
 }
 
 object Vector
