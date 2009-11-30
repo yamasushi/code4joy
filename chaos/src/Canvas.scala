@@ -4,36 +4,32 @@ trait Canvas
 {
 	this: Picture[_] =>
 	//
-	def isPointVisible(p:Vector[Int]) : Boolean = {
-		( p.x >= 0 && p.x<imgWidth && p.y >= 0 && p.y < imgHeight )
-	}
+	def isPointVisible(p:Vector[Int]) : Boolean = imgFrame.isInside(p)
 	//
 	def transform( fr:Frame[Double] ):(Vector[Double])=>Vector[Int]={
-		val (minx ,miny)  = (fr.min.x , fr.min.y)
-		val (maxx ,maxy)  = (fr.max.x , fr.max.y)
-		val width         = Math.abs( maxx - minx ) + 0.000001
-		val height        = Math.abs( maxy - miny ) + 0.000001
+		val width         = Math.abs( fr.max.x - fr.min.x ) + 0.000001
+		val height        = Math.abs( fr.max.y - fr.min.y ) + 0.000001
 		//
 		val aspectRatioOfData   = width / height 
 		//
 		val ratio=	if (aspectRatioOfData < aspectRatio)	imgHeight.asInstanceOf[Double] / height
 					else									imgWidth .asInstanceOf[Double] / width
 		
-		val offset:Vector[Int]=if( aspectRatioOfData < aspectRatio  ){
+		val offset:Vector[Double]=if( aspectRatioOfData < aspectRatio  ){
 			//data     canvas
 			// **      *****
 			// ** ---> *****
 			// **      *****
-			(	- (minx*ratio).asInstanceOf[Int] + (imgWidth - (width*ratio)).asInstanceOf[Int] / 2 ,
-				- (miny*ratio).asInstanceOf[Int] )
+			(	- (fr.min.x*ratio) + (imgWidth - (width*ratio))*0.5 ,
+				- (fr.min.y*ratio) )
 		}
 		else {
 			//data     canvas
 			// *****      **
 			// ***** ---> **
 			// *****      **
-			(	- (minx*ratio).asInstanceOf[Int] ,
-				- (miny*ratio).asInstanceOf[Int] + (imgHeight - (height*ratio)).asInstanceOf[Int] / 2 )
+			(	- (fr.min.x*ratio) ,
+				- (fr.min.y*ratio) + (imgHeight - (height*ratio))*0.5 )
 		}
 		// println("ratio = "+ratio+" , (offsetX,offsetY)="+(offsetX,offsetY))
 		

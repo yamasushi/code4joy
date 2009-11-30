@@ -6,6 +6,7 @@ trait Picture[T]
 {
 	val imgWidth : Int
 	val imgHeight: Int
+	lazy val imgFrame = Frame[Int]((0,0),(imgWidth-1,imgHeight-1))
 	
 	def startPaint      : T
 	def endPaint(env:T) : Unit

@@ -11,8 +11,7 @@ case class Frame[T <% Ordered[T]](min:Vector[T],max:Vector[T])
 	}
 	//
 	def inflate( p:Frame[T] ) : Frame[T] ={
-		Frame(	(if(p.min.x < min.x) p.min.x else min.x , if(p.min.y < min.y) p.min.y else min.y) ,
-				(if(p.max.x > max.x) p.max.x else max.x , if(p.max.y > max.y) p.max.y else max.y) )
+		inflate(p.min).inflate(p.max)
 	}
 }
 
