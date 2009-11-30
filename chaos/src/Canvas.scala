@@ -6,29 +6,28 @@ trait Canvas
 	//
 	def isPointVisible(p:Vector[Int]) : Boolean = imgFrame.isInside(p)
 	//
-	def transform( fr:Frame[Double] ):(Vector[Double])=>Vector[Int]={
-		val geom  = fr.max operate(fr.min,{ (l,r) => Math.abs(l-r)+0.000001 } )
+	def transform( dataGeom:Geometry ):(Vector[Double])=>Vector[Int]={
 		//
-		val aspectRatioOfData   = geom.x / geom.y 
-		//
-		val ratio=	if (aspectRatioOfData < aspectRatio)	imgHeight.asInstanceOf[Double] / geom.y
-					else									imgWidth .asInstanceOf[Double] / geom.x
+		val ratio=	if (dataGeom.aspectRatio < aspectRatio)
+						imgHeight.asInstanceOf[Double] / dataGeom.size.y
+					else
+						imgWidth .asInstanceOf[Double] / dataGeom.size.x
 		
-		val offset:Vector[Double]=if( aspectRatioOfData < aspectRatio  ){
+		val offset:Vector[Double]=if( dataGeom.aspectRatio < aspectRatio  ){
 			//data     canvas
 			// **      *****
 			// ** ---> *****
 			// **      *****
-			(	- (fr.min.x*ratio) + (imgWidth - (geom.x*ratio))*0.5 ,
-				- (fr.min.y*ratio) )
+			(	- (dataGeom.frame.min.x*ratio) + (imgWidth - (dataGeom.size.x*ratio))*0.5 ,
+				- (dataGeom.frame.min.y*ratio) )
 		}
 		else {
 			//data     canvas
 			// *****      **
 			// ***** ---> **
 			// *****      **
-			(	- (fr.min.x*ratio) ,
-				- (fr.min.y*ratio) + (imgHeight - (geom.y*ratio))*0.5 )
+			(	- (dataGeom.frame.min.x*ratio) ,
+				- (dataGeom.frame.min.y*ratio) + (imgHeight - (dataGeom.size.y*ratio))*0.5 )
 		}
 		// println("ratio = "+ratio+" , (offsetX,offsetY)="+(offsetX,offsetY))
 		

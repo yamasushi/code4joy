@@ -83,21 +83,17 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 				//val lyapunov = Lyapunov.calc(p.chaosSystem,10000,(0.0,0.0))
 				//print("lyapunov["+lyapunov.formatted("%3f")+"]")
 				//
-				//
-				val frame = p.calcMinMax(numTrajectory)(dropIter,maxIter)
-				val width      = abs( frame.max.x - frame.min.x ) + 0.000001
-				val height     = abs( frame.max.y - frame.min.y ) + 0.000001
-				val aspectRatio= width/height
+				val dataGeom = Geometry( p.calcMinMax(numTrajectory)(dropIter,maxIter) )
 				val scale      = scaleFactor*1000
 				//
 				val freqLimit  = 1000 // limit fo freq
 				//
-				val geom =	if (width>height)
-								(	scale              .asInstanceOf[Int] ,
-									(scale/aspectRatio).asInstanceOf[Int] )
+				val geom =	if ( dataGeom.size.x > dataGeom.size.y )
+								(	scale                       .asInstanceOf[Int] ,
+									(scale/dataGeom.aspectRatio).asInstanceOf[Int] )
 							else
-								(	(scale*aspectRatio).asInstanceOf[Int] ,
-									scale              .asInstanceOf[Int] )
+								(	(scale*dataGeom.aspectRatio).asInstanceOf[Int] ,
+									scale                       .asInstanceOf[Int] )
 				//
 				val histgram = new Array[Array[Double]](geom._1,geom._2)
 				var maxFreq = 0.0
@@ -108,7 +104,7 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 					canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
 					//
 					//
-					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(frame) {
+					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas,dataGeom) {
 						(count:Int,p:Vector[Int]) =>
 							val freq =	if (count<0){
 											val i = count + dropIter
