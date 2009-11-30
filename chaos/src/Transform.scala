@@ -3,7 +3,7 @@ import Math.{log,sin,cos,sqrt,abs}
 object Transform
 {
 	def map( m:Vector[Vector[Double]] )(v:Vector[Double]) : Vector[Double] = {
-		( m(0)(0)*v.x + m(0)(1)*v.y , m(1)(0)*v.x + m(1)(1)*v.y ) 
+		( m.x.x * v.x + m.x.y*v.y , m.y.x * v.x + m.y.y*v.y ) 
 	}
 	
 	def offset(off:Vector[Double]) : (Vector[Double])=>Vector[Double] = {

@@ -30,13 +30,13 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 		case _      => 1.0
 	}
 	val paramNumTrajectoryPerRing:(String)=>Int = {
-		case "poor" => 100
+		case "poor" =>   5
 		case "low"  => 100
 		case "high" => 500
 		case _      => 100
 	}
 	val paramSamplingDegree:(String)=>Int = {
-		case "poor" => 2
+		case "poor" => 1
 		case "low"  => 2
 		case "high" => 2
 		case _      => 2
@@ -145,7 +145,7 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 										jy >= 0 && jy < geom._2 ) {
 										val hist = histgram(jx)(jy)
 										val distSq:Int = dx*dx + dy*dy
-										val r   :Double = abs(distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
+										val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
 										val ratio= r
 										//println("dist,r,ratio="+(dist,r,ratio))
 										//

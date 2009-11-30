@@ -4,6 +4,7 @@ trait Vector[T]
     lazy val x = apply(0)
     lazy val y = apply(1)
     lazy val z = apply(2)
+    //
 }
 
 object Vector
