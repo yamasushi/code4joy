@@ -31,9 +31,17 @@ object chaosParam extends ChaosParameter[DSGumowskiMira]
 		var maps  =new Queue[(String,(Double)=>Double)]
 		var params=new Queue[((Double,Double),Stream[Double],Stream[Double],Double)]
 		
-		maps=maps enqueue ("_",phi({x=>x*x        },{x=>x*x}))
-		maps=maps enqueue ("A",phi({x=>abs(x)     },{x=>abs(x)    }))
-		maps=maps enqueue ("Q",phi({x=>x*x*x*x    },{x=>x*x*x*x   }))
+		maps=maps enqueue ("Quadratic",phi(psiQuadratic _ ))
+		maps=maps enqueue ("Abs",phi(psiAbs       _ ))
+		maps=maps enqueue ("Sqrt",phi(psiSqrt      _ ))
+		maps=maps enqueue ("Quartic",phi(psiQuartic   _ ))
+		maps=maps enqueue ("Cubic",phi(psiCubic     _ ))
+		maps=maps enqueue ("Pow",phi(psiPow       _ ))
+		maps=maps enqueue ("PowAbs",phi(psiPowAbs    _ ))
+		maps=maps enqueue ("Trig",phi(psiTrig      _ ))
+		maps=maps enqueue ("Log",phi(psiLog       _ ))
+		maps=maps enqueue ("LogAbs",phi(psiLogAbs    _ ))
+		maps=maps enqueue ("Circle",phi(psiCircle    _ ))
 		
 		params=params enqueue ( ( 0.008, 0.05 ) ,
 			ParamRange.neighbor( 0   , 0.1  , 20 ) , 
@@ -46,7 +54,7 @@ object chaosParam extends ChaosParameter[DSGumowskiMira]
 			0.1 )
 		
 		params=params enqueue ( ( 0.008, 0.05 ) ,
-			ParamRange.neighbor(-0.475 , 0.001 ,0) , 
+			ParamRange.neighbor(-0.475 , 0.001 ,10) , 
 			ParamRange.neighbor( 1.0   , 0.01  ,0) , 
 			0.1 )
 		

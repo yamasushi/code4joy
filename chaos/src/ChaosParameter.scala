@@ -99,13 +99,15 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 								(	(scale*aspectRatio).asInstanceOf[Int] ,
 									scale              .asInstanceOf[Int] )
 				//
+				val histgram = new Array[Array[Double]](geom._1,geom._2)
+				var maxFreq = 0.0
+				var canvas:PictureFile with Canvas = null
+				//
+				print("Generating : " + filename ) // do not put newline
 				if( geom._1 > 1 && geom._2 > 1 ){
-					val canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
-					print("Generating : " + filename ) // do not put newline
+					canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
 					//
-					val histgram = new Array[Array[Double]](geom._1,geom._2)
 					//
-					var maxFreq = 0.0
 					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas)(frame) {
 						(count:Int,p:Vector[Int]) =>
 							val freq =	if (count<0){
@@ -119,8 +121,11 @@ abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
 							histgram(p.x)(p.y) = freq
 							maxFreq = max( freq , maxFreq)
 					}
-					//
-					assert( maxFreq>0 )
+				}
+				if(maxFreq<=0){
+					println(" ... no data")
+				}
+				else{
 					print("[maxFreq="+maxFreq+"]")
 					//
 					if( maxFreq > freqLimit ){
