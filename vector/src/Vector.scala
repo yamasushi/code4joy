@@ -1,9 +1,9 @@
 trait Vector[T]
 {
     def apply(i:Int):T
-    def x : T = apply(0)
-    def y : T = apply(1)
-    def z : T = apply(2)
+    lazy val x = apply(0)
+    lazy val y = apply(1)
+    lazy val z = apply(2)
 }
 
 object Vector
