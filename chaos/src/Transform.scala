@@ -3,9 +3,8 @@ import Math.{log,sin,cos,sqrt,abs}
 object Transform
 {
 	def map( m:Vector[Vector[Double]] )(v:Vector[Double]) : Vector[Double] = {
-		val wx = m.x operate( v , _ * _ )
-		val wy = m.y operate( v , _ * _ )
-		( wx.x + wx.y , wy.x + wy.y ) 
+		val w = m map{ u=> u operate(v , _ * _) }
+		( w.x.x + w.x.y , w.y.x + w.y.y ) 
 	}
 	
 	def offset(off:Vector[Double]) : (Vector[Double])=>Vector[Double] = {
