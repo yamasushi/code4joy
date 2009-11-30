@@ -1,5 +1,11 @@
+trait Matrix[T] extends Vector[Vector[T]]
+
 object Matrix
 {
-    def apply[T](u:Vector[T],v:Vector[T]) : Vector[Vector[T]] = Vector(u,v)
-    def apply[T](u:Vector[T],v:Vector[T],w:Vector[T]) : Vector[Vector[T]] = Vector(u,v,w)
+	def apply[T](u:Vector[T]*) : Matrix[T] = Vector(u: _*)
+	implicit def v2m[T](v : Vector[Vector[T]]) : Matrix[T] = {
+		new Matrix[T] {
+			def apply(i:Int) = v(i)
+		}
+	}
 }
