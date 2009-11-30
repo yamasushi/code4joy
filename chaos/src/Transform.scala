@@ -3,11 +3,13 @@ import Math.{log,sin,cos,sqrt,abs}
 object Transform
 {
 	def map( m:Vector[Vector[Double]] )(v:Vector[Double]) : Vector[Double] = {
-		( m.x.x * v.x + m.x.y*v.y , m.y.x * v.x + m.y.y*v.y ) 
+		val wx = m.x operate( v , _ * _ )
+		val wy = m.y operate( v , _ * _ )
+		( wx.x + wx.y , wy.x + wy.y ) 
 	}
 	
 	def offset(off:Vector[Double]) : (Vector[Double])=>Vector[Double] = {
-		{(p)=>(p.x + off.x , p.y + off.y )}
+		{p => p operate(off, _ + _ )}
 	}
 	
 	def rotate(theta:Double) : (Vector[Double]) => Vector[Double] = {
