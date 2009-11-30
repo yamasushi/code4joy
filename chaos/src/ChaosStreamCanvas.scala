@@ -3,7 +3,7 @@ trait ChaosStreamCanvas extends ChaosStream
 	def canvasPointsFrom
 				(dropIter:Int,maxIter:Int)
 				(minmax:((Double,Double),(Double,Double)))
-				(canvas:Picture[_] with Canvas)
+				(canvas:Canvas)
 				(pt0:Vector[Double] ) : Stream[(Int,(Int,Int))] = {
 		//
 		(Stream.from(-dropIter) zip (chaosSystem.from(pt0) map canvas.transform( minmax ) )  
@@ -13,7 +13,7 @@ trait ChaosStreamCanvas extends ChaosStream
 	def generateCanvasPoints
 				(numTrajectory:Int)
 				(dropIter:Int,maxIter:Int)
-				(canvas:Picture[_] with Canvas)
+				(canvas:Canvas)
 				(minmax:((Double,Double),(Double,Double)))
 				(op:(Int,(Int,Int)) => Unit) : Unit = {
 		//
