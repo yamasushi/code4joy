@@ -1,10 +1,10 @@
 // Chaos Game
 
-import Math.{sin,cos,abs,sqrt,log,exp,pow}
+import Math.{sin,cos,abs,sqrt,log,exp,pow,min,max}
 
 class DSChaosGame(
 		val header:String ,
-		val sys   :List[ChaosStreamCanvas] ,
+		val sys   :List[ChaosSystem] ,
 		val numRing:Int ,
 		val ovalR  :Double ) extends ChaosStreamCanvas
 {
