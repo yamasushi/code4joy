@@ -11,7 +11,7 @@ class DSChirikov( val header:String ,
 		val map    : (Vector[Double])=>Vector[Double] ,
 		//
 		val numRing:Int   ,
-		val ovalR  : Double) extends ChaosStreamCanvas
+		val ovalR  : Double) extends ChaosStream
 {
 	val period = 2*Math.Pi
 	val radius = period*0.5

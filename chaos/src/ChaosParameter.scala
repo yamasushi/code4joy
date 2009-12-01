@@ -2,7 +2,7 @@ import scala.collection.immutable._
 import java.awt.{Graphics2D,Color}
 import Math.{abs,min,max,log,sqrt,pow}
 
-abstract class ChaosParameter[ T<:ChaosStreamCanvas ]
+abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 {
 	val imgType      :String = "png"
 	val colorBG      :Color  = Color.BLACK

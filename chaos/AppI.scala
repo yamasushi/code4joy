@@ -3,7 +3,7 @@ import scala.collection.immutable._
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSIkeda]
+object chaosParam extends ChaosParameter[DSIkeda with ChaosStreamCanvas]
 {
 	def setup() : Unit = {
 		var paramsAB = new Queue[(Stream[Double],Stream[Double])]
@@ -24,7 +24,7 @@ object chaosParam extends ChaosParameter[DSIkeda]
 		for( abRange<-paramsAB ; kpRange <-paramsKP ){
 			for( a<-abRange._1 ; b<-abRange._2 ; k<-kpRange._1 ; p<-kpRange._2 ) {
 				add( new DSIkeda(
-							(a,b),(k,p), numRing, 0.1  ) )
+							(a,b),(k,p), numRing, 0.1  ) with ChaosStreamCanvas )
 			}
 		}
 		

@@ -6,7 +6,7 @@ import scala.collection.immutable._
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSGingerbreadMan]
+object chaosParam extends ChaosParameter[DSGingerbreadMan with ChaosStreamCanvas]
 {
 	//----------------------------
 	def fillParam(name:String ,
@@ -16,7 +16,7 @@ object chaosParam extends ChaosParameter[DSGingerbreadMan]
 				ovalR   : Double )(map:(Vector[Double])=>Vector[Double]) : Unit = {
 		for ( mu<-muRange ; nu<-nuRange ){
 			add( new DSGingerbreadMan( name , 
-				phi , (mu,nu) , map ,  numRing,ovalR ) )
+				phi , (mu,nu) , map ,  numRing,ovalR ) with ChaosStreamCanvas )
 		}
 		//
 		()

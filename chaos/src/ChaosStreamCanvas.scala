@@ -1,5 +1,7 @@
-trait ChaosStreamCanvas extends ChaosStream
+trait ChaosStreamCanvas
 {
+	this : ChaosStream=>
+	//
 	def canvasPointsFrom
 				(dropIter:Int,maxIter:Int)
 				(pt0:Vector[Double])

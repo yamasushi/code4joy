@@ -6,7 +6,7 @@ class DSChaosGame(
 		val header:String ,
 		val sys   :List[ChaosSystem] ,
 		val numRing:Int ,
-		val ovalR  :Double ) extends ChaosStreamCanvas
+		val ovalR  :Double ) extends ChaosStream
 {
 	val nsys = sys.size
 	val rand = new java.util.Random

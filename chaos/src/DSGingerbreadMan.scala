@@ -29,7 +29,7 @@ class DSGingerbreadMan(
 		val map:(Vector[Double])=>Vector[Double] ,
 		//
 		val numRing:Int   ,
-		val ovalR :Double) extends ChaosStreamCanvas
+		val ovalR :Double) extends ChaosStream
 {
 	val (mu,nu) = param
 	//

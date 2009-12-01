@@ -2,7 +2,7 @@
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSPeterDeJong]
+object chaosParam extends ChaosParameter[DSPeterDeJong with ChaosStreamCanvas]
 {
 	//----------------------------
 	def fillParam(name:String ,
@@ -13,7 +13,7 @@ object chaosParam extends ChaosParameter[DSPeterDeJong]
 				ovalR   : Double ) : Unit = {
 		for ( a<-aRange ; b<-bRange ; c<-cRange ; d<-dRange){
 			add( new DSPeterDeJong( name , 
-				(a,b,c,d) ,  numRing,ovalR ) )
+				(a,b,c,d) ,  numRing,ovalR ) with ChaosStreamCanvas )
 		}
 		//
 		()

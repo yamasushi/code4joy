@@ -4,14 +4,14 @@ import Math.{sin,cos,log,sqrt,abs,exp}
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSChirikov]
+object chaosParam extends ChaosParameter[DSChirikov with ChaosStreamCanvas]
 {
 	def fillParam(name:String   ,
 				kRange : Stream[Double] ,
 				map    : (Vector[Double])=>Vector[Double] , 
 				ovalR  : Double ) : Unit = {
 		for ( k<-kRange ){
-			add( new DSChirikov( name , k , map, numRing,ovalR ) )
+			add( new DSChirikov( name , k , map, numRing,ovalR ) with ChaosStreamCanvas )
 		}
 		//
 		()

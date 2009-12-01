@@ -4,7 +4,7 @@ import Math.{sin,cos,log,sqrt,abs,exp}
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSChaosGame]
+object chaosParam extends ChaosParameter[DSChaosGame with ChaosStreamCanvas]
 {
 	def setup() : Unit = {
 		import GumowskiMiraPhi._
@@ -32,7 +32,7 @@ object chaosParam extends ChaosParameter[DSChaosGame]
 		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
 									( 0.004, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
 		
-		add( new DSChaosGame( "" , sys , 1 , 1 ) ) 
+		add( new DSChaosGame( "" , sys , 1 , 1 ) with ChaosStreamCanvas ) 
 		
 		()
 	}

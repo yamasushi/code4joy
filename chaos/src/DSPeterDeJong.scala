@@ -12,7 +12,7 @@ class DSPeterDeJong(
 		param  :(Double,Double,Double,Double) ,
 		//
 		val numRing:Int   ,
-		val ovalR :Double) extends ChaosStreamCanvas
+		val ovalR :Double) extends ChaosStream
 {
 	val (a,b,c,d) = param
 	//

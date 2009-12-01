@@ -1,7 +1,4 @@
-// Clifford Strange Attractor
-//   http://local.wasp.uwa.edu.au/~pbourke/fractals/clifford/
-//   http://en.wikipedia.org/wiki/Clifford_A._Pickover
-// 13:00 2009/11/03
+// Sine Strange Attractor
 
 import Math.{sin,cos,abs,sqrt,log,exp,pow}
 
@@ -10,7 +7,7 @@ class DSSine(
 		param  :(Double,Double) ,
 		//
 		val numRing:Int   ,
-		val ovalR  :Double) extends ChaosStreamCanvas
+		val ovalR  :Double) extends ChaosStream
 {
 	val (a,b) = param
 	//

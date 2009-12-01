@@ -22,7 +22,7 @@ class DSHenonLozi(
 		param  :(Double,Double) ,
 		//
 		val numRing:Int   ,
-		val ovalR :Double) extends ChaosStreamCanvas
+		val ovalR :Double) extends ChaosStream
 {
 	val (alpha,beta) = param
 	//

@@ -18,7 +18,7 @@ class DSSimplifiedGumowskiMira(
 				val map          :(Vector[Double])=>Vector[Double] ,
 				//
 				val numRing:Int   ,
-				val ovalR:Double) extends ChaosStreamCanvas
+				val ovalR:Double) extends ChaosStream
 {
 	val (paramA,paramB,paramC,paramD) = param
 	//

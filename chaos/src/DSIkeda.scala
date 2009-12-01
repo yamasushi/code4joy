@@ -7,7 +7,7 @@ class DSIkeda(
 		val paramKP:(Double,Double) , 
 		//
 		val numRing:Int   ,
-		val ovalR:Double) extends ChaosStreamCanvas
+		val ovalR:Double) extends ChaosStream
 {
 	val (paramA,paramB) = paramAB
 	val (paramK,paramP) = paramKP

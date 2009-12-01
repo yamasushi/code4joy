@@ -2,7 +2,7 @@
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSSine]
+object chaosParam extends ChaosParameter[DSSine with ChaosStreamCanvas]
 {
 	//----------------------------
 	def fillParam(name:String ,
@@ -11,7 +11,7 @@ object chaosParam extends ChaosParameter[DSSine]
 				ovalR   : Double ) : Unit = {
 		for ( a<-aRange ; b<-bRange ){
 			add( new DSSine( name , 
-				(a,b) , numRing,ovalR )) 
+				(a,b) , numRing,ovalR ) with ChaosStreamCanvas ) 
 		}
 		//
 		()

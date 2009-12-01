@@ -11,7 +11,7 @@ class DSHenon(
 		val map    : (Vector[Double])=>Vector[Double] ,
 		//
 		val numRing:Int   ,
-		val period:Double ) extends ChaosStreamCanvas
+		val period:Double ) extends ChaosStream
 {
 	val radius = period*0.5
 	def remainder(x:Double):Double = {
