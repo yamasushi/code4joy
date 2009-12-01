@@ -10,10 +10,27 @@ object chaosParam extends ChaosParameter[DSChaosGame]
 		import GumowskiMiraPhi._
 		
 		var sys:List[ChaosSystem] = Nil
-		sys = (new DSGumowskiMira("",phi(psiQuadratic _ ) ,
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
 									( 0.008, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
-		sys = (new DSGumowskiMira("",phi(psiQuadratic _ ) ,
-									( 0.008, 0.05 ) , ( -0.47  , 0.9 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.008, 0.04 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.008, 0.03 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.008, 0.02 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.008, 0.01 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.008, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.007, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.006, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.005, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+									( 0.004, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
 		
 		add( new DSChaosGame( "" , sys , 1 , 1 ) ) 
 		
