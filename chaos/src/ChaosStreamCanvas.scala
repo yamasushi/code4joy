@@ -16,7 +16,7 @@ trait ChaosStreamCanvas extends ChaosStream
 				(canvas:Canvas,geom:Geometry)
 				(op:(Int,Vector[Int]) => Unit) : Unit = {
 		//
-		initialPoints take(numTrajectory) foreach { pt0 =>
+		startFrom(numTrajectory) { pt0 =>
 			canvasPointsFrom(dropIter,maxIter)(pt0)(canvas.transform(geom)) foreach {ip=>
 				if(canvas.isPointVisible(ip._2)) op(ip._1,ip._2) 
 			}
