@@ -114,7 +114,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 											log(Math.E + count)
 										}
 							//
-							val hist = max( histgram(p.x)(p.y) , freq )
+							val hist = ( histgram(p.x)(p.y) + freq )*0.5 
 							histgram(p.x)(p.y) = hist
 							maxFreq = max( hist , maxFreq)
 					}
@@ -135,6 +135,8 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 								var sumFreq   = 0.0
 								var sumRatio  = 0.0
 								val maxDistSq:Int = 2*samplingDegree*samplingDegree
+								val rand = new java.util.Random
+								//
 								for(	dx <- -samplingDegree to samplingDegree ;
 										dy <- -samplingDegree to samplingDegree ){
 									val jx    = ix + dx
@@ -144,7 +146,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 										val hist = histgram(jx)(jy)
 										val distSq:Int = dx*dx + dy*dy
 										val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
-										val ratio= r
+										val ratio= r*rand.nextDouble
 										//println("dist,r,ratio="+(dist,r,ratio))
 										//
 										sumFreq  += ratio*hist
