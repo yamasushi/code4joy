@@ -15,12 +15,14 @@ trait ChaosStreamCanvas
 	def generateCanvasPoints
 				(numTrajectory:Int)
 				(dropIter:Int,maxIter:Int)
-				(canvas:Canvas,geom:Geometry[Double])
+				(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 				(op:(Int,Vector[Int]) => Unit) : Unit = {
 		//
+		val canvasTransform=Geometry.transform(imgGeom,dataGeom)
+		//
 		startFrom(numTrajectory) { pt0 =>
-			canvasPointsFrom(dropIter,maxIter)(pt0)(canvas.transform(geom)) foreach {ip=>
-				if(canvas.isPointVisible(ip._2)) op(ip._1,ip._2) 
+			canvasPointsFrom(dropIter,maxIter)(pt0)(canvasTransform) foreach {ip=>
+				if(imgGeom.frame.isInside(ip._2)) op(ip._1,ip._2) 
 			}
 		}
 	}

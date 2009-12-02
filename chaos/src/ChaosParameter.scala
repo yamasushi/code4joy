@@ -95,18 +95,15 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 											(	(scale*dataGeom.aspectRatio).asInstanceOf[Int] ,
 												scale                       .asInstanceOf[Int] )
 				//
-				val imgGeom = Geometry( imgSize )
-				//
 				val histgram = new Array[Array[Double]](imgSize.x,imgSize.y)
 				var maxFreq = 0.0
-				var canvas:PictureFile with Canvas = null
+				var canvas:PictureFile= null
 				//
 				print("Generating : " + filename ) // do not put newline
 				if( imgSize.x > 1 && imgSize.y > 1 ){
-					canvas = new PictureFile(file,imgSize,imgType,colorBG) with Canvas
+					canvas = new PictureFile(file,imgSize,imgType,colorBG)
 					//
-					//
-					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas,dataGeom) {
+					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas.geom,dataGeom) {
 						(count:Int,p:Vector[Int]) =>
 							val freq =	if (count<0){
 											val i = count + dropIter
