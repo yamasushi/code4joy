@@ -95,7 +95,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 											(	(scale*dataGeom.aspectRatio).asInstanceOf[Int] ,
 												scale                       .asInstanceOf[Int] )
 				//
-				val histgram = new Array[Array[Double]](imgSize.x,imgSize.y)
+				val histgram = Histgram(imgSize)
 				var maxFreq = 0.0
 				var canvas:PictureFile= null
 				//
@@ -113,9 +113,8 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 											log(Math.E + count)
 										}
 							//
-							val hist = ( histgram(p.x)(p.y) + freq )*0.5 
-							histgram(p.x)(p.y) = hist
-							maxFreq = max( hist , maxFreq)
+							maxFreq = max( histgram.update(p.x,p.y,freq) , maxFreq)
+							//
 					}
 				}
 				if(maxFreq<=0){
@@ -130,27 +129,21 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 					else {
 						canvas.paint{ g:Graphics2D =>
 							// inside loan of graphics object g
-							for(ix<- 0 until imgSize.x ; iy <- 0 until imgSize.y ){
+							histgram foreach{ (ix,iy,_) =>
+								// 
 								var sumFreq   = 0.0
 								var sumRatio  = 0.0
 								val maxDistSq:Int = 2*samplingDegree*samplingDegree
 								val rand = new java.util.Random
 								//
-								for(	dx <- -samplingDegree to samplingDegree ;
-										dy <- -samplingDegree to samplingDegree ){
-									val jx    = ix + dx
-									val jy    = iy + dy
-									if(	jx >= 0 && jx < imgSize.x && 
-										jy >= 0 && jy < imgSize.y ) {
-										val hist = histgram(jx)(jy)
-										val distSq:Int = dx*dx + dy*dy
-										val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
-										val ratio= r + 10*rand.nextDouble
-										//println("dist,r,ratio="+(dist,r,ratio))
-										//
-										sumFreq  += ratio*hist
-										sumRatio += ratio
-									}
+								histgram.sampling(ix,iy,samplingDegree) foreach { (dx,dy,hist)=>
+									val distSq:Int = dx*dx + dy*dy
+									val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
+									val ratio= r + 10*rand.nextDouble
+									//println("dist,r,ratio="+(dist,r,ratio))
+									//
+									sumFreq  += ratio*hist
+									sumRatio += ratio
 								}
 								val avgFreq:Double=	if (sumRatio > 0) sumFreq / sumRatio
 													else 0
