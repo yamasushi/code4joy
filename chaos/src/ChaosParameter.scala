@@ -146,7 +146,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 										val hist = histgram(jx)(jy)
 										val distSq:Int = dx*dx + dy*dy
 										val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
-										val ratio= r*rand.nextDouble
+										val ratio= r + 10*rand.nextDouble
 										//println("dist,r,ratio="+(dist,r,ratio))
 										//
 										sumFreq  += ratio*hist
