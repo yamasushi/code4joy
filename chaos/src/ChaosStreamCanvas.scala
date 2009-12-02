@@ -15,7 +15,7 @@ trait ChaosStreamCanvas
 	def generateCanvasPoints
 				(numTrajectory:Int)
 				(dropIter:Int,maxIter:Int)
-				(canvas:Canvas,geom:Geometry)
+				(canvas:Canvas,geom:Geometry[Double])
 				(op:(Int,Vector[Int]) => Unit) : Unit = {
 		//
 		startFrom(numTrajectory) { pt0 =>

@@ -12,14 +12,14 @@ import java.io._
 
 class PictureFile( 
 		val file     : File     ,
-		val geom     : (Int,Int),
+		val dim      : (Int,Int),
 		val imgType  : String , 
 		val colorBG  : Color  ) extends Picture[BufferedImage]
 {
-	override val (imgWidth,imgHeight) = geom
+	override val geom = Geometry(dim)
 	
 	override def startPaint : BufferedImage = {
-		new BufferedImage(imgWidth,imgHeight,BufferedImage.TYPE_USHORT_555_RGB)
+		new BufferedImage(geom.size.x,geom.size.y,BufferedImage.TYPE_USHORT_555_RGB)
 	}
 	
 	override def endPaint(bi:BufferedImage):Unit = {
@@ -32,7 +32,7 @@ class PictureFile(
 		doPaint({ bi:BufferedImage => 
 					val g = bi.createGraphics()
 					g.setPaint(colorBG)
-					g.fillRect(0,0,imgWidth,imgHeight)
+					g.fillRect(0,0,geom.size.x,geom.size.y)
 					op(g) } )
 	}
 	

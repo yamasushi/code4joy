@@ -30,6 +30,9 @@ trait Vector[T]
 object Vector
 {
 	def apply[T](xs:T*)     : Vector[T] = s2v(xs)
+	def apply[T,S<%T](v:Vector[S]) : Vector[T] = new Vector[T]{
+		def apply(i:Int) = v(i).asInstanceOf[T]
+	}
 	
 	implicit def f2v[T]( v:(Int)=>T ) : Vector[T] = new Vector[T]{
 		def apply(i:Int) = v(i)
@@ -38,6 +41,9 @@ object Vector
 	implicit def s2v[T]( v:Seq[T]) : Vector[T] = new Vector[T]{
 		def apply(i:Int) = v(i)
 	}
+	
+	implicit def v2t2[T](v:Vector[T]) : (T,T)   = (v.x , v.y)
+	implicit def v2t3[T](v:Vector[T]) : (T,T,T) = (v.x , v.y , v.z)
 	
 	implicit def t2v[T](v:(T,T)) : Vector[T] = new Vector[T]{
 		def apply(i:Int):T = i match {

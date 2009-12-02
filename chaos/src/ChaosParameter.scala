@@ -88,20 +88,22 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 				//
 				val freqLimit  = 1000 // limit fo freq
 				//
-				val geom =	if ( dataGeom.size.x > dataGeom.size.y )
-								(	scale                       .asInstanceOf[Int] ,
-									(scale/dataGeom.aspectRatio).asInstanceOf[Int] )
-							else
-								(	(scale*dataGeom.aspectRatio).asInstanceOf[Int] ,
-									scale                       .asInstanceOf[Int] )
+				val imgSize:Vector[Int]=if ( dataGeom.size.x > dataGeom.size.y )
+											(	scale                       .asInstanceOf[Int] ,
+												(scale/dataGeom.aspectRatio).asInstanceOf[Int] )
+										else
+											(	(scale*dataGeom.aspectRatio).asInstanceOf[Int] ,
+												scale                       .asInstanceOf[Int] )
 				//
-				val histgram = new Array[Array[Double]](geom._1,geom._2)
+				val imgGeom = Geometry( imgSize )
+				//
+				val histgram = new Array[Array[Double]](imgSize.x,imgSize.y)
 				var maxFreq = 0.0
 				var canvas:PictureFile with Canvas = null
 				//
 				print("Generating : " + filename ) // do not put newline
-				if( geom._1 > 1 && geom._2 > 1 ){
-					canvas = new PictureFile(file,geom,imgType,colorBG) with Canvas
+				if( imgSize.x > 1 && imgSize.y > 1 ){
+					canvas = new PictureFile(file,imgSize,imgType,colorBG) with Canvas
 					//
 					//
 					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas,dataGeom) {
@@ -131,7 +133,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 					else {
 						canvas.paint{ g:Graphics2D =>
 							// inside loan of graphics object g
-							for(ix<- 0 until geom._1 ; iy <- 0 until geom._2 ){
+							for(ix<- 0 until imgSize.x ; iy <- 0 until imgSize.y ){
 								var sumFreq   = 0.0
 								var sumRatio  = 0.0
 								val maxDistSq:Int = 2*samplingDegree*samplingDegree
@@ -141,8 +143,8 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 										dy <- -samplingDegree to samplingDegree ){
 									val jx    = ix + dx
 									val jy    = iy + dy
-									if(	jx >= 0 && jx < geom._1 && 
-										jy >= 0 && jy < geom._2 ) {
+									if(	jx >= 0 && jx < imgSize.x && 
+										jy >= 0 && jy < imgSize.y ) {
 										val hist = histgram(jx)(jy)
 										val distSq:Int = dx*dx + dy*dy
 										val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
