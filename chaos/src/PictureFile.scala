@@ -12,12 +12,10 @@ import java.io._
 
 class PictureFile( 
 		val file     : File     ,
-		val dim      : (Int,Int),
+		val geom     : Geometry[Int],
 		val imgType  : String , 
 		val colorBG  : Color  ) extends Picture[BufferedImage]
 {
-	override val geom = Geometry(dim)
-	
 	override def startPaint : BufferedImage = {
 		new BufferedImage(geom.size.x,geom.size.y,BufferedImage.TYPE_USHORT_555_RGB)
 	}

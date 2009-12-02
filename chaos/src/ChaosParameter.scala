@@ -2,7 +2,7 @@ import scala.collection.immutable._
 import java.awt.{Graphics2D,Color}
 import Math.{abs,min,max,log,sqrt,pow}
 
-abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
+abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 {
 	val imgType      :String = "png"
 	val colorBG      :Color  = Color.BLACK
@@ -95,16 +95,18 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 											(	(scale*dataGeom.aspectRatio).asInstanceOf[Int] ,
 												scale                       .asInstanceOf[Int] )
 				//
-				val histgram = Histgram(imgSize)
-				var maxFreq = 0.0
-				var canvas:PictureFile= null
-				//
-				print("Generating : " + filename ) // do not put newline
 				if( imgSize.x > 1 && imgSize.y > 1 ){
-					canvas = new PictureFile(file,imgSize,imgType,colorBG)
 					//
-					p.generateCanvasPoints(numTrajectory)(dropIter,maxIter)(canvas.geom,dataGeom) {
-						(count:Int,p:Vector[Int]) =>
+					val imgGeom  = Geometry(imgSize)
+					val histgram = Histgram(imgGeom,dataGeom)
+					var maxFreq = 0.0
+					var canvas:PictureFile= null
+					//
+					print("Generating : " + filename ) // do not put newline
+					canvas = new PictureFile(file,imgGeom,imgType,colorBG)
+					//
+					p.generatePoints(numTrajectory)(dropIter,maxIter) {
+						(count:Int,p:Vector[Double]) =>
 							val freq =	if (count<0){
 											val i = count + dropIter
 											i.asInstanceOf[Double] / dropIter.asInstanceOf[Double]
@@ -113,56 +115,56 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 											log(Math.E + count)
 										}
 							//
-							maxFreq = max( histgram.update(p.x,p.y,freq) , maxFreq)
+							maxFreq = max( histgram.update(p,freq) , maxFreq)
 							//
 					}
-				}
-				if(maxFreq<=0){
-					println(" ... no data")
-				}
-				else{
-					print("[maxFreq="+maxFreq+"]")
-					//
-					if( maxFreq > freqLimit ){
-						println(" ...too simple")
+					if(maxFreq<=0){
+						println(" ... no data")
 					}
-					else {
-						canvas.paint{ g:Graphics2D =>
-							// inside loan of graphics object g
-							histgram foreach{ (ix,iy,_) =>
-								// 
-								var sumFreq   = 0.0
-								var sumRatio  = 0.0
-								val maxDistSq:Int = 2*samplingDegree*samplingDegree
-								val rand = new java.util.Random
-								//
-								histgram.sampling(ix,iy,samplingDegree) foreach { (dx,dy,hist)=>
-									val distSq:Int = dx*dx + dy*dy
-									val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
-									val ratio= r + 10*rand.nextDouble
-									//println("dist,r,ratio="+(dist,r,ratio))
-									//
-									sumFreq  += ratio*hist
-									sumRatio += ratio
-								}
-								val avgFreq:Double=	if (sumRatio > 0) sumFreq / sumRatio
-													else 0
-								
-								if( avgFreq>0 ){
-									val ratio = avgFreq / maxFreq
-									// val ratio = log(avgFreq) / log(maxFreq)
-									// println(ratio)
-									val alpha = pow(ratio,1.0/gammaCorrection)
-									//
-									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
-									//
-									g.setColor( new Color(icol,icol,icol) )
-									g.drawLine( ix , iy , ix , iy )
-								}
-							}
-							print(" ... Writing") // do not put newline
+					else{
+						print("[maxFreq="+maxFreq+"]")
+						//
+						if( maxFreq > freqLimit ){
+							println(" ...too simple")
 						}
-						println(" ... Done")
+						else {
+							canvas.paint{ g:Graphics2D =>
+								// inside loan of graphics object g
+								histgram foreach{ (ix,iy,_) =>
+									// 
+									var sumFreq   = 0.0
+									var sumRatio  = 0.0
+									val maxDistSq:Int = 2*samplingDegree*samplingDegree
+									val rand = new java.util.Random
+									//
+									histgram.sampling(ix,iy,samplingDegree) foreach { (dx,dy,hist)=>
+										val distSq:Int = dx*dx + dy*dy
+										val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
+										val ratio= r + 10*rand.nextDouble
+										//println("dist,r,ratio="+(dist,r,ratio))
+										//
+										sumFreq  += ratio*hist
+										sumRatio += ratio
+									}
+									val avgFreq:Double=	if (sumRatio > 0) sumFreq / sumRatio
+														else 0
+									
+									if( avgFreq>0 ){
+										val ratio = avgFreq / maxFreq
+										// val ratio = log(avgFreq) / log(maxFreq)
+										// println(ratio)
+										val alpha = pow(ratio,1.0/gammaCorrection)
+										//
+										val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
+										//
+										g.setColor( new Color(icol,icol,icol) )
+										g.drawLine( ix , iy , ix , iy )
+									}
+								}
+								print(" ... Writing") // do not put newline
+							}
+							println(" ... Done")
+						}
 					}
 				}
 			}

@@ -5,7 +5,7 @@ import Math.{sin,cos,log,sqrt,abs,exp}
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira with ChaosStreamCanvas]
+object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 {
 	// eigenvalue ((a,b)(-1,0)) = 1
 	def fillParamEP1(name:String ,
@@ -17,7 +17,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira with ChaosStre
 		for ( c<-cRange ; d<-dRange) {
 			val par = (0.0,-1.0,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
-						pi , psi , par , map(par) ,  numRing,ovalR ) with ChaosStreamCanvas )
+						pi , psi , par , map(par) ,  numRing,ovalR ) )
 		}
 		//
 		()
@@ -33,7 +33,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira with ChaosStre
 		for ( c<-cRange ; d<-dRange) {
 			val par = (0.0, 1.0,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
-						pi , psi , par , map(par) ,  numRing,ovalR ) with ChaosStreamCanvas )
+						pi , psi , par , map(par) ,  numRing,ovalR )  )
 		}
 		//
 		()
@@ -50,7 +50,7 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira with ChaosStre
 		for ( a<-aRange ; b<-bRange ; c<-cRange ; d<-dRange) {
 			val par = (a,b,c,d)
 			add( new DSSimplifiedGumowskiMira( name ,
-						pi , psi , par , map(par) ,  numRing,ovalR )  with ChaosStreamCanvas)
+						pi , psi , par , map(par) ,  numRing,ovalR ) )
 		}
 		//
 		()

@@ -1,21 +1,26 @@
-case class Histgram(imgSize:Vector[Int])
+case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 {
-	val frame = Frame((0,0),imgSize)
-	private val histgram = new Array[Array[Double]](imgSize.x,imgSize.y)
+	private val histgram = new Array[Array[Double]](imgGeom.size.x,imgGeom.size.y)
 	//
-	def apply(ix:Int)(iy:Int) : Double = {
-		if ( frame.isInside((ix,iy)) ) histgram(ix)(iy)
-		else 0
+	val canvasTransform=Geometry.transform(imgGeom,dataGeom)
+	//
+	def update(p:Vector[Double],v:Double) : Double = {
+		val ip = canvasTransform(p)
+		if ( !imgGeom.frame.isInside(ip) ) return 0
+		//
+		update(ip.x , ip.y , v)
 	}
 	//
-	def update(ix:Int,iy:Int,v:Double) : Double = {
+	private def update(ix:Int , iy:Int , v:Double) : Double = {
+		if ( !imgGeom.frame.isInside((ix,iy)) ) return 0
+		//
 		val hist = ( histgram(ix)(iy) + v )*0.5 
 		histgram(ix)(iy) = hist
 		hist
 	}
 	//
 	def foreach ( op: (Int,Int,Double)=>Unit ) : Unit = {
-		for(ix<- 0 until imgSize.x ; iy <- 0 until imgSize.y ){
+		for(ix<- 0 until imgGeom.size.x ; iy <- 0 until imgGeom.size.y ){
 			op(ix,iy,histgram(ix)(iy))
 		}
 	}
@@ -25,11 +30,9 @@ case class Histgram(imgSize:Vector[Int])
 		def foreach ( op:(Int,Int,Double)=>Unit ) : Unit = { 
 			for(	dx <- -samplingDegree to samplingDegree ;
 					dy <- -samplingDegree to samplingDegree ) {
-				val jx = ix + dx
-				val jy = iy + dy
-				if(	jx >= 0 && jx < imgSize.x && 
-					jy >= 0 && jy < imgSize.y ) {
-					op(dx,dy,histgram(jx)(jy))
+				val jp = Vector(ix + dx,iy + dy)
+				if(	imgGeom.frame.isInside(jp) ) {
+					op(dx,dy,histgram(jp.x)(jp.y))
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 // Clifford Strange Attractor
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSClifford with ChaosStreamCanvas]
+object chaosParam extends ChaosParameter[DSClifford]
 {
 	//----------------------------
 	def fillParam(name:String ,
@@ -12,7 +12,7 @@ object chaosParam extends ChaosParameter[DSClifford with ChaosStreamCanvas]
 				ovalR   : Double ) : Unit = {
 		for ( a<-aRange ; b<-bRange ; c<-cRange ; d<-dRange){
 			add( new DSClifford( name , 
-				(a,b,c,d) ,  numRing,ovalR ) with ChaosStreamCanvas )
+				(a,b,c,d) ,  numRing,ovalR )  )
 		}
 		//
 		()

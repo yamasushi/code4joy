@@ -6,7 +6,7 @@ import Math.{sin,cos,log,sqrt,abs,exp}
 
 chaosParam.doMain(args)
 
-object chaosParam extends ChaosParameter[DSHenonLozi with ChaosStreamCanvas]
+object chaosParam extends ChaosParameter[DSHenonLozi]
 {
 	//----------------------------
 	def fillParam(name:String ,
@@ -16,7 +16,7 @@ object chaosParam extends ChaosParameter[DSHenonLozi with ChaosStreamCanvas]
 				ovalR      : Double ) : Unit = {
 		for ( alpha<-alphaRange ; beta<-betaRange ){
 			add( new DSHenonLozi( name , 
-				phi , (alpha,beta) ,  numRing,ovalR ) with ChaosStreamCanvas )
+				phi , (alpha,beta) ,  numRing,ovalR ) )
 		}
 		//
 		()
