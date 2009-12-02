@@ -114,9 +114,9 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStreamCanvas ]
 											log(Math.E + count)
 										}
 							//
-							//println((p.x,p.y))
-							histgram(p.x)(p.y) = freq
-							maxFreq = max( freq , maxFreq)
+							val hist = max( histgram(p.x)(p.y) , freq )
+							histgram(p.x)(p.y) = hist
+							maxFreq = max( hist , maxFreq)
 					}
 				}
 				if(maxFreq<=0){
