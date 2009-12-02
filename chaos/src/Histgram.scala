@@ -12,8 +12,6 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	}
 	//
 	private def update(ix:Int , iy:Int , v:Double) : Double = {
-		if ( !imgGeom.frame.isInside((ix,iy)) ) return 0
-		//
 		val hist = ( histgram(ix)(iy) + v )*0.5 
 		histgram(ix)(iy) = hist
 		hist
@@ -30,7 +28,7 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		def foreach ( op:(Int,Int,Double)=>Unit ) : Unit = { 
 			for(	dx <- -samplingDegree to samplingDegree ;
 					dy <- -samplingDegree to samplingDegree ) {
-				val jp = Vector(ix + dx,iy + dy)
+				val jp:Vector[Int] = (ix + dx,iy + dy)
 				if(	imgGeom.frame.isInside(jp) ) {
 					op(dx,dy,histgram(jp.x)(jp.y))
 				}
