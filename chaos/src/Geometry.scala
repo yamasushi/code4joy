@@ -33,26 +33,27 @@ object Geometry
 					else
 						imgGeom.size.x.asInstanceOf[Double] / dataGeom.size.x
 		
+		val origin = dataGeom.frame.min map { _ *ratio }
 		val offset:Vector[Double]=if( dataGeom.aspectRatio < imgGeom.aspectRatio  ){
 			//data     canvas
 			// **      *****
 			// ** ---> *****
 			// **      *****
-			(	- (dataGeom.frame.min.x*ratio) + (imgGeom.size.x - (dataGeom.size.x*ratio))*0.5 ,
-				- (dataGeom.frame.min.y*ratio) )
+			(	- origin.x + (imgGeom.size.x - (dataGeom.size.x*ratio))*0.5 ,
+				- origin.y )
 		}
 		else {
 			//data     canvas
 			// *****      **
 			// ***** ---> **
 			// *****      **
-			(	- (dataGeom.frame.min.x*ratio) ,
-				- (dataGeom.frame.min.y*ratio) + (imgGeom.size.y - (dataGeom.size.y*ratio))*0.5 )
+			(	- origin.x ,
+				- origin.y + (imgGeom.size.y - (dataGeom.size.y*ratio))*0.5 )
 		}
 		// println("ratio = "+ratio+" , (offsetX,offsetY)="+(offsetX,offsetY))
 		
 		{ p =>
-			val q = ( p map {t=>t*ratio} ) operate(offset,_ + _)
+			val q = ( p map { _ * ratio } ) operate(offset,_ + _)
 			(q.x , imgGeom.size.y - q.y) }
 	}
 }
