@@ -128,37 +128,17 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 						else {
 							val canvas = new PictureFile(file,imgGeom,imgType,colorBG)
 							canvas.paint{ g:Graphics2D =>
-								// inside loan of graphics object g
-								histgram foreach{ (ix,iy,_) =>
-									// 
-									var sumFreq   = 0.0
-									var sumRatio  = 0.0
-									val maxDistSq:Int = 2*samplingDegree*samplingDegree
-									val rand = new java.util.Random
+								histgram.rendering(samplingDegree){ (ip,avgFreq) =>
 									//
-									histgram.sampling(ix,iy,samplingDegree) foreach { (dx,dy,hist)=>
-										val distSq:Int = dx*dx + dy*dy
-										val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
-										val ratio= r + 10*rand.nextDouble
-										//println("dist,r,ratio="+(dist,r,ratio))
-										//
-										sumFreq  += ratio*hist
-										sumRatio += ratio
-									}
-									val avgFreq:Double=	if (sumRatio > 0) sumFreq / sumRatio
-														else 0
-									
-									if( avgFreq>0 ){
-										val ratio = avgFreq / maxFreq
-										// val ratio = log(avgFreq) / log(maxFreq)
-										// println(ratio)
-										val alpha = pow(ratio,1.0/gammaCorrection)
-										//
-										val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
-										//
-										g.setColor( new Color(icol,icol,icol) )
-										g.drawLine( ix , iy , ix , iy )
-									}
+									val ratio = avgFreq / maxFreq
+									// val ratio = log(avgFreq) / log(maxFreq)
+									// println(ratio)
+									val alpha = pow(ratio,1.0/gammaCorrection)
+									//
+									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
+									//
+									g.setColor( new Color(icol,icol,icol) )
+									g.drawLine( ip.x , ip.y , ip.x , ip.y )
 								}
 								print(" ... Writing") // do not put newline
 							}
