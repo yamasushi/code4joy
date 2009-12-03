@@ -100,10 +100,8 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 					val imgGeom  = Geometry(imgSize)
 					val histgram = Histgram(imgGeom,dataGeom)
 					var maxFreq = 0.0
-					var canvas:PictureFile= null
 					//
 					print("Generating : " + filename ) // do not put newline
-					canvas = new PictureFile(file,imgGeom,imgType,colorBG)
 					//
 					p.generatePoints(numTrajectory)(dropIter,maxIter) {
 						(count:Int,p:Vector[Double]) =>
@@ -128,6 +126,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 							println(" ...too simple")
 						}
 						else {
+							val canvas = new PictureFile(file,imgGeom,imgType,colorBG)
 							canvas.paint{ g:Graphics2D =>
 								// inside loan of graphics object g
 								histgram foreach{ (ix,iy,_) =>
