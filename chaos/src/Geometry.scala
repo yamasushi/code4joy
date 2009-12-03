@@ -25,19 +25,20 @@ object Geometry
 	
 	// geom     : picture geometry
 	// dataGeom : target data geometry
-	def transform(geom:Geometry[Int],dataGeom:Geometry[Double]):(Vector[Double])=>Vector[Int]={
+	def transform(	imgGeom:Geometry [Int] , 
+					dataGeom:Geometry[Double] ):(Vector[Double])=>Vector[Double] = {
 		//
-		val ratio=	if (dataGeom.aspectRatio < geom.aspectRatio)
-						geom.size.y.asInstanceOf[Double] / dataGeom.size.y
+		val ratio=	if (dataGeom.aspectRatio < imgGeom.aspectRatio)
+						imgGeom.size.y.asInstanceOf[Double] / dataGeom.size.y
 					else
-						geom.size.x.asInstanceOf[Double] / dataGeom.size.x
+						imgGeom.size.x.asInstanceOf[Double] / dataGeom.size.x
 		
-		val offset:Vector[Double]=if( dataGeom.aspectRatio < geom.aspectRatio  ){
+		val offset:Vector[Double]=if( dataGeom.aspectRatio < imgGeom.aspectRatio  ){
 			//data     canvas
 			// **      *****
 			// ** ---> *****
 			// **      *****
-			(	- (dataGeom.frame.min.x*ratio) + (geom.size.x - (dataGeom.size.x*ratio))*0.5 ,
+			(	- (dataGeom.frame.min.x*ratio) + (imgGeom.size.x - (dataGeom.size.x*ratio))*0.5 ,
 				- (dataGeom.frame.min.y*ratio) )
 		}
 		else {
@@ -46,12 +47,12 @@ object Geometry
 			// ***** ---> **
 			// *****      **
 			(	- (dataGeom.frame.min.x*ratio) ,
-				- (dataGeom.frame.min.y*ratio) + (geom.size.y - (dataGeom.size.y*ratio))*0.5 )
+				- (dataGeom.frame.min.y*ratio) + (imgGeom.size.y - (dataGeom.size.y*ratio))*0.5 )
 		}
 		// println("ratio = "+ratio+" , (offsetX,offsetY)="+(offsetX,offsetY))
 		
 		{ p =>
-			Vector(	( p.x*ratio + offset.x).asInstanceOf[Int], 
-					(-p.y*ratio - offset.y + geom.size.y).asInstanceOf[Int] ) }
+			val q = ( p map {t=>t*ratio} ) operate(offset,_ + _)
+			(q.x , imgGeom.size.y - q.y) }
 	}
 }
