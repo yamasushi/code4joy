@@ -29,35 +29,46 @@ trait Vector[T]
 
 object Vector
 {
-	def apply[T](xs:T*)     : Vector[T] = s2v(xs)
-	def apply[T,S<%T](v:Vector[S]) : Vector[T] = new Vector[T]{
-		def apply(i:Int) = v(i).asInstanceOf[T]
+	def apply[T,S<%T](t:(S,S)  ) : Vector[T] = t2v(t)
+	def apply[T,S<%T](t:(S,S,S)) : Vector[T] = t2v(t)
+	//
+	def apply[T](xx:T,yy:T)            : Vector[T] = t2v((xx,yy)  )
+	def apply[T](xx:T,yy:T,zz:T)       : Vector[T] = t2v((xx,yy,zz))
+	def apply[T](xx:T,yy:T,zz:T,xs:T*) : Vector[T] = new Vector[T] {
+		def apply(i:Int):T = i match {
+			case 0 => xx
+			case 1 => yy
+			case 2 => zz
+			case j if ( j >= 3 ) => xs(i-3)
+		}
+		override def toString = "Vector( "+this(0)+" , "+this(1)+" , "+this(2)+" ,... )"
 	}
-	
-	implicit def f2v[T]( v:(Int)=>T ) : Vector[T] = new Vector[T]{
+	//
+	implicit def w2v[T,S<%T]( v:{ def apply(i:Int):S } ) : Vector[T] = new Vector[T]{
 		def apply(i:Int) = v(i)
 	}
 	
-	implicit def s2v[T]( v:Seq[T]) : Vector[T] = new Vector[T]{
-		def apply(i:Int) = v(i)
-	}
+	implicit def v2t2[T,S<%T](v:Vector[S]) : (T,T)   = (v.x , v.y)
+	implicit def v2t3[T,S<%T](v:Vector[S]) : (T,T,T) = (v.x , v.y , v.z)
 	
-	implicit def v2t2[T](v:Vector[T]) : (T,T)   = (v.x , v.y)
-	implicit def v2t3[T](v:Vector[T]) : (T,T,T) = (v.x , v.y , v.z)
-	
-	implicit def t2v[T](v:(T,T)) : Vector[T] = new Vector[T]{
+	implicit def t2v[T,S<%T](v:(S,S)) : Vector[T] = new Vector[T]{
 		def apply(i:Int):T = i match {
 			case 0 => v._1
 			case 1 => v._2
 		}
+		override def toString = "Vector( "+this(0)+" , "+this(1)+" )"
 	}
 	
-	implicit def t2v[T](v:(T,T,T)) : Vector[T] = new Vector[T]{
+	implicit def t2v[T,S<%T](v:(S,S,S)) : Vector[T] = new Vector[T]{
 		def apply(i:Int):T = i match {
 			case 0 => v._1
 			case 1 => v._2
 			case 2 => v._3
 		}
+		override def toString = "Vector( "+this(0)+" , "+this(1)+" , "+this(2)+" )"
 	}
+	//trigonometirical function
+	val trig = Vector(Math.cos _ , Math.sin _)
 	//
 }
+	
