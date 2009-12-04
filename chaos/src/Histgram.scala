@@ -4,7 +4,7 @@ import Math.{abs,min,max,log,sqrt,pow}
 case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 {
 	private val histgram = new Array[Array[Double]](imgGeom.size.x,imgGeom.size.y)
-	val epsNeighbor = 1
+	val epsNeighbor = 0.5
 	val numNeighbor = 8
 	//
 	val canvasTransform=Geometry.transform(imgGeom,dataGeom)
