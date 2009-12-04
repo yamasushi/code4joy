@@ -4,19 +4,20 @@ import Math.{abs,min,max,log,sqrt,pow}
 case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 {
 	private val histgram = new Array[Array[Double]](imgGeom.size.x,imgGeom.size.y)
+	val epsNeighbor = 1
+	val numNeighbor = 8
 	//
 	val canvasTransform=Geometry.transform(imgGeom,dataGeom)
 	//
 	def update(p:Vector[Double],v:Double) : Double = {
-		
-		
-		
-		
-		
-		val ip = canvasTransform(p) map {_ . asInstanceOf[Int]}
-		if ( !imgGeom.frame.isInside(ip) ) return 0
-		//
-		update(ip.x , ip.y , v)
+		var result = 0.0
+		val neighbors = PointsOfRing( canvasTransform(p) ,epsNeighbor) take numNeighbor
+		( neighbors map { _ map { _.asInstanceOf[Int] } } ) foreach { ip=>
+			if ( imgGeom.frame.isInside(ip) ){
+				result = max( update(ip.x , ip.y , v) , result ) 
+			}
+		}
+		result
 	}
 	//
 	private def update(ix:Int , iy:Int , v:Double) : Double = {
