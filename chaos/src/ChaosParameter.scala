@@ -135,9 +135,9 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 									// println(ratio)
 									val alpha = pow(ratio,1.0/gammaCorrection)
 									//
-									val icol = min( (255*alpha).asInstanceOf[Int] , 255 )
+									val colVector = Vector(alpha,alpha,alpha,1.0)
 									//
-									g.setColor( new Color(icol,icol,icol) )
+									g.setColor( colVector )
 									g.drawLine( ip.x , ip.y , ip.x , ip.y )
 								}
 								print(" ... Writing") // do not put newline
