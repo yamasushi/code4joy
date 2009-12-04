@@ -71,11 +71,17 @@ object Vector
 		}
 	}
 	//
-	implicit def v2color(v:Vectorical[Double]):Color = new Color(
-										(v(0)*255).asInstanceOf[Int] , 
-										(v(1)*255).asInstanceOf[Int] ,
-										(v(2)*255).asInstanceOf[Int] ,
-										(v(3)*255).asInstanceOf[Int] )
+	implicit def v2color(v:Vectorical[Double]):Color = {
+		if ( v(3)==1.0 )
+			new Color(	(v(0)*255).asInstanceOf[Int] , 
+						(v(1)*255).asInstanceOf[Int] ,
+						(v(2)*255).asInstanceOf[Int] )
+		else
+			new Color(	(v(0)*255).asInstanceOf[Int] , 
+						(v(1)*255).asInstanceOf[Int] ,
+						(v(2)*255).asInstanceOf[Int] ,
+						(v(3)*255).asInstanceOf[Int] )
+	}
 	//
 	implicit def point2v(p:Point):Vector[Int]=t2v( p.getX.asInstanceOf[Int] , p.getY.asInstanceOf[Int] )
 	//

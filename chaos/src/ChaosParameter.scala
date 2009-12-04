@@ -131,8 +131,6 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 								histgram.rendering(samplingDegree){ (ip,avgFreq) =>
 									//
 									val ratio = avgFreq / maxFreq
-									// val ratio = log(avgFreq) / log(maxFreq)
-									// println(ratio)
 									val alpha = pow(ratio,1.0/gammaCorrection)
 									//
 									val colVector = Vector(alpha,alpha,alpha,1.0)
