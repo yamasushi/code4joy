@@ -1,10 +1,12 @@
 import Math.{sin,cos}
 
-case class PointsOfRing( val center:Vector[Double] , val numRing:Int , val ovalR:Double )
+object PointsOfRing
 {
 	val rand  = new java.util.Random
 	var iRing = 0
-	def points : Stream[Vector[Double]] = {
+	def apply(	center:Vector[Double] , 
+				numRing:Int , 
+				ovalR:Double ) : Stream[Vector[Double]] = {
 		def pt : Vector[Double] = {
 			val (cx,cy) = (center.x,center.y)
 			iRing += 1
@@ -21,5 +23,13 @@ case class PointsOfRing( val center:Vector[Double] , val numRing:Int , val ovalR
 		def pts :Stream[Vector[Double]] = Stream.cons( pt , pts )
 		//
 		pts
+	}
+	//
+	def apply(center:Vector[Double],ovalR:Double) : Stream[Vector[Double]]={
+		apply(center,1,ovalR)
+	}
+	//
+	def apply(center:Vector[Double]) : Stream[Vector[Double]]={
+		apply(center,1,1)
 	}
 }

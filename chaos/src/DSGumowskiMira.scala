@@ -20,7 +20,7 @@ class DSGumowskiMira( val header:String ,
 {
 	val (paramA,paramB) = paramAB
 	val (mu    ,nu)     = paramMuNu
-	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR).points
+	override val initialPoints = PointsOfRing((0,0),numRing,ovalR)
 	//
 	override val chaosName = "gmchaos_" + header + "_" + 
 						"("+paramA.formatted("%7.5f")+","+paramB.formatted("%7.5f")+")" +

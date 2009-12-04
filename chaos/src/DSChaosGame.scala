@@ -11,7 +11,7 @@ class DSChaosGame(
 	val nsys = sys.size
 	val rand = new java.util.Random
 	//
-	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR ).points
+	override val initialPoints = PointsOfRing((0,0),numRing,ovalR )
 	override val chaosName = "cg_"+header
 	//
 	override val chaosSystem = new ChaosSystem {

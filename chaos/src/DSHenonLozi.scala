@@ -26,7 +26,7 @@ class DSHenonLozi(
 {
 	val (alpha,beta) = param
 	//
-	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR ).points
+	override val initialPoints = PointsOfRing((0,0),numRing,ovalR )
 	override val chaosName = "hlchaos_"+header+"_" + 
 						"("+alpha.formatted("%7.5f")+"," +
 							beta .formatted("%7.5f")+")"

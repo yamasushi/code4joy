@@ -16,7 +16,7 @@ class DSPeterDeJong(
 {
 	val (a,b,c,d) = param
 	//
-	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR ).points
+	override val initialPoints = PointsOfRing((0,0),numRing,ovalR )
 	override val chaosName = "pdjchaos_"+header+"_" + 
 						"("+a.formatted("%7.5f")+"," +
 							b.formatted("%7.5f")+"," +

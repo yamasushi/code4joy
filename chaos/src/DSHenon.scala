@@ -20,7 +20,7 @@ class DSHenon(
 		rem
 	}
 	def remainder(p:Vector[Double]):Vector[Double] = {Vector(remainder(p.x),remainder(p.y))}
-	override val initialPoints = PointsOfRing( Vector( 0 , 0 ) , numRing , period ).points map remainder 
+	override val initialPoints = PointsOfRing( ( 0 , 0 ) , numRing , period ) map remainder 
 	//
 	
 	override val chaosName = "hchaos_" + header + "_" + 

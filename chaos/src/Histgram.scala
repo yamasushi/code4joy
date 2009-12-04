@@ -8,6 +8,11 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	val canvasTransform=Geometry.transform(imgGeom,dataGeom)
 	//
 	def update(p:Vector[Double],v:Double) : Double = {
+		
+		
+		
+		
+		
 		val ip = canvasTransform(p) map {_ . asInstanceOf[Int]}
 		if ( !imgGeom.frame.isInside(ip) ) return 0
 		//

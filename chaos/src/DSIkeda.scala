@@ -11,7 +11,7 @@ class DSIkeda(
 {
 	val (paramA,paramB) = paramAB
 	val (paramK,paramP) = paramKP
-	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR).points
+	override val initialPoints = PointsOfRing((0,0),numRing,ovalR)
 	//
 	override val chaosName = "ichaos_" + 
 						"("+paramA.formatted("%7.5f")+","+paramB.formatted("%7.5f")+")" +

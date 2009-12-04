@@ -33,7 +33,7 @@ class DSGingerbreadMan(
 {
 	val (mu,nu) = param
 	//
-	override val initialPoints = PointsOfRing(Vector(0,0),numRing,ovalR ).points
+	override val initialPoints = PointsOfRing((0,0),numRing,ovalR )
 	override val chaosName = "gbmchaos_"+header+"_" + 
 						"("+mu.formatted("%7.5f")+"," +
 							nu.formatted("%7.5f")+")"
