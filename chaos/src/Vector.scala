@@ -67,6 +67,8 @@ object Vector
 		}
 		override def toString = "Vector( "+this(0)+" , "+this(1)+" , "+this(2)+" )"
 	}
+	//trigonometirical function
+	val trig = Vector(Math.cos _ , Math.sin _)
 	//
 }
 	

@@ -1,3 +1,5 @@
+import Math.{sin,cos}
+
 trait Matrix[T] extends Vector[Vector[T]]
 
 object Matrix
