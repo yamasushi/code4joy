@@ -1,11 +1,11 @@
-import Math.{log,abs,max,min} 
+import Math.{log,abs,max,min,sin,cos} 
 
 trait ChaosStream
 {
 	val chaosSystem:ChaosSystem
 	val chaosName  :String
 	val initialPoints:Stream[Vector[Double]]
-	val eps = 1e-7
+	val eps       = 1e-7
 	//
 	def pointsFrom(dropIter:Int,maxIter:Int)( pt0:Vector[Double] ) : Stream[(Int,Vector[Double])] = {
 		(Stream.from(-dropIter) zip chaosSystem.from(pt0) 
@@ -20,15 +20,10 @@ trait ChaosStream
 	// initial points
 	def startFrom(numTrajectory:Int)(op:Vector[Double]=>Unit){
 		initialPoints take(numTrajectory) foreach { p0=>
-			op( Vector(p0.x       , p0.y      ) )
-			op( Vector(p0.x + eps , p0.y + eps) )
-			op( Vector(p0.x + eps , p0.y - eps) )
-			op( Vector(p0.x - eps , p0.y + eps) )
-			op( Vector(p0.x - eps , p0.y - eps) )
-			op( Vector(p0.x       , p0.y + eps) )
-			op( Vector(p0.x       , p0.y - eps) )
-			op( Vector(p0.x + eps , p0.y      ) )
-			op( Vector(p0.x - eps , p0.y      ) )
+			op( p0 )
+			for( i <- 0 to 6 ){
+				op( p0 operate( Vector.trig map {t=>(t(i*Math.Pi/3.0) )*eps} , { _ + _ }  ) )
+			}
 		}
 	}
 	
