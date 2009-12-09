@@ -10,31 +10,57 @@ void draw()
 {
   int cx = 15;
   int cy = 10;
+  //
   stroke(128);
   sevenHex(cx   , cy  );
+  //
   stroke(255,0,0);
-  sevenHex(cx+6 , cy+4);
+  sevenHex   (cx+6 , cy+4);
+  lineLattice(cx+6 , cy+4,cx-3 , cy+5);
+  //
   stroke(255,255,0);
-  sevenHex(cx-3 , cy+5);
+  sevenHex   (cx-3 , cy+5);
+  lineLattice(cx-3 , cy+5,cx-9 , cy+1);
+  //
   stroke(  0,255,0);
-  sevenHex(cx-9 , cy+1);
+  sevenHex   (cx-9 , cy+1);
+  lineLattice(cx-9 , cy+1,cx-6 , cy-4);
+  //
   stroke(  0,255,255);
-  sevenHex(cx-6 , cy-4);
+  sevenHex   (cx-6 , cy-4);
+  lineLattice(cx-6 , cy-4,cx+3 , cy-5);
+  //
   stroke(255, 0,255);
-  sevenHex(cx+3 , cy-5);
+  sevenHex   (cx+3 , cy-5);
+  lineLattice(cx+3 , cy-5,cx+9 , cy-1);
+  //
   stroke(255,255,255);
-  sevenHex(cx+9 , cy-1);
+  sevenHex   (cx+9 , cy-1);
+  lineLattice(cx+9 , cy-1,cx+6 , cy+4);
 }
 
 void sevenHex(int cx,int cy)
 {
   unitHex(cx   , cy  );
-  unitHex(cx+3 , cy-1);
-  unitHex(cx   , cy-2);
-  unitHex(cx-3 , cy-1);
-  unitHex(cx-3 , cy+1);
-  unitHex(cx   , cy+2);
-  unitHex(cx+3 , cy+1);
+  //
+  unitHex    (cx   , cy-2);
+  lineLattice(cx   , cy-2,cx-3 , cy-1);
+  //
+  unitHex    (cx-3 , cy-1);
+  lineLattice(cx-3 , cy-1,cx-3 , cy+1);
+  //
+  unitHex    (cx-3 , cy+1);
+  lineLattice(cx-3 , cy+1,cx   , cy+2);
+  //
+  unitHex    (cx   , cy+2);
+  lineLattice(cx   , cy+2,cx+3 , cy+1);
+  //
+  unitHex    (cx+3 , cy+1);
+  lineLattice(cx+3 , cy+1,cx+3 , cy-1);
+  //
+  unitHex    (cx+3 , cy-1);
+  lineLattice(cx+3 , cy-1,cx   , cy-2);
+  //
 }
 
 void unitHex(int cx,int cy)
