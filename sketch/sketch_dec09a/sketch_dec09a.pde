@@ -1,5 +1,23 @@
 float sqrt3 = sqrt(3);
 float ratio = 20;
+
+// matrix((a,b),(c,d))
+int a = -2;
+int b =  3;
+int c =  1;
+int d =  2;
+//
+
+int x_ab(int x,int y)
+{
+  return a*x + b*y;
+}
+
+int y_cd(int x,int y)
+{
+  return c*x + d*y;
+}
+
 void setup()
 {
   size(700,700);
@@ -10,7 +28,100 @@ void draw()
 {
   int cx = 15;
   int cy = 10;
+  
+  sevenSevenHex(cx , cy);
+  
   //
+  int ux=0;
+  int uy=0;
+  int vx=0;
+  int vy=0;
+  int wx=0;
+  int wy=0;
+  int _ux=0;
+  int _uy=0;
+  int _vx=0;
+  int _vy=0;
+  int _wx=0;
+  int _wy=0;
+  //
+  stroke(64);
+  ux =  3;
+  uy = -1;
+  vx =  0;
+  vy = -2;
+  wx = -3;
+  wy = -1;
+  hexPath(cx,cy,ux,uy,vx,vy,wx,wy);
+  _ux = ux;
+  _uy = uy;
+  _vx = vx;
+  _vy = vy;
+  _wx = wx;
+  _wy = wy;
+  //
+  stroke(128);
+  //println (x_ab(ux,uy));
+  ux =  x_ab(_ux , _uy);
+  uy =  y_cd(_ux , _uy);
+  vx =  x_ab(_vx , _vy);
+  vy =  y_cd(_vx , _vy);
+  wx =  x_ab(_wx , _wy);
+  wy =  y_cd(_wx , _wy);
+  hexPath(cx,cy,ux,uy,vx,vy,wx,wy);
+}
+
+void hexPath(int cx , int cy,int ux,int uy,int vx,int vy,int wx,int wy)
+{
+  int sx  = 0;
+  int sy  = 0;
+  int ex  = 0;
+  int ey  = 0;
+  //
+  ex = cx -vx;
+  ey = cy -vy;
+  lineLattice(cx , cy , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx + ux;
+  ey = sy + uy;
+  lineLattice(sx , sy , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx + vx;
+  ey = sy + vy;
+  lineLattice(sx , sy , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx + wx;
+  ey = sy + wy;
+  lineLattice(sx , sy , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx - ux;
+  ey = sy - uy;
+  lineLattice(sx , sy , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx - vx;
+  ey = sy - vy;
+  lineLattice(sx , sy , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx - wx;
+  ey = sy - wy;
+  lineLattice(sx , sy , ex , ey);
+}
+
+
+void sevenSevenHex(int cx , int cy)
+{
   int sx  = 0;
   int sy  = 0;
   int ex  = 0;
@@ -69,7 +180,6 @@ void draw()
   ey = sy + 5;
   sevenHex   (sx , sy);
   lineLattice(sx , sy , ex , ey);
-  
 }
 
 void sevenHex(int cx,int cy)
