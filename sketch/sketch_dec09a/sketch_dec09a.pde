@@ -11,55 +11,121 @@ void draw()
   int cx = 15;
   int cy = 10;
   //
+  int sx  = 0;
+  int sy  = 0;
+  int ex  = 0;
+  int ey  = 0;
+  //
   stroke(128);
   sevenHex(cx   , cy  );
   //
+  ex = cx + 6;
+  ey = cy + 4;
+  //
   stroke(255,0,0);
-  sevenHex   (cx+6 , cy+4);
-  lineLattice(cx+6 , cy+4,cx-3 , cy+5);
+  sx = ex;
+  sy = ey;
+  ex = sx - 9;
+  ey = sy + 1;
+  sevenHex   (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
   stroke(255,255,0);
-  sevenHex   (cx-3 , cy+5);
-  lineLattice(cx-3 , cy+5,cx-9 , cy+1);
+  sx = ex;
+  sy = ey;
+  ex = sx - 6;
+  ey = sy - 4;
+  sevenHex   (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
   stroke(  0,255,0);
-  sevenHex   (cx-9 , cy+1);
-  lineLattice(cx-9 , cy+1,cx-6 , cy-4);
+  sx = ex;
+  sy = ey;
+  ex = sx + 3;
+  ey = sy - 5;
+  sevenHex   (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
   stroke(  0,255,255);
-  sevenHex   (cx-6 , cy-4);
-  lineLattice(cx-6 , cy-4,cx+3 , cy-5);
+  sx = ex;
+  sy = ey;
+  ex = sx + 9;
+  ey = sy - 1;
+  sevenHex   (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
   stroke(255, 0,255);
-  sevenHex   (cx+3 , cy-5);
-  lineLattice(cx+3 , cy-5,cx+9 , cy-1);
+  sx = ex;
+  sy = ey;
+  ex = sx + 6;
+  ey = sy + 4;
+  sevenHex   (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
   stroke(255,255,255);
-  sevenHex   (cx+9 , cy-1);
-  lineLattice(cx+9 , cy-1,cx+6 , cy+4);
+  sx = ex;
+  sy = ey;
+  ex = sx - 3;
+  ey = sy + 5;
+  sevenHex   (sx , sy);
+  lineLattice(sx , sy , ex , ey);
+  
 }
 
 void sevenHex(int cx,int cy)
 {
+  //
+  int sx  = 0;
+  int sy  = 0;
+  int ex  = 0;
+  int ey  = 0;
+  //
   unitHex(cx   , cy  );
   //
-  unitHex    (cx   , cy-2);
-  lineLattice(cx   , cy-2,cx-3 , cy-1);
+  ex = cx;
+  ey = cy - 2;
   //
-  unitHex    (cx-3 , cy-1);
-  lineLattice(cx-3 , cy-1,cx-3 , cy+1);
+  sx = ex;
+  sy = ey;
+  ex = sx - 3;
+  ey = sy + 1;
+  unitHex    (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
-  unitHex    (cx-3 , cy+1);
-  lineLattice(cx-3 , cy+1,cx   , cy+2);
+  sx = ex;
+  sy = ey;
+  ex = sx + 0;
+  ey = sy + 2;
+  unitHex    (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
-  unitHex    (cx   , cy+2);
-  lineLattice(cx   , cy+2,cx+3 , cy+1);
+  sx = ex;
+  sy = ey;
+  ex = sx + 3;
+  ey = sy + 1;
+  unitHex    (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
-  unitHex    (cx+3 , cy+1);
-  lineLattice(cx+3 , cy+1,cx+3 , cy-1);
+  sx = ex;
+  sy = ey;
+  ex = sx + 3;
+  ey = sy - 1;
+  unitHex    (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
-  unitHex    (cx+3 , cy-1);
-  lineLattice(cx+3 , cy-1,cx   , cy-2);
+  sx = ex;
+  sy = ey;
+  ex = sx + 0;
+  ey = sy - 2;
+  unitHex    (sx , sy);
+  lineLattice(sx , sy , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx - 3;
+  ey = sy - 1;
+  unitHex    (sx , sy);
+  lineLattice(sx , sy , ex , ey);
   //
 }
 
