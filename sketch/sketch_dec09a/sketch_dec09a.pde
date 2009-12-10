@@ -1,5 +1,5 @@
 float sqrt3 = sqrt(3);
-float ratio = 20;
+float ratio = 3;
 
 // matrix((a,b),(c,d))
 int a = -2;
@@ -22,16 +22,22 @@ void setup()
 {
   size(700,700);
   background(0);
+  stroke(255);
 }
 
 void draw()
 {
-  int cx = 15;
-  int cy = 10;
-  
-  sevenSevenHex(cx , cy);
-  
+  int cx =130;
+  int cy = 70;
   //
+  hexHexPath(3,cx,cy);
+}
+
+
+void hexHexPath(int degree,int cx,int cy)
+{
+  if(degree < 0) return;
+  //println(degree);
   int ux=0;
   int uy=0;
   int vx=0;
@@ -45,33 +51,97 @@ void draw()
   int _wx=0;
   int _wy=0;
   //
-  stroke(64);
   ux =  3;
   uy = -1;
   vx =  0;
   vy = -2;
   wx = -3;
   wy = -1;
-  hexPath(cx,cy,ux,uy,vx,vy,wx,wy);
   _ux = ux;
   _uy = uy;
   _vx = vx;
   _vy = vy;
   _wx = wx;
   _wy = wy;
+  if( degree > 0 ){
+    for(int i=1;i<=degree;i++){
+      ux =  x_ab(_ux , _uy);
+      uy =  y_cd(_ux , _uy);
+      vx =  x_ab(_vx , _vy);
+      vy =  y_cd(_vx , _vy);
+      wx =  x_ab(_wx , _wy);
+      wy =  y_cd(_wx , _wy);
+      _ux = ux;
+      _uy = uy;
+      _vx = vx;
+      _vy = vy;
+      _wx = wx;
+      _wy = wy;
+      //
+    }
+  }
+  //println(degree);
   //
-  stroke(128);
-  //println (x_ab(ux,uy));
-  ux =  x_ab(_ux , _uy);
-  uy =  y_cd(_ux , _uy);
-  vx =  x_ab(_vx , _vy);
-  vy =  y_cd(_vx , _vy);
-  wx =  x_ab(_wx , _wy);
-  wy =  y_cd(_wx , _wy);
-  hexPath(cx,cy,ux,uy,vx,vy,wx,wy);
+  int sx = cx;
+  int sy = cy;
+  int ex = sx - vx;
+  int ey = sy - vy;
+  //
+  stroke(255,0,0);
+  lineLattice(sx , sy , ex , ey);
+  stroke(255);
+  //
+  hexHexPath(degree-1 , sx , sy);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx + ux;
+  ey = sy + uy;
+  lineLattice(sx , sy , ex , ey);
+  //println(sx);
+  //println(sy);
+  //println(ex);
+  //println(ey);
+  hexHexPath(degree-1 , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx + vx;
+  ey = sy + vy;
+  lineLattice(sx , sy , ex , ey);
+  hexHexPath(degree-1 , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx + wx;
+  ey = sy + wy;
+  lineLattice(sx , sy , ex , ey);
+  hexHexPath(degree-1 , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx - ux;
+  ey = sy - uy;
+  lineLattice(sx , sy , ex , ey);
+  hexHexPath(degree-1 , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx - vx;
+  ey = sy - vy;
+  lineLattice(sx , sy , ex , ey);
+  hexHexPath(degree-1 , ex , ey);
+  //
+  sx = ex;
+  sy = ey;
+  ex = sx - wx;
+  ey = sy - wy;
+  lineLattice(sx , sy , ex , ey);
+  hexHexPath(degree-1 , ex , ey);
+  //
 }
 
-void hexPath(int cx , int cy,int ux,int uy,int vx,int vy,int wx,int wy)
+void hexPath(int cx,int cy,int ux,int uy,int vx,int vy,int wx,int wy)
 {
   int sx  = 0;
   int sy  = 0;
