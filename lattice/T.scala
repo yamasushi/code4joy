@@ -11,7 +11,7 @@ var ep = l.pos((0,0))
 
 pic paint { g =>
 	g.setColor(Color.WHITE)
-	Lattice.sampling(4,(0,0)) { ip => 
+	Lattice.scan( 4, (250,150) ) { ip => 
 		println( (ip.x,ip.y))
 		sp = ep
 		ep = l.pos(ip)

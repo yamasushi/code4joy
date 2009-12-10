@@ -64,11 +64,14 @@ object Lattice
 			m(1)(0)*ip.x + m(1)(1)*ip.y )
 	}
 	//
-	def sampling(n:Int,ip:Vector[Int])(op:Vector[Int] => Unit) : Unit = {
+	def scan(n:Int,ip:Vector[Int])(op:Vector[Int] => Unit) : Unit = {
+		sampling(n,ip)(op,{ _:Seq[Unit] => () } )
+	}
+	//
+	def sampling[T](n:Int,ip:Vector[Int])(getOp:Vector[Int]=>T,accOp:Seq[T]=>T ) : T = {
 		if( n<0 ){
 			//neighbor(ip) foreach{ p => op(p) }
-			op(ip)
-			return
+			return getOp(ip)
 		}
 		//
 		val map = scaling(n) _
@@ -76,30 +79,32 @@ object Lattice
 		val v = map ( ( 0 , -2 ) )
 		val w = map ( (-3 , -1 ) )
 		//
+		var param = new Queue[T]
 		var p = ip
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
 		p = p operate(v , _-_)
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
 		p = p operate(u , _+_)
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
 		p = p operate(v , _+_)
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
 		p = p operate(w , _+_)
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
 		p = p operate(u , _-_)
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
 		p = p operate(v , _-_)
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
 		p = p operate(w , _-_)
-		sampling(n-1,p)(op)
+		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
+		return accOp(param)
 	}
 }
 
