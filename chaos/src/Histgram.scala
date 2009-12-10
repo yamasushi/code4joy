@@ -67,10 +67,10 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 			if ( p.y >= imgGeom.size.y ) return 0.0
 			//
 			//println((p.x , p.y))
-			val d = (ptOnL.x*ptOnL.x + ptOnL.y*ptOnL.y).asInstanceOf[Double]
+			//val d = (ptOnL.x*ptOnL.x + ptOnL.y*ptOnL.y).asInstanceOf[Double]
 			val h = histgram(p.x)(p.y)
 			//
-			h/exp(d*scale)
+			h  //exp(d*scale)
 		}
 		//
 		def accOp( v:Seq[Double] ) : Double = {

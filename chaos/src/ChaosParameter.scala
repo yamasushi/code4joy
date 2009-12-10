@@ -36,10 +36,10 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 		case _      =>  10
 	}
 	val paramSamplingDegree:(String)=>Int = {
-		case "poor" => 0
-		case "low"  => 0
-		case "high" => 0
-		case _      => 0
+		case "poor" => 1
+		case "low"  => 1
+		case "high" => 1
+		case _      => 1
 	}
 	
 	def parse(cmdParam:Array[String]) : Unit = {
