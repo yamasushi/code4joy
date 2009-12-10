@@ -51,7 +51,7 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	//
 	def sampling(ip:Vector[Int],samplingDegree:Int) : Double = 
 	{
-		val l = Lattice(3 , 1.0)
+		val l = Lattice(3 , 2.0)
 		//
 		def getOp(ip:Vector[Int]) : Option[Double] = {
 			val p = l.pos(ip)
