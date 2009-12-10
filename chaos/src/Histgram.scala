@@ -49,40 +49,41 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		}
 	}
 	//
-	case class sampling(ip:Vector[Int],samplingDegree:Int)
+	def sampling(ip:Vector[Int],samplingDegree:Int) : Double = 
 	{
-		def foreach ( op:(Vector[Int],Double)=>Unit ) : Unit = { 
-			for(	dx <- -samplingDegree to samplingDegree ;
-					dy <- -samplingDegree to samplingDegree ) {
-				val dv:Vector[Int] = (dx,dy)  
-				val jp:Vector[Int] = ip operate( dv , _+_ )
-				if(	imgGeom.frame.isInside(jp) ) {
-					op(dv,histgram(jp.x)(jp.y))
-				}
-			}
+		val l = Lattice(3 , 1.0)
+		//
+		def getOp(ip:Vector[Int]) : Option[Double] = {
+			val p = l.pos(ip)
+			val ix = p.x.asInstanceOf[Int]
+			val iy = p.y.asInstanceOf[Int]
+			if ( ix < 0 ) return None
+			if ( iy < 0 ) return None
+			if ( ix >= imgGeom.size.x ) return None
+			if ( iy >= imgGeom.size.y ) return None
+			//
+			Some( histgram(ix)(iy) )
+		}
+		//
+		def accOp( ov:Seq[Option[Double]] ) : Option[Double] = {
+			val v= (ov filter(_!=None)) map { t => (t: @unchecked) match{
+				case Some(x) => x
+			} }
+			if( v isEmpty ) return None
+			return Some( ( (0.0 /: v){_+_} ) / v.length.asInstanceOf[Double] )
+		}
+		
+		Lattice.sampling(samplingDegree,ip)(getOp,accOp) match {
+			case None    => 0.0
+			case Some(t) => t
 		}
 	}
 	//
 	def rendering(samplingDegree:Int)(op:(Vector[Int],Double)=>Unit) : Unit = {
 		this.foreach { (ip,_) =>
 			// 
-			var sumFreq   = 0.0
-			var sumRatio  = 0.0
-			val maxDistSq:Int = 2*samplingDegree*samplingDegree
-			val rand = new java.util.Random
+			val avgFreq:Double = this.sampling(ip,samplingDegree)
 			//
-			this.sampling(ip,samplingDegree) foreach { (d,hist)=>
-				val distSq:Int = d.x*d.x + d.y*d.y
-				val r   :Double = abs(0.5+distSq-maxDistSq).asInstanceOf[Double]/maxDistSq.asInstanceOf[Double]
-				val ratio= r + 10*rand.nextDouble
-				//println("dist,r,ratio="+(dist,r,ratio))
-				//
-				sumFreq  += ratio*hist
-				sumRatio += ratio
-			}
-			val avgFreq:Double=	if (sumRatio > 0) sumFreq / sumRatio
-								else 0
-			
 			if( avgFreq>0 ){
 				op(ip,avgFreq)
 			}
