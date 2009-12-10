@@ -23,6 +23,9 @@ void setup()
   size(700,700);
   background(0);
   stroke(255);
+  smooth();
+  noLoop();
+  //frameRate(2);
 }
 
 void draw()
@@ -39,6 +42,7 @@ void hexHexPath(int degree,int cx,int cy)
   if(degree < 0){
     stroke(255);
     unitHex(cx,cy);
+    //delay(1);
     return;
   }
   //println(degree);
@@ -91,7 +95,9 @@ void hexHexPath(int degree,int cx,int cy)
   int ex = sx - vx;
   int ey = sy - vy;
   //
-  stroke(255,0,0,10);
+  int alpha = 80;
+  //
+  stroke(255,0,0,alpha);
   lineLattice(sx , sy , ex , ey);
   //
   hexHexPath(degree-1 , sx , sy);
@@ -100,7 +106,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx + ux;
   ey = sy + uy;
-  stroke(0,255,0,10);
+  stroke(0,255,0,alpha);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -108,7 +114,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx + vx;
   ey = sy + vy;
-  stroke(0,255,0,10);
+  stroke(0,255,0,alpha);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -116,7 +122,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx + wx;
   ey = sy + wy;
-  stroke(0,255,0,10);
+  stroke(0,255,0,alpha);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -124,7 +130,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx - ux;
   ey = sy - uy;
-  stroke(0,255,0,10);
+  stroke(0,255,0,alpha);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -132,7 +138,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx - vx;
   ey = sy - vy;
-  stroke(0,255,0,10);
+  stroke(0,255,0,alpha);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -140,7 +146,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx - wx;
   ey = sy - wy;
-  stroke(0,255,0,10);
+  stroke(0,255,0,alpha);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
