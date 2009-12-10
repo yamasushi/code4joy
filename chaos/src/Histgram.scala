@@ -51,21 +51,25 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	//
 	def sampling(ip:Vector[Int],samplingDegree:Int) : Double = 
 	{
-		val l = Lattice(1 , 1.0)
+		val l  = Lattice(3 , 1.0)
+		val fp = ip map { _.asInstanceOf[Double] }
 		//
-		def getOp(ip:Vector[Int]) : Double = {
-			val p = l.pos(ip) map {t => (t+0.5).asInstanceOf[Int]}
+		def getOp(ptOnL:Vector[Int]) : Double = {
+			val p   =	if   ( ptOnL.y==0 && ptOnL.y==0) ip
+						else {
+							val pos = l.pos(ptOnL) operate(fp,_+_) 
+							pos map {t => (t+0.5).asInstanceOf[Int]}
+						}
 			if ( p.x < 0 ) return 0.0
 			if ( p.y < 0 ) return 0.0
 			if ( p.x >= imgGeom.size.x ) return 0.0
 			if ( p.y >= imgGeom.size.y ) return 0.0
 			//
-			val diff = ( p operate(ip,_-_) ) map {_ .asInstanceOf[Double] }
-			val d = exp( diff.x*diff.y + diff.x+diff.y )
+			//println((p.x , p.y))
 			//
 			val h = histgram(p.x)(p.y)
 			//
-			h / d
+			h
 		}
 		//
 		def accOp( v:Seq[Double] ) : Double = {
@@ -73,7 +77,8 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 			return ( (0.0 /: v){_+_} ) / v.length.asInstanceOf[Double]
 		}
 		
-		Lattice.sampling(samplingDegree,ip)(getOp,accOp)
+		//println("--- sampling ----")
+		Lattice.sampling(samplingDegree,(0,0))(getOp,accOp)
 	}
 	//
 	def rendering(samplingDegree:Int)(op:(Vector[Int],Double)=>Unit) : Unit = {
