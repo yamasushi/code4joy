@@ -59,6 +59,8 @@ object Lattice
 	}
 	//
 	def scaling(n:Int)(ip:Vector[Int]):Vector[Int] = {
+		if( n==0 ) ip
+		//
 		val m = nthScaler(n)
 		(	m(0)(0)*ip.x + m(0)(1)*ip.y , 
 			m(1)(0)*ip.x + m(1)(1)*ip.y )

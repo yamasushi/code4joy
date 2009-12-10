@@ -51,7 +51,8 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	//
 	def sampling(ip:Vector[Int],samplingDegree:Int) : Double = 
 	{
-		val l  = Lattice(3 , 1.0)
+		val scale = 10.0
+		val l  = Lattice(3 , 1.0/scale)
 		val fp = ip map { _.asInstanceOf[Double] }
 		//
 		def getOp(ptOnL:Vector[Int]) : Double = {
@@ -66,10 +67,10 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 			if ( p.y >= imgGeom.size.y ) return 0.0
 			//
 			//println((p.x , p.y))
-			//
+			val d = (ptOnL.x*ptOnL.x + ptOnL.y*ptOnL.y).asInstanceOf[Double]
 			val h = histgram(p.x)(p.y)
 			//
-			h
+			h/exp(d*scale)
 		}
 		//
 		def accOp( v:Seq[Double] ) : Double = {
