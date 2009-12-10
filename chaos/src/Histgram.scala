@@ -1,5 +1,5 @@
 import java.awt.{Graphics2D,Color}
-import Math.{abs,min,max,log,sqrt,pow}
+import Math.{abs,min,max,log,sqrt,pow,exp}
 import scala.collection.immutable._
 
 case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
@@ -18,7 +18,7 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		//
 		for( i <- 0 to 6 ){
 			val q  = pt operate( Vector.trig map {t=>t(i*Math.Pi/3.0)*eps} , { _ + _ } )
-			val iq = q map { _.asInstanceOf[Int] }
+			val iq = q map {t=>( t + 0.5 ).asInstanceOf[Int] }
 			ips = ips + ((iq.x,iq.y))
 		}
 		//
@@ -51,32 +51,29 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	//
 	def sampling(ip:Vector[Int],samplingDegree:Int) : Double = 
 	{
-		val l = Lattice(3 , 2.0)
+		val l = Lattice(1 , 1.0)
 		//
-		def getOp(ip:Vector[Int]) : Option[Double] = {
-			val p = l.pos(ip)
-			val ix = p.x.asInstanceOf[Int]
-			val iy = p.y.asInstanceOf[Int]
-			if ( ix < 0 ) return None
-			if ( iy < 0 ) return None
-			if ( ix >= imgGeom.size.x ) return None
-			if ( iy >= imgGeom.size.y ) return None
+		def getOp(ip:Vector[Int]) : Double = {
+			val p = l.pos(ip) map {t => (t+0.5).asInstanceOf[Int]}
+			if ( p.x < 0 ) return 0.0
+			if ( p.y < 0 ) return 0.0
+			if ( p.x >= imgGeom.size.x ) return 0.0
+			if ( p.y >= imgGeom.size.y ) return 0.0
 			//
-			Some( histgram(ix)(iy) )
+			val diff = ( p operate(ip,_-_) ) map {_ .asInstanceOf[Double] }
+			val d = exp( diff.x*diff.y + diff.x+diff.y )
+			//
+			val h = histgram(p.x)(p.y)
+			//
+			h / d
 		}
 		//
-		def accOp( ov:Seq[Option[Double]] ) : Option[Double] = {
-			val v= (ov filter(_!=None)) map { t => (t: @unchecked) match{
-				case Some(x) => x
-			} }
-			if( v isEmpty ) return None
-			return Some( ( (0.0 /: v){_+_} ) / v.length.asInstanceOf[Double] )
+		def accOp( v:Seq[Double] ) : Double = {
+			if( v isEmpty ) return 0.0
+			return ( (0.0 /: v){_+_} ) / v.length.asInstanceOf[Double]
 		}
 		
-		Lattice.sampling(samplingDegree,ip)(getOp,accOp) match {
-			case None    => 0.0
-			case Some(t) => t
-		}
+		Lattice.sampling(samplingDegree,ip)(getOp,accOp)
 	}
 	//
 	def rendering(samplingDegree:Int)(op:(Vector[Int],Double)=>Unit) : Unit = {

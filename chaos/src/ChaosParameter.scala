@@ -24,7 +24,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 	var fileFilter:(java.io.File)=>Boolean = {!_.exists}
 	//
 	val paramScaleFactor:(String)=>Double = {
-		case "poor" => 0.5
+		case "poor" => 0.1
 		case "low"  => 1.0
 		case "high" => 3.0
 		case _      => 1.0
