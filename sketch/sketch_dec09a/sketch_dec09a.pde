@@ -36,7 +36,11 @@ void draw()
 
 void hexHexPath(int degree,int cx,int cy)
 {
-  if(degree < 0) return;
+  if(degree < 0){
+    stroke(255);
+    unitHex(cx,cy);
+    return;
+  }
   //println(degree);
   int ux=0;
   int uy=0;
@@ -87,9 +91,8 @@ void hexHexPath(int degree,int cx,int cy)
   int ex = sx - vx;
   int ey = sy - vy;
   //
-  stroke(255,0,0);
+  stroke(255,0,0,10);
   lineLattice(sx , sy , ex , ey);
-  stroke(255);
   //
   hexHexPath(degree-1 , sx , sy);
   //
@@ -97,17 +100,15 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx + ux;
   ey = sy + uy;
+  stroke(0,255,0,10);
   lineLattice(sx , sy , ex , ey);
-  //println(sx);
-  //println(sy);
-  //println(ex);
-  //println(ey);
   hexHexPath(degree-1 , ex , ey);
   //
   sx = ex;
   sy = ey;
   ex = sx + vx;
   ey = sy + vy;
+  stroke(0,255,0,10);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -115,6 +116,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx + wx;
   ey = sy + wy;
+  stroke(0,255,0,10);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -122,6 +124,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx - ux;
   ey = sy - uy;
+  stroke(0,255,0,10);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -129,6 +132,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx - vx;
   ey = sy - vy;
+  stroke(0,255,0,10);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
@@ -136,6 +140,7 @@ void hexHexPath(int degree,int cx,int cy)
   sy = ey;
   ex = sx - wx;
   ey = sy - wy;
+  stroke(0,255,0,10);
   lineLattice(sx , sy , ex , ey);
   hexHexPath(degree-1 , ex , ey);
   //
