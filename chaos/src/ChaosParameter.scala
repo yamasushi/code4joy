@@ -105,6 +105,8 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 							maxFreq = max( histgram.update(p,freq) , maxFreq)
 							//
 					}
+					print(" ... Rengering") // do not put newline
+					
 					if(maxFreq<=0){
 						println(" ... no data")
 					}
