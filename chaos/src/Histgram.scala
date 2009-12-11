@@ -23,10 +23,18 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		//
 		for(	ix <- 0 until imgGeom.size.x-1 ; 
 				iy <- 0 until imgGeom.size.y-1 ){
-			val jx = ( (ix.asInstanceOf[Double] / 0.5      ) + rand.nextDouble ).asInstanceOf[Int]
-			val jy = ( (iy.asInstanceOf[Double] / sqrt(3.0)) + rand.nextDouble ).asInstanceOf[Int]
+			val jx  = ( ix*2.0 + rand.nextDouble ).asInstanceOf[Int]
 			//
-			op( (ix,iy) , histgram((jx,jy)) )
+			val jjy = ( iy.asInstanceOf[Double] * sqrt(3.0) + rand.nextDouble ).asInstanceOf[Int]
+			val jy  = jjy/3
+			val k   = jjy%3
+			val h = k match {
+				case 1 => ( histgram((jx-1,jy  )) + histgram((jx+1,jy  )) + histgram((jx,jy+1)) )/3.0f
+				case 2 => ( histgram((jx-1,jy+1)) + histgram((jx+1,jy+1)) + histgram((jx,jy  )) )/3.0f
+				case _ => histgram((jx,jy))
+			}
+			//
+			op( (ix,iy) , h )
 		}
 	}
 	//
