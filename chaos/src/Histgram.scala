@@ -13,19 +13,25 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		var result = 0.0
 		//
 		val pt = canvasTransform(p)
-		val ip = pt map { _.asInstanceOf[Int] }
-		var ips= Set( (ip.x,ip.y) )
 		//
-		for( i <- 0 to 6 ){
+		val ip:Vector[Int] = pt map { _.asInstanceOf[Int] }
+		var ips= Set[(Int,Int)]( (ip.x,ip.y) )
+		//
+		for( i <- 0 to 6 ) {
 			val q  = pt operate( Vector.trig map {t=>t(i*Math.Pi/3.0)*eps} , { _ + _ } )
-			val iq = q map {t=>( t + 0.5 ).asInstanceOf[Int] }
+			val iq = q map { t => ( t + 0.5 ).asInstanceOf[Int] }
 			ips = ips + ((iq.x,iq.y))
 		}
 		//
 		//println(ips)
 		//
-		ips foreach { ip =>
-			result = max( update(ip,v) , result )
+		ips foreach { ipt =>
+			val (x,y) = ipt
+			val dx = p.x - x
+			val dy = p.y -y
+			val d  = sqrt( dx*dx + dy*dy )
+			val ratio = 1/( 1 + d )
+			result = max( update(ipt , v*ratio ) , result )
 		}
 		//
 		result
@@ -49,46 +55,10 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		}
 	}
 	//
-	def sampling(ip:Vector[Int],samplingDegree:Int) : Double = 
-	{
-		val scale = 10.0
-		val l  = Lattice(3 , 1.0/scale)
-		val fp = ip map { _.asInstanceOf[Double] }
-		//
-		def getOp(ptOnL:Vector[Int]) : Double = {
-			val p   =	if   ( ptOnL.y==0 && ptOnL.y==0) ip
-						else {
-							val pos = l.pos(ptOnL) operate(fp,_+_) 
-							pos map {t => (t+0.5).asInstanceOf[Int]}
-						}
-			if ( p.x < 0 ) return 0.0
-			if ( p.y < 0 ) return 0.0
-			if ( p.x >= imgGeom.size.x ) return 0.0
-			if ( p.y >= imgGeom.size.y ) return 0.0
-			//
-			//println((p.x , p.y))
-			//val d = (ptOnL.x*ptOnL.x + ptOnL.y*ptOnL.y).asInstanceOf[Double]
-			val h = histgram(p.x)(p.y)
-			//
-			h  //exp(d*scale)
-		}
-		//
-		def accOp( v:Seq[Double] ) : Double = {
-			if( v isEmpty ) return 0.0
-			return ( (0.0 /: v){_+_} ) / v.length.asInstanceOf[Double]
-		}
-		
-		//println("--- sampling ----")
-		Lattice.sampling(samplingDegree,(0,0))(getOp,accOp)
-	}
-	//
 	def rendering(samplingDegree:Int)(op:(Vector[Int],Double)=>Unit) : Unit = {
-		this.foreach { (ip,_) =>
-			// 
-			val avgFreq:Double = this.sampling(ip,samplingDegree)
-			//
-			if( avgFreq>0 ){
-				op(ip,avgFreq)
+		this.foreach { (ip,h) =>
+			if( h>0 ){
+				op(ip,h)
 			}
 		}
 	}
