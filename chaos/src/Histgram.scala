@@ -5,20 +5,20 @@ import scala.collection.immutable._
 
 case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 {
-	private val histgram = new Array[Array[Double]](imgGeom.size.x*2,imgGeom.size.y*2)
+	private val histgram = new Array[Array[Float]](imgGeom.size.x*2,imgGeom.size.y*2)
 	//
 	val canvasTransform=Geometry.transform(imgGeom,dataGeom)
 	//
-	def update(p:Vector[Double],v:Double) : Double = {
+	def update(p:Vector[Double] , v:Double) : Double = {
 		val pt = canvasTransform(p)
 		val ix = ( (pt.x / 0.5       ) + 0.5 ).asInstanceOf[Int]
 		val iy = ( (pt.y / sqrt(3.0) ) + 0.5 ).asInstanceOf[Int]
 		//
-		val result:Double = histgram.updateCell((ix,iy) , v)
+		val result:Double = histgram.updateCell((ix,iy) , v.asInstanceOf[Float])
 		result
 	}
 	//
-	def foreach ( op: (Vector[Int],Double)=>Unit ) : Unit = {
+	def foreach ( op: (Vector[Int],Float)=>Unit ) : Unit = {
 		val rand  = new java.util.Random
 		//
 		for(	ix <- 0 until imgGeom.size.x-1 ; 
@@ -30,7 +30,7 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		}
 	}
 	//
-	def smoothing( condOp:Double=>Boolean ) : Unit = {
+	def smoothing( condOp:Float=>Boolean ) : Unit = {
 		val jxMax = ( imgGeom.size.x / 0.5       ).asInstanceOf[Int]
 		val jyMax = ( imgGeom.size.y / sqrt(3.0) ).asInstanceOf[Int]
 		for(	jx <- 0 to jxMax ;
@@ -38,18 +38,18 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 			val h = histgram((jx,jy))
 			if( condOp(h) ) {
 				val nb = Lattice.neighbor((jx,jy))
-				val histNb = ( (0.0 /: nb){(acc,v) => acc+histgram(v) } ) / nb.length
+				val histNb = ( (0.0f /: nb){(acc,v) => acc+histgram(v) } ) / nb.length
 				//
-				histgram.updateCell((jx,jy),histNb)
+				histgram.updateCell( (jx,jy) , histNb )
 			}
 		}
 	}
 	//
 	def rendering(op:(Vector[Int],Double)=>Unit) : Unit = {
 		//
-		smoothing( { _:Double=>true } )
-		smoothing( { _ < 1.0 } )
-		smoothing( { _ == 0.0 } )
+		smoothing( { _:Float=>true } )
+		smoothing( { _ < 1.0f } )
+		smoothing( { _ == 0.0f } )
 		//
 		this.foreach { (ip,h) =>
 			if( h>0 ){
@@ -58,7 +58,7 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		}
 	}
 	
-	class ImageBuffer( buffer:Array[Array[Double]] )
+	class ImageBuffer( buffer:Array[Array[Float]] )
 	{
 		def indexIsValid( ip:(Int,Int) ) : Boolean = {
 			val (ix,iy) = ip
@@ -72,23 +72,23 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 			return true
 		}
 		
-		def apply( ip:Vector[Int] ) : Double = apply((ip.x,ip.y))
-		def apply( ip:(Int,Int) ) : Double = {
+		def apply( ip:Vector[Int] ) : Float = apply((ip.x,ip.y))
+		def apply( ip:(Int,Int) ) : Float = {
 			if (indexIsValid(ip)) buffer(ip._1)(ip._2)
-			else 0.0
+			else 0.0f
 		}
 		
-		def updateCell( ip:(Int,Int) , v:Double ) : Double = {
+		def updateCell( ip:(Int,Int) , v:Float ) : Float = {
 			if (indexIsValid(ip)) {
-				val h = ( buffer(ip._1)(ip._2) + v ) * 0.5
+				val h:Float = ( buffer(ip._1)(ip._2) + v ) * 0.5f
 				buffer(ip._1)(ip._2) = h
 				h
 			}
 			else {
-				0.0
+				0.0f
 			}
 		}
 	}
 	//
-	implicit def a2ib( a:Array[Array[Double]] ):ImageBuffer = new ImageBuffer(a)
+	implicit def a2ib( a:Array[Array[Float]] ):ImageBuffer = new ImageBuffer(a)
 }
