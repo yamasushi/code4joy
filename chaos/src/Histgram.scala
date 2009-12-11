@@ -14,27 +14,9 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		//
 		val pt = canvasTransform(p)
 		//
-		val ip:Vector[Int] = pt map { _.asInstanceOf[Int] }
-		var ips= Set[(Int,Int)]( (ip.x,ip.y) )
+		val ip:Vector[Int] = pt map { t => (t+0.5).asInstanceOf[Int] }
 		//
-		for( i <- 0 to 6 ) {
-			val q  = pt operate( Vector.trig map {t=>t(i*Math.Pi/3.0)*eps} , { _ + _ } )
-			val iq = q map { t => ( t + 0.5 ).asInstanceOf[Int] }
-			ips = ips + ((iq.x,iq.y))
-		}
-		//
-		//println(ips)
-		//
-		ips foreach { ipt =>
-			val (x,y) = ipt
-			val dx = p.x - x
-			val dy = p.y -y
-			val d  = sqrt( dx*dx + dy*dy )
-			val ratio = 1/( 1 + d )
-			result = max( update(ipt , v*ratio ) , result )
-		}
-		//
-		result
+		update((ip.x,ip.y) , v)
 	}
 	//
 	private def update(ip:(Int,Int) , v:Double) : Double = {
