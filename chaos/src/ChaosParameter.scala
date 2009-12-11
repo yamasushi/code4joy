@@ -15,7 +15,6 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 	var numTrajectoryPerRing = 0    
 	//
 	val gammaCorrection = 2 // gamma correction
-	var samplingDegree  = 1 // sampling degree
 	//
 	def setup() : Unit
 	//
@@ -35,17 +34,10 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 		case "high" =>  30
 		case _      =>  10
 	}
-	val paramSamplingDegree:(String)=>Int = {
-		case "poor" => 1
-		case "low"  => 1
-		case "high" => 1
-		case _      => 1
-	}
 	
 	def parse(cmdParam:Array[String]) : Unit = {
 		scaleFactor          = paramScaleFactor(cmdParam(0))
 		numTrajectoryPerRing = paramNumTrajectoryPerRing(cmdParam(0))
-		samplingDegree       = paramSamplingDegree(cmdParam(0))
 		//
 		(cmdParam drop 1).toList match {
 		case "ow" :: Nil =>
@@ -68,7 +60,6 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 			"scaleFactor="          +scaleFactor         .formatted("%f")+
 			",numTrajectoryPerRing="+numTrajectoryPerRing.formatted("%d")+
 			",numRing="             +numRing             .formatted("%d")+
-			",samplingDegree="      +samplingDegree      .formatted("%d")+
 			",gammaCorrection="     +gammaCorrection     .formatted("%d"))
 		//
 		for( p <- param if p.isValid ;
@@ -85,8 +76,6 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 				//
 				val dataGeom = Geometry( p.calcMinMax(numTrajectory)(dropIter,maxIter) )
 				val scale      = scaleFactor*1000
-				//
-				val freqLimit  = 1000 // limit fo freq
 				//
 				val imgSize:Vector[Int]=if ( dataGeom.size.x > dataGeom.size.y )
 											(	scale                       .asInstanceOf[Int] ,
@@ -120,28 +109,22 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 						println(" ... no data")
 					}
 					else{
-						print("[maxFreq="+maxFreq+"]")
 						//
-						if( maxFreq > freqLimit ){
-							println(" ...too simple")
-						}
-						else {
-							val canvas = new PictureFile(file,imgGeom,imgType,colorBG)
-							canvas.paint{ g:Graphics2D =>
-								histgram.rendering(samplingDegree){ (ip,avgFreq) =>
-									//
-									val ratio = avgFreq / maxFreq
-									val alpha = pow(ratio,1.0/gammaCorrection)
-									//
-									val colVector = Vector(alpha,alpha,alpha,1.0)
-									//
-									g.setColor( colVector )
-									g.drawLine( ip.x , ip.y , ip.x , ip.y )
-								}
-								print(" ... Writing") // do not put newline
+						val canvas = new PictureFile(file,imgGeom,imgType,colorBG)
+						canvas.paint{ g:Graphics2D =>
+							histgram.rendering{ (ip,avgFreq) =>
+								//
+								val ratio = avgFreq / maxFreq
+								val alpha = pow(ratio,1.0/gammaCorrection)
+								//
+								val colVector = Vector(alpha,alpha,alpha,1.0)
+								//
+								g.setColor( colVector )
+								g.drawLine( ip.x , ip.y , ip.x , ip.y )
 							}
-							println(" ... Done")
+							print(" ... Writing") // do not put newline
 						}
+						println(" ... Done")
 					}
 				}
 			}

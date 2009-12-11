@@ -19,10 +19,12 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	}
 	//
 	def foreach ( op: (Vector[Int],Double)=>Unit ) : Unit = {
+		val rand  = new java.util.Random
+		//
 		for(	ix <- 0 until imgGeom.size.x-1 ; 
 				iy <- 0 until imgGeom.size.y-1 ){
-			val jx = ( (ix.asInstanceOf[Double] / 0.5      ) + 0.5 ).asInstanceOf[Int]
-			val jy = ( (iy.asInstanceOf[Double] / sqrt(3.0)) + 0.5 ).asInstanceOf[Int]
+			val jx = ( (ix.asInstanceOf[Double] / 0.5      ) + rand.nextDouble ).asInstanceOf[Int]
+			val jy = ( (iy.asInstanceOf[Double] / sqrt(3.0)) + rand.nextDouble ).asInstanceOf[Int]
 			//
 			op( (ix,iy) , histgram((jx,jy)) )
 		}
@@ -43,7 +45,7 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 		}
 	}
 	//
-	def rendering(samplingDegree:Int)(op:(Vector[Int],Double)=>Unit) : Unit = {
+	def rendering(op:(Vector[Int],Double)=>Unit) : Unit = {
 		//
 		smoothing( { _:Double=>true } )
 		smoothing( { _ < 1.0 } )

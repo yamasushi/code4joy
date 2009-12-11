@@ -14,7 +14,7 @@ object PointsOfRing
 			//println("iRing = "+iRing)
 			//
 			val r     = (ovalR * iRing)/(numRing.asInstanceOf[Double])
-			val theta = rand.nextDouble()*Math.Pi*2
+			val theta = rand.nextDouble*Math.Pi*2
 			//
 			center operate( Vector.trig map{ _.apply(theta) * r}  , _ + _)
 		}
