@@ -109,5 +109,3 @@ object Lattice
 		return accOp(param)
 	}
 }
-
-
