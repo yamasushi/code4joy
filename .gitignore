@@ -2,3 +2,5 @@
 *.bak
 *.png
 *.jpg
+*.beam
+*.luac
