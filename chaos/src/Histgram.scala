@@ -3,29 +3,37 @@ import Math.{abs,min,max,log,sqrt,pow,exp}
 import scala.collection.immutable._
 
 
-case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
+class Histgram(	imgGeom :Geometry[Int]    ,
+				dataGeom:Geometry[Double] ,
+				onUpdate:Double => Unit 
+				)
 {
+	private val rand     = new java.util.Random
 	private val histgram = new Array[Array[Float]](imgGeom.size.x*2,imgGeom.size.y*2)
 	//
 	val canvasTransform=Geometry.transform(imgGeom,dataGeom)
 	//
 	def update(p:Vector[Double] , v:Double) : Double = {
-		val pt = canvasTransform(p)
-		val ix = ( (pt.x / 0.5       ) + 0.5 ).asInstanceOf[Int]
-		val iy = ( (pt.y / sqrt(3.0) ) + 0.5 ).asInstanceOf[Int]
+		val (rx,ry) = (0.5,0.5) //(rand.nextDouble,rand.nextDouble)
 		//
+		val pt = canvasTransform(p)
+		val ix = ( (pt.x / 0.5       ) + rx ).asInstanceOf[Int]
+		val iy = ( (pt.y / sqrt(3.0) ) + ry ).asInstanceOf[Int]
+		//
+		onUpdate(v)
 		val result:Double = histgram.updateCell((ix,iy) , v.asInstanceOf[Float])
 		result
 	}
 	//
 	def foreach ( op: (Vector[Int],Float)=>Unit ) : Unit = {
-		val rand  = new java.util.Random
 		//
 		for(	ix <- 0 until imgGeom.size.x-1 ; 
 				iy <- 0 until imgGeom.size.y-1 ){
-			val jx  = ( ix*2.0 + rand.nextDouble ).asInstanceOf[Int]
+			val (rx,ry) = (rand.nextDouble,rand.nextDouble)
 			//
-			val jjy = ( iy.asInstanceOf[Double] * sqrt(3.0) + rand.nextDouble ).asInstanceOf[Int]
+			val jx  = ( ix*2.0 + rx ).asInstanceOf[Int]
+			//
+			val jjy = ( iy.asInstanceOf[Double] * sqrt(3.0) + ry ).asInstanceOf[Int]
 			val jy  = jjy/3
 			val k   = jjy%3
 			val h = k match {
@@ -55,9 +63,13 @@ case class Histgram(imgGeom:Geometry[Int],dataGeom:Geometry[Double])
 	//
 	def rendering(op:(Vector[Int],Double)=>Unit) : Unit = {
 		//
-		smoothing( { _:Float=>true } )
-		smoothing( { _ < 1.0f } )
-		smoothing( { _ == 0.0f } )
+		smoothing( { _ >= 1.0f } ) // only brighter spot
+		smoothing( { _ >= 1.0f } ) // only brighter spot
+		smoothing( { _ < 1.0f  } ) // only darker spot
+		smoothing( { _ < 1.0f  } ) // only darker spot
+		//smoothing( { _:Float=>true } )
+		//smoothing( { _ == 0.0f } )
+		//smoothing( { _ == 0.0f } )
 		//
 		this.foreach { (ip,h) =>
 			if( h>0 ){

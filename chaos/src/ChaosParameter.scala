@@ -86,24 +86,23 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 				//
 				if( imgSize.x > 1 && imgSize.y > 1 ){
 					//
-					val imgGeom  = Geometry(imgSize)
-					val histgram = Histgram(imgGeom,dataGeom)
 					var maxFreq = 0.0
+					//
+					val imgGeom  = Geometry(imgSize)
+					val histgram = new Histgram(imgGeom,dataGeom, { t:Double=> maxFreq=max(t,maxFreq) } )
 					//
 					print("Generating : " + filename ) // do not put newline
 					//
 					p.generatePoints(numTrajectory)(dropIter,maxIter) {
 						(count:Int,p:Vector[Double]) =>
-							val freq =	if (count<0){
+							val freq =	if (count<0) {
 											val i = count + dropIter
 											i.asInstanceOf[Double] / dropIter.asInstanceOf[Double]
 										}
 										else {
 											log(Math.E + count)
 										}
-							//
-							maxFreq = max( histgram.update(p,freq) , maxFreq)
-							//
+							histgram.update(p,freq)
 					}
 					print(" ... Rendering") // do not put newline
 					
