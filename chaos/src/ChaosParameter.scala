@@ -7,8 +7,8 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 	val imgType      :String = "png"
 	val colorBG      :Color  = Color.BLACK
 	//
-	val dropIter     :Int    = 1000 
-	val maxIter      :Int    = 1000 
+	val dropIter     :Int    = 500 
+	val maxIter      :Int    = 1500 
 	//
 	var scaleFactor  :Double = 0.0  
 	var numRing      :Int    = 5    
