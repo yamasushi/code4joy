@@ -1,0 +1,78 @@
+// ikeda attractor
+// a.pngに出力
+
+import java.awt.*
+import java.awt.image.*
+import javax.imageio.*
+import java.io.*
+
+def createPictureFile(int imgWidth , int imgHeight , String imgType , String fileName , Closure op) {
+	def bi  = new BufferedImage(imgWidth,imgHeight,BufferedImage.TYPE_BYTE_GRAY)
+	def g = bi.createGraphics()
+	g.setPaint(Color.WHITE)
+	g.fillRect(0,0,imgWidth,imgHeight)
+	g.setColor(Color.BLACK)
+	op(g)
+	def outFile	= new File(fileName)
+	ImageIO.write(bi,imgType,outFile)
+}
+
+
+class Point {
+	double x = 0.0
+	double y = 0.0
+	Point(){}
+	Point( x , y ){
+		this.x = x
+		this.y = y
+	}
+}
+
+a = 1.0
+b = 0.9
+k = 0.4
+p = 6.0
+
+num_trajectory           = 100
+num_point_per_trajectory = 1000
+
+ratio     = 100.0
+imgWidth  = 500
+imgHeight = 500
+offsetx   = imgWidth /2
+offsety   = imgHeight/2
+imgType   = "png"
+fileName  = "a.png"
+
+limitPositive = 10e6
+limitNegative =-limitPositive
+
+createPictureFile(imgWidth , imgHeight , imgType , fileName) { Graphics2D g ->
+	rand = new java.util.Random()
+	for (j in 0..num_trajectory){
+		theta= rand.nextDouble() * Math.PI * 2.0
+		pt = new Point( Math.cos( theta ) , Math.sin( theta ) )
+		//
+		for (i in 0..num_point_per_trajectory){
+			x  = pt.x
+			y  = pt.y
+			
+			if ( limitNegative > x || limitPositive < x  || limitNegative > y || limitPositive < y )
+				break
+			
+			int ix =               ratio*x + offsetx
+			int iy = imgHeight - ( ratio*y + offsety )
+			g.drawLine(ix,iy,ix,iy)
+			
+			tn = k - p/(1.0 + (x*x + y*y) )
+			
+			sinTn = Math.sin(tn)
+			cosTn = Math.cos(tn)
+			
+			pt.x = b * ( x*cosTn - y*sinTn ) + a
+			pt.y = b * ( x*sinTn + y*cosTn ) 
+			
+		}
+		//
+	}
+}

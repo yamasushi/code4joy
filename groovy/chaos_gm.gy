@@ -1,0 +1,126 @@
+// Gumowski-Mira attractor
+// a.pngに出力
+
+import java.awt.*
+import java.awt.image.*
+import java.awt.geom.*
+import javax.imageio.*
+import java.io.*
+
+def createPictureFile(	int    imgWidth , 
+						int    imgHeight , 
+						String imgType , 
+						String fileName , 
+						//
+						Closure op) {
+	def bi  = new BufferedImage(imgWidth,imgHeight,BufferedImage.TYPE_BYTE_GRAY)
+	def g = bi.createGraphics()
+	g.setPaint(Color.WHITE)
+	g.fillRect(0,0,imgWidth,imgHeight)
+	g.setColor(Color.BLACK)
+	op(g)
+	def outFile	= new File(fileName)
+	//
+	ImageIO.write(	bi ,
+					imgType ,
+					outFile)
+}
+
+class Point {
+	double x = 0.0
+	double y = 0.0
+	Point(){}
+	Point( x , y ){
+		this.x = x
+		this.y = y
+	}
+}
+
+xa   =  0.0005
+xb   =  1.0
+a    = -0.48
+b    =  0.9924
+
+f_0 = {x ->
+		x_x = x*x
+		a * x + ( 2*(1-a)*x_x / (1+x_x) );
+	}
+
+f_1 = {x ->
+		x_x = x*x
+		a * x + ( 2*(1-a)*x_x / ((1+x_x)*(1+x_x)) );
+	}
+	
+// from http://codezine.jp/article/detail/327?p=2
+f_2 = {x ->
+		x_x = x*x
+		a * x + ( 2*(1-a)*x / (1+x_x) );
+	}
+	
+// from http://codezine.jp/article/detail/327?p=2
+f_3 = {x ->
+		x_x = x*x
+		a * x + ( 2*(1-a) / (1+x_x) );
+	}
+
+g_0 = {y ->
+		b *y + xa * (1- xb*y*y)*y
+	}
+
+gm_g = g_0
+gm_f = f_0
+
+num_trajectory           = 100
+num_point_per_trajectory = 1000
+
+ratio     = 20.0
+imgWidth  = 500
+imgHeight = 500
+
+offsetx   = imgWidth /2
+offsety   = imgHeight/2
+imgType   = "png"
+fileName  = "a.png"
+
+oval_r    = 0.5
+num_ring  = 10
+
+limitPositive = 1.0e4
+limitNegative =-limitPositive
+
+createPictureFile(	imgWidth  , 
+					imgHeight ,
+					imgType , 
+					fileName) { Graphics2D g ->
+	rand = new java.util.Random()
+	for (j in 0..num_trajectory){
+		iring = (j % num_ring) + 1 
+		r     = (oval_r * iring)/num_ring
+		theta = rand.nextDouble() * Math.PI * 2
+		//
+		pt = new Point( r*Math.cos( theta ) , r*Math.sin( theta ) )
+		//
+		u = gm_f(pt.x)
+		for (i in 0..num_point_per_trajectory){
+			x  = pt.x
+			y  = pt.y
+			
+			if ( limitNegative > x || limitPositive < x  || limitNegative > y || limitPositive < y )
+				break
+			
+			int ix =               ratio*x + offsetx
+			int iy = imgHeight - ( ratio*y + offsety )
+			g.drawLine(ix,iy,ix,iy)
+			
+			xx = gm_g(y) + u;
+			u  = gm_f(xx)
+			yy = u - x;
+			
+			pt.x = xx
+			pt.y = yy
+			
+		}
+		//
+	}
+}
+

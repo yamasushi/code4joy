@@ -1,0 +1,118 @@
+// sprott attractor
+// 12文字のAからYで識別する
+// 例 FIRCDERRPVLD
+// a.pngに出力
+// 詳細は
+// http://sprott.physics.wisc.edu/pubs/paper203.htm
+
+import java.awt.*
+import java.awt.image.*
+import javax.imageio.*
+import java.io.*
+
+def createPictureFile(int imgWidth , int imgHeight , String imgType , String fileName , Closure op) {
+	def bi  = new BufferedImage(imgWidth,imgHeight,BufferedImage.TYPE_BYTE_GRAY)
+	def g = bi.createGraphics()
+	g.setPaint(Color.WHITE)
+	g.fillRect(0,0,imgWidth,imgHeight)
+	g.setColor(Color.BLACK)
+	op(g)
+	def outFile	= new File(fileName)
+	ImageIO.write(bi,imgType,outFile)
+}
+
+class Point {
+	double x = 0.0
+	double y = 0.0
+	Point(){}
+	Point( x , y ){
+		this.x = x
+		this.y = y
+	}
+}
+
+coef =	[	// coefficients named A through Y (25 possible values)
+					'A':-1.2,
+					'B':-1.1,
+					'C':-1.0,
+					'D':-0.9,
+					'E':-0.8,
+					'F':-0.7,
+					'G':-0.6,
+					'H':-0.5,
+					'I':-0.4,
+					'J':-0.3,
+					'K':-0.2,
+					'L':-0.1,
+					'M': 0.0, // <---- Zero
+					'N':+0.1,
+					'O':+0.2,
+					'P':+0.3,
+					'Q':+0.4,
+					'R':+0.5,
+					'S':+0.6,
+					'T':+0.7,
+					'U':+0.8,
+					'V':+0.9,
+					'W':+1.0,
+					'X':+1.1,
+					'Y':+1.2
+					//
+]
+		123456123456
+sign = "FIRCDERRPVLD" // 12charactors signature of system 
+//"AMTMNQQXUYGA"
+//"CVQKGHQTPNTE"
+
+a = []
+sign.each{x-> a = a + [coef[x]]}
+print a
+
+num_trajectory           = 100
+num_point_per_trajectory = 1000
+
+ratio     = 200.0
+imgWidth  = 500
+imgHeight = 500
+offsetx   = imgWidth /2
+offsety   = imgHeight/2
+imgType   = "png"
+fileName  = "a.png"
+
+oval_r    = 0.1
+num_ring  = 1
+
+limitPositive = 10e6
+limitNegative =-limitPositive
+
+createPictureFile(imgWidth , imgHeight , imgType , fileName) { Graphics2D g ->
+	rand = new java.util.Random()
+	for (j in 0..num_trajectory){
+		iring = (j % num_ring) + 1 
+		r     = (oval_r * iring)/num_ring
+		theta = rand.nextDouble() * Math.PI * 2
+		//
+		pt = new Point( r*Math.cos( theta ) , r*Math.sin( theta ) )
+		//
+		for (i in 0..num_point_per_trajectory){
+			x  = pt.x
+			y  = pt.y
+			
+			if ( limitNegative > x || limitPositive < x  || limitNegative > y || limitPositive < y )
+				break
+			
+			int ix =               ratio*x + offsetx
+			int iy = imgHeight - ( ratio*y + offsety )
+			g.drawLine(ix,iy,ix,iy)
+			
+			x_x  = x*x
+			y_y  = y*y
+			x_y  = x*y
+			pt.x = a[0] + a[1]*x + a[2]*x_x + a[3]*x_y + a[ 4]*y + a[ 5]*y_y   
+			pt.y = a[6] + a[7]*x + a[8]*x_x + a[9]*x_y + a[10]*y + a[11]*y_y
+			
+		}
+		//
+	}
+}
+

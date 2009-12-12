@@ -1,0 +1,23 @@
+// picure file handling class
+// 2009-09-17 shuji yamamoto
+
+import java.awt.*
+import java.awt.image.*
+import javax.imageio.*
+import java.io.*
+
+createPictureFile(100,200,"png","a.png",{
+		Graphics2D g ->
+			g.drawLine(0,0,100,100)
+	} )
+
+def createPictureFile(int imgWidth , int imgHeight , String imgType , String fileName , Closure op) {
+	def bi  = new BufferedImage(imgWidth,imgHeight,BufferedImage.TYPE_BYTE_GRAY)
+	def g = bi.createGraphics()
+	g.setPaint(Color.WHITE)
+	g.fillRect(0,0,imgWidth,imgHeight)
+	g.setColor(Color.BLACK)
+	op(g)
+	def outFile	= new File(fileName)
+	ImageIO.write(bi,imgType,outFile)
+}
