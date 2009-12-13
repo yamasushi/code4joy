@@ -19,9 +19,36 @@ Matrix_mt.__sub = function(a,b) return Matrix:new( a.v-b.v , a.v-b.v ) end
 Matrix_mt.__tostring = function(a) return string.format("(%s,%s)", tostring(a.u) , tostring(a.v) ) end
 
 Matrix_mt.__mul = function(a,b)
+	if( type(a)=="number" ) then
+		return Matrix:new( a*b.u , a*b.v )
+	end
+	if( type(b)=="number" ) then
+		return Matrix:new( b*a.u , b*a.v )
+	end
+
 	local tb = b:transpose()
 	return Matrix:new(
-					Vector:new( Vector:dot(a.u,tb.u) , Vector:dot(a.u,tb.v) ) ,
-					Vector:new( Vector:dot(a.v,tb.u) , Vector:dot(a.v,tb.v) ) )
+			Vector:new( Vector:dot(a.u,tb.u) , Vector:dot(a.u,tb.v) ) ,
+			Vector:new( Vector:dot(a.v,tb.u) , Vector:dot(a.v,tb.v) ) )
 end
 
+function Matrix:rotate(t)
+	local cos_t = math.cos(t)
+	local sin_t = math.sin(t)
+	return Matrix:new(
+			Vector:new(cos_t,-sin_t),
+			Vector:new(sin_t, cos_t))
+end
+
+function Matrix:unit()
+	return Matrix:new(
+			Vector:new(1,0) ,
+			Vector:new(0,1) )
+end
+
+function Matrix:map()
+	local o = self
+	return function(t)
+		return Vector:new( Vector:dot(o.u , t) , Vector:dot(o.v , t) )
+	end
+end

@@ -14,9 +14,18 @@ end
 function Vector:abs()
 	return math.sqrt( Vector:dot(self,self) )
 end
-
 Vector_mt.__unm = function(a)   return Vector:new( -a.x , -a.y ) end
 Vector_mt.__add = function(a,b) return Vector:new( a.x+b.x , a.y+b.y ) end
 Vector_mt.__sub = function(a,b) return Vector:new( a.x-b.x , a.y-b.y ) end
 Vector_mt.__tostring = function(a) return string.format("(%s,%s)",tostring(a.x),tostring(a.y)) end
+
+Vector_mt.__mul = function(a,b)
+	if( type(a)=="number" ) then
+		return Vector:new( a*b.x , a*b.y )
+	end
+	if( type(b)=="number" ) then
+		return Vector:new( b*a.x , b*a.y )
+	end
+	assert(false)
+end
 
