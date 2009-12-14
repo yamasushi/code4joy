@@ -1,6 +1,8 @@
 Vector = {}
 Vector_mt = {__index = Vector}
 function Vector:new(param_x,param_y)
+	assert(param_x)
+	assert(param_y)
 	local o = {}
 	o.x = param_x
 	o.y = param_y
@@ -12,6 +14,7 @@ function Vector:dot(a,b)
 end
 
 function Vector:abs()
+	assert(self)
 	return math.sqrt( Vector:dot(self,self) )
 end
 Vector_mt.__unm = function(a)   return Vector:new( -a.x , -a.y ) end
@@ -28,4 +31,5 @@ Vector_mt.__mul = function(a,b)
 	end
 	assert(false)
 end
+
 

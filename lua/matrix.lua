@@ -3,6 +3,8 @@ require "Vector"
 Matrix = {}
 Matrix_mt = {__index = Matrix}
 function Matrix:new(param_u,param_v)
+	assert(param_u)
+	assert(param_v)
 	local o = {}
 	o.u = param_u
 	o.v = param_v
@@ -10,6 +12,7 @@ function Matrix:new(param_u,param_v)
 end
 
 function Matrix:transpose()
+	assert(self)
 	return Matrix:new( Vector:new( self.u.x , self.v.x ) , Vector:new( self.u.y , self.v.y ) )
 end
 
@@ -40,6 +43,12 @@ function Matrix:rotate(t)
 			Vector:new(sin_t, cos_t))
 end
 
+function Matrix:scale(x,y)
+	return Matrix:new(
+			Vector:new(x,0),
+			Vector:new(0,y))
+end
+
 function Matrix:unit()
 	return Matrix:new(
 			Vector:new(1,0) ,
@@ -47,6 +56,7 @@ function Matrix:unit()
 end
 
 function Matrix:map()
+	assert(self)
 	local o = self
 	return function(t)
 		return Vector:new( Vector:dot(o.u , t) , Vector:dot(o.v , t) )
