@@ -5,13 +5,18 @@ Frame_mt = {__index = Frame}
 function Frame:new(param_min,param_max)
 	assert(param_min)
 	assert(param_max)
-	assert(param_min.x < param_max.x )
-	assert(param_min.y < param_max.y )
+	assert(param_min.x <= param_max.x )
+	assert(param_min.y <= param_max.y )
 	local o = {}
 	o.min = param_min
 	o.max = param_max
 	return setmetatable(o,Frame_mt)
 end
+
+function Frame:empty()
+	return Frame:new(Vector:zero(),Vector:zero())
+end
+
 Frame_mt.__tostring = function(a) return string.format("(min=%s,max=%s)", tostring(a.min) , tostring(a.max) ) end
 
 function Frame:is_inside(pt)

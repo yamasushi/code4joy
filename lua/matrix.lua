@@ -16,6 +16,10 @@ function Matrix:uv()
 	return self.u,self.v
 end
 
+function Matrix:zero()
+	return Matrix:new( Vector:zero() , Vector:zero() )
+end
+
 function Matrix:transpose()
 	assert(self)
 	return Matrix:new( Vector:new( self.u.x , self.v.x ) , Vector:new( self.u.y , self.v.y ) )

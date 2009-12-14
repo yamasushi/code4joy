@@ -9,6 +9,10 @@ function Vector:new(param_x,param_y)
 	return setmetatable(o,Vector_mt)
 end
 
+function Vector:zero()
+	return Vector:new(0,0)
+end
+
 function Vector:dot(a,b)
 	return a.x * b.x + a.y * b.y
 end

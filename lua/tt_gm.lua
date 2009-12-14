@@ -1,13 +1,12 @@
 require "vector"
 require "geometry"
 require "gd_bitmap"
+require "chaos_system"
 
 canvas_frame = Frame:new(Vector:new(0,0),Vector:new(500,500))
 canvas_geom  = Geometry:new(canvas_frame)
 
-data_frame = Frame:empty()
-
-img_filename = "a.png"
+img_filename = "gm.png"
 mu      =-0.485
 nu      = 1.0
 param_a = 0.008
@@ -39,13 +38,13 @@ ds = function(pt)
 	return Vector:new(xx,yy)
 end
 
+chaos_system = ChaosSystem:new(ds,max_iter)
+
+
 -- caluculate frame
 
-pt = Vector:new(0.1,0.1)
-for i=1,max_iter do
-	data_frame = data_frame:inflate(pt)
-	pt = ds(pt)
-end
+pt0 = Vector:new(0.1,0.1)
+data_frame = chaos_system:calc_frame(pt0,nil)
 
 print(data_frame)
 data_geom = Geometry:new(data_frame)
@@ -58,13 +57,10 @@ make_bitmap_png(img_filename ,
 			function(im)
 				local white = im:colorAllocate(255,255,255)
 				local black = im:colorAllocate(0, 0, 0)
-
-				pt = Vector:new(0.1,0.1)
-				for i=1,max_iter do
-					local x,y = (tf(pt)):xy()
-					im:setPixel(x,y,black)
-					pt = ds(pt)
-				end
-
+				chaos_system:iterate_with(pt0 , tf ,
+					function(pt)
+						local x,y = pt:xy()
+						--print(x,y)
+						im:setPixel(x,y,black)
+					end )
 			end )
-

@@ -9,6 +9,8 @@ function Geometry:new(param_frame)
 	local o = {}
 	o.frame = param_frame
 	o.size  = o.frame:size()
+	assert( o.size.x>0 )
+	assert( o.size.y>0 )
 	o.aspect_ratio = o.size.x / o.size.y
 	return setmetatable(o,Geometry_mt)
 end
