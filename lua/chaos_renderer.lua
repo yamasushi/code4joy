@@ -69,7 +69,8 @@ function ChaosRenderer:render(img_width,img_height)
 				function(pt)
 					local x,y = pt:xy()
 					local ix = math.floor(x+0.5)
-					local iy = math.floor(y+0.5)					--print(x,y)
+					local iy = math.floor(y+0.5)
+					--print(x,y)
 					if (histgram[ix] == nil) then
 						histgram[ix]= {}
 					end
