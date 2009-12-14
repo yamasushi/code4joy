@@ -61,21 +61,36 @@ function ChaosRenderer:render(img_width,img_height)
 	local data_geom = Geometry:new( self:calc_frame() )
 
 	local tf = canvas_geom:canvas_transform(data_geom)
+
+	local histgram = {}
+	self:do_iteration(
+		function(pt0)
+			(self.chaos):iterate_with(pt0 , tf ,
+				function(pt)
+					local x,y = pt:xy()
+					local ix = math.floor(x+0.5)
+					local iy = math.floor(y+0.5)					--print(x,y)
+					if (histgram[ix] == nil) then
+						histgram[ix]= {}
+					end
+					histgram[ix][iy] = 1
+
+				end )
+		end )
+	--print(histgram)
 	make_bitmap_png(self.filename ,
 				img_width  ,
 				img_height ,
 				function(im)
 					local white = im:colorAllocate(255,255,255)
 					local black = im:colorAllocate(0, 0, 0)
-					self:do_iteration(
-						function(pt0)
-							(self.chaos):iterate_with(pt0 , tf ,
-								function(pt)
-									local x,y = pt:xy()
-									--print(x,y)
-									im:setPixel(x,y,black)
-								end )
-						end )
+					for ix,row in pairs(histgram) do
+						--print("ix--"..ix)
+						for iy,h in pairs(row) do
+							--print("  iy--"..iy)
+							im:setPixel(ix,iy,black)
+						end
+					end
 				end )
 end
 
