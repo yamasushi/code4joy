@@ -11,6 +11,11 @@ function Matrix:new(param_u,param_v)
 	return setmetatable(o,Matrix_mt)
 end
 
+function Matrix:uv()
+	assert(self)
+	return self.u,self.v
+end
+
 function Matrix:transpose()
 	assert(self)
 	return Matrix:new( Vector:new( self.u.x , self.v.x ) , Vector:new( self.u.y , self.v.y ) )

@@ -17,6 +17,12 @@ function Vector:abs()
 	assert(self)
 	return math.sqrt( Vector:dot(self,self) )
 end
+
+function Vector:xy()
+	assert(self)
+	return self.x,self.y
+end
+
 Vector_mt.__unm = function(a)   return Vector:new( -a.x , -a.y ) end
 Vector_mt.__add = function(a,b) return Vector:new( a.x+b.x , a.y+b.y ) end
 Vector_mt.__sub = function(a,b) return Vector:new( a.x-b.x , a.y-b.y ) end
