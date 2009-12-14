@@ -11,7 +11,7 @@ nu      = 1.0
 param_a = 0.008
 param_b = 0.05
 
-max_iter= 10000
+max_iter= 2000
 
 header = "A"
 pi  = function(t) return math.abs(t) end
@@ -27,9 +27,20 @@ chaos_system = ChaosSystem:new(gm.ds,max_iter)
 img_filename = tostring(gm)..".png"
 
 -- caluculate frame
+num_traj = 100
+function do_iteration(op)
+	for traj=1,num_traj do
+		local theta = math.random() * math.pi * 2
+		local pt0=Vector:trig(theta)
+		--
+		op(pt0)
+	end
+end
 
-pt0 = Vector:new(0.1,0.1)
-data_frame = chaos_system:calc_frame(pt0,nil)
+data_frame = nil
+do_iteration(function(pt0)
+			data_frame = chaos_system:calc_frame(pt0,data_frame)
+		end )
 
 print(data_frame)
 data_geom = Geometry:new(data_frame)
@@ -42,10 +53,13 @@ make_bitmap_png(img_filename ,
 			function(im)
 				local white = im:colorAllocate(255,255,255)
 				local black = im:colorAllocate(0, 0, 0)
-				chaos_system:iterate_with(pt0 , tf ,
-					function(pt)
-						local x,y = pt:xy()
-						--print(x,y)
-						im:setPixel(x,y,black)
+				do_iteration(
+					function(pt0)
+						chaos_system:iterate_with(pt0 , tf ,
+							function(pt)
+								local x,y = pt:xy()
+								--print(x,y)
+								im:setPixel(x,y,black)
+							end )
 					end )
 			end )

@@ -17,6 +17,10 @@ function Vector:dot(a,b)
 	return a.x * b.x + a.y * b.y
 end
 
+function Vector:trig(theta)
+	return Vector:new(math.cos(theta),math.sin(theta))
+end
+
 function Vector:abs()
 	assert(self)
 	return math.sqrt( Vector:dot(self,self) )
