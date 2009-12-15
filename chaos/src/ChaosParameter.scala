@@ -89,7 +89,11 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 					var maxFreq = 0.0
 					//
 					val imgGeom  = Geometry(imgSize)
-					val histgram = new Histgram(imgGeom,dataGeom, { t:Double=> maxFreq=max(t,maxFreq) } )
+					val histgram = Histgram(
+										imgGeom  , 
+										dataGeom ,
+										5 ,
+										{ t:Double=> maxFreq=max(t,maxFreq) } )
 					//
 					print("Generating : " + filename ) // do not put newline
 					//
@@ -113,7 +117,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 						//
 						val canvas = new PictureFile(file,imgGeom,imgType,colorBG)
 						canvas.paint{ g:Graphics2D =>
-							histgram.rendering{ (ip,avgFreq) =>
+							histgram.rendering{ (xs,ys,avgFreq) =>
 								//
 								val ratio = avgFreq / maxFreq
 								val alpha = pow(ratio,1.0/gammaCorrection)
@@ -121,7 +125,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 								val colVector = Vector(alpha,alpha,alpha,1.0)
 								//
 								g.setColor( colVector )
-								g.drawLine( ip.x , ip.y , ip.x , ip.y )
+								g.fillPolygon(xs,ys,6)
 							}
 							print(" ... Writing") // do not put newline
 						}
