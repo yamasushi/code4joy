@@ -71,8 +71,9 @@ function ImageBuffer:cell(ix,iy)
 	return self.histgram[ix][iy]
 end
 
-function ImageBuffer:smooth()
+function ImageBuffer:smooth(condOp)
 	assert(self)
+	assert(condOp)
 	assert(self.histgram)
 	assert(self.width)
 	assert(self.height)
@@ -83,18 +84,20 @@ function ImageBuffer:smooth()
 			jy = iy - 1
 			ky = iy + 1
 			--
-			self:update_cell(
-				ix ,
-				iy ,
-				(	self:cell(ix,iy) +
-					self:cell(ix,jy) +
-					self:cell(ix,ky) +
-					self:cell(jx,iy) +
-					self:cell(jx,jy) +
-					self:cell(jx,ky) +
-					self:cell(kx,iy) +
-					self:cell(kx,jy) +
-					self:cell(kx,ky) ) / 9.0 )
+			if( condOp(self:cell(ix,iy)) ) then
+				self:update_cell(
+					ix ,
+					iy ,
+					(	self:cell(ix,iy) +
+						self:cell(ix,jy) +
+						self:cell(ix,ky) +
+						self:cell(jx,iy) +
+						self:cell(jx,jy) +
+						self:cell(jx,ky) +
+						self:cell(kx,iy) +
+						self:cell(kx,jy) +
+						self:cell(kx,ky) ) / 9.0 )
+			end
 		end
 	end
 end
