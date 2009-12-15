@@ -10,7 +10,7 @@ local img_height = 400
 local oval_r     = 0.1
 
 local max_iter= 2000
-local num_traj= 200
+local num_traj= 100
 
 local header = {"_","A","Q","C"}
 local common_fn = {}
