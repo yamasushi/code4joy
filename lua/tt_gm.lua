@@ -12,15 +12,20 @@ local oval_r     = 0.1
 local max_iter= 2000
 local num_traj= 100
 
-local header = {"_","A"}
+local header = {"_","A","Q","C"}
+local common_fn = {}
+common_fn["_"] = function(t) return t*t end
+common_fn["A"] = math.abs
+common_fn["Q"] = function(t) return t*t*t*t end
+common_fn["C"] = function(t) return math.abs(t*t*t) end
+
 
 local pi={}
-pi["A"] = math.abs
-pi["_"] = function(t) return t*t end
-
 local psi={}
-psi["A"] = math.abs
-psi["_"] = function(t) return t*t end
+for k,v in pairs(common_fn) do
+	pi[k] = v
+	psi[k] = v
+end
 
 local meta_phi = function(param_pi,param_psi)
 	return function(t) return param_pi(t)/(1+param_psi(t)) end
