@@ -5,8 +5,8 @@ require "chaos_system"
 
 require "ds_gumowski_mira"
 
-local img_width  = 800
-local img_height = 800
+local img_width  = 400
+local img_height = 400
 local oval_r     = 0.1
 
 local max_iter= 2000

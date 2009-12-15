@@ -2,6 +2,7 @@ require "vector"
 require "geometry"
 require "gd_bitmap"
 require "chaos_system"
+require "image_buffer"
 
 ChaosRenderer = {}
 ChaosRenderer_mt = {__index = ChaosRenderer}
@@ -62,36 +63,29 @@ function ChaosRenderer:render(img_width,img_height)
 
 	local tf = canvas_geom:canvas_transform(data_geom)
 
-	local histgram = {}
+	local ib = ImageBuffer:new(img_width,img_height)
+	local max_h = 0
 	self:do_iteration(
 		function(pt0)
 			(self.chaos):iterate_with(pt0 , tf ,
 				function(pt)
 					local x,y = pt:xy()
-					local ix = math.floor(x+0.5)
-					local iy = math.floor(y+0.5)
-					--print(x,y)
-					if (histgram[ix] == nil) then
-						histgram[ix]= {}
-					end
-					histgram[ix][iy] = 1
-
+					ib:update(x,y,1,function(h) max_h = math.max(max_h,h) end)
 				end )
 		end )
-	--print(histgram)
+	--print("max_h = "..tostring(max_h))
 	make_bitmap_png(self.filename ,
 				img_width  ,
 				img_height ,
 				function(im)
-					local white = im:colorAllocate(255,255,255)
-					local black = im:colorAllocate(0, 0, 0)
-					for ix,row in pairs(histgram) do
-						--print("ix--"..ix)
-						for iy,h in pairs(row) do
-							--print("  iy--"..iy)
-							im:setPixel(ix,iy,black)
-						end
-					end
+					--local white = im:colorAllocate(255,255,255)
+					--local black = im:colorAllocate(0, 0, 0)
+					ib:eachcell( function(ix,iy,h)
+							local ratio = h/max_h
+							local icol  = 255 - math.min( math.floor(ratio*255) , 255 )
+							local col   = im:colorAllocate(icol,icol,icol)
+							im:setPixel(ix,iy,col)
+						end )
 				end )
 end
 
