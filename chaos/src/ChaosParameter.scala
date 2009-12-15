@@ -13,6 +13,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 	var scaleFactor  :Double = 0.0  
 	var numRing      :Int    = 5    
 	var numTrajectoryPerRing = 0    
+	var cellUnit     :Int    = 0
 	//
 	val gammaCorrection = 2 // gamma correction
 	//
@@ -35,9 +36,17 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 		case _      =>  10
 	}
 	
+	val paramCellUnit:(String)=>Int = {
+		case "poor" =>   1
+		case "low"  =>   2
+		case "high" =>   5
+		case _      =>   2
+	}
+	
 	def parse(cmdParam:Array[String]) : Unit = {
-		scaleFactor          = paramScaleFactor(cmdParam(0))
+		scaleFactor          = paramScaleFactor         (cmdParam(0))
 		numTrajectoryPerRing = paramNumTrajectoryPerRing(cmdParam(0))
+		cellUnit             = paramCellUnit            (cmdParam(0))
 		//
 		(cmdParam drop 1).toList match {
 		case "ow" :: Nil =>
@@ -92,7 +101,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 					val histgram = Histgram(
 										imgGeom  , 
 										dataGeom ,
-										5 ,
+										cellUnit ,
 										{ t:Double=> maxFreq=max(t,maxFreq) } )
 					//
 					print("Generating : " + filename ) // do not put newline

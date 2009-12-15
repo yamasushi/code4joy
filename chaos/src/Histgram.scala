@@ -16,7 +16,6 @@ case class Histgram(	imgGeom :Geometry[Int]    ,
 	private val heightCell = (imgGeom.size.y / rxCell + 0.5).asInstanceOf[Int]
 	private val histgram  = new Array[Array[Float]](widthCell,heightCell)
 	//
-	//
 	val canvasTransform=Geometry.transform(imgGeom,dataGeom)
 	//
 	def update(p:Vector[Double] , v:Double) : Double = {
@@ -64,7 +63,7 @@ case class Histgram(	imgGeom :Geometry[Int]    ,
 				val nb = Lattice.neighbor((jx,jy))
 				val histNb = ( (0.0f /: nb){(acc,v) => acc+histgram(v) } ) / nb.length
 				//
-				onUpdate(histNb)
+				//onUpdate(histNb)
 				histgram.updateCell( (jx,jy) , histNb )
 			}
 		}
@@ -72,16 +71,18 @@ case class Histgram(	imgGeom :Geometry[Int]    ,
 	//
 	def rendering(op:(Array[Int],Array[Int],Double)=>Unit) : Unit = {
 		//
-		smoothing( { _ >= 1.0f } ) // only brighter spot
-		smoothing( { _ >= 1.0f } ) // only brighter spot
-		smoothing( { _ < 1.0f  } ) // only darker spot
-		smoothing( { _ < 1.0f  } ) // only darker spot
-		//smoothing( { _:Float=>true } )
+		// smoothing( { _ >= 1.0f } ) // only brighter spot
+		// smoothing( { _ >= 1.0f } ) // only brighter spot
+		// smoothing( { _ < 1.0f  } ) // only darker spot
+		// smoothing( { _ < 1.0f  } ) // only darker spot
+		smoothing( { _:Float=>true } )
 		//smoothing( { _ == 0.0f } )
 		//smoothing( { _ == 0.0f } )
 		//
 		this.foreach { (xs,ys,h) =>
-			if( h>0 ){
+			if( h>0 &&
+				xs.forall{ t => t>=0 && t< imgGeom.size.x } &&
+				ys.forall{ t => t>=0 && t< imgGeom.size.y } ) {
 				op(xs,ys,h)
 			}
 		}
