@@ -9,7 +9,7 @@ function ImageBuffer:new(img_width,img_height)
 	o.height   = img_height
 	o.histgram = {}
 	--
-	o.cell_unit = 10
+	o.cell_unit = 5
 	o.rx = o.cell_unit
 	o.ry = math.sqrt(3)*o.cell_unit
 	o.cell_width  = math.floor(o.width /o.rx + 0.5)
@@ -112,11 +112,15 @@ function ImageBuffer:eachcell(op)
 	assert(self)
 	assert(self.histgram)
 	--
-	for ix,row in pairs(self.histgram) do
-		local x = ix*self.rx
-		--print("ix--"..ix)
-		for iy,h in pairs(row) do
-			local y = iy*self.ry
+	for iy = 0,self.cell_height-1 do
+		local y = iy*self.ry
+		local isx = 0
+		if( iy%2 == 0 ) then
+			isx = isx+3
+		end
+		for ix = isx , isx + self.cell_width-1 , 6 do
+			local x = ix*self.rx
+			local h = self:cell(ix,iy)
 			op(	{	{x + 2*self.rx , y} ,
 					{x +   self.rx , y + self.ry } ,
 					{x -   self.rx , y + self.ry } ,
