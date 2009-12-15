@@ -9,8 +9,9 @@ function ImageBuffer:new(img_width,img_height)
 	o.height   = img_height
 	o.histgram = {}
 	--
-	o.rx = 0.5
-	o.ry = math.sqrt(3)*0.5
+	o.cell_unit = 10
+	o.rx = o.cell_unit
+	o.ry = math.sqrt(3)*o.cell_unit
 	o.cell_width  = math.floor(o.width /o.rx + 0.5)
 	o.cell_height = math.floor(o.height/o.ry + 0.5)
 	--
@@ -94,6 +95,7 @@ function ImageBuffer:smooth(cond_op,on_update)
 					ix ,
 					iy ,
 					(	self:cell(ix  ,iy  ) +
+						--
 						self:cell(ix+2,iy  ) +
 						self:cell(ix+1,iy+1) +
 						self:cell(ix-1,iy+1) +
@@ -111,11 +113,16 @@ function ImageBuffer:eachcell(op)
 	assert(self.histgram)
 	--
 	for ix,row in pairs(self.histgram) do
-		local x = math.floor( ix*self.rx + math.random() )
+		local x = ix*self.rx
 		--print("ix--"..ix)
 		for iy,h in pairs(row) do
-			local y = math.floor( iy*self.ry + math.random() )
-			op(x,y,h)
+			local y = iy*self.ry
+			op(	{	{x + 2*self.rx , y} ,
+					{x +   self.rx , y + self.ry } ,
+					{x -   self.rx , y + self.ry } ,
+					{x - 2*self.rx , y} ,
+					{x -   self.rx , y - self.ry } ,
+					{x +   self.rx , y - self.ry }} , h)
 		end
 	end
 end
