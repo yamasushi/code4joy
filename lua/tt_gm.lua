@@ -5,12 +5,12 @@ require "chaos_system"
 
 require "ds_gumowski_mira"
 
-local img_width  = 400
-local img_height = 400
+local img_width  = 2000
+local img_height = 2000
 local oval_r     = 0.1
 
 local max_iter= 2000
-local num_traj= 50
+local num_traj= 10
 
 local header = {"_","A","Q","C"}
 local common_fn = {}
