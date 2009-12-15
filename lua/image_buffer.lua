@@ -9,7 +9,7 @@ function ImageBuffer:new(img_width,img_height)
 	o.height   = img_height
 	o.histgram = {}
 	--
-	o.cell_unit = 2
+	o.cell_unit = 5
 	o.rx = o.cell_unit
 	o.ry = math.sqrt(3)*o.cell_unit
 	o.cell_width  = math.floor(o.width /o.rx + 0.5)
