@@ -30,7 +30,7 @@ function DSGumowskiMira:new(
 	o.pi = param_pi
 	o.psi=param_psi
 	o.meta_phi = param_meta_phi
-	o.phi = meta_phi(pi,psi)
+	o.phi = meta_phi( o.pi , o.psi )
 
 	local gm_f = function(x)
 		return o.mu * x + 2*(1-o.mu)*o.phi(x)

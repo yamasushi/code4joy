@@ -7,24 +7,31 @@ require "ds_gumowski_mira"
 
 img_width  = 800
 img_height = 800
-mu,nu      = 0 , 1 -- -0.485 , 1.0
-param_a,param_b = 0.008, 0.05
-oval_r = 0.1 -- 5.0
+oval_r     = 0.1
 
 max_iter= 2000
 num_traj= 100
 
-header = "A"
-pi  = function(t) return math.abs(t) end
-psi = function(t) return math.abs(t) end
+header = {"_","A"}
 
-meta_phi = function(pi,psi)
-	return function(t) return pi(t)/(1+psi(t)) end
+pi={}
+pi["A"] = math.abs
+pi["_"] = function(t) return t*t end
+
+psi={}
+psi["A"] = math.abs
+psi["_"] = function(t) return t*t end
+
+meta_phi = function(param_pi,param_psi)
+	return function(t) return param_pi(t)/(1+param_psi(t)) end
 end
 
 params = {}
-table.insert(params,DSGumowskiMira:new("A",0.008,0.05,-0.485,1.0 , pi , psi , meta_phi))
-table.insert(params,DSGumowskiMira:new("A",0.008,0.05, 0    ,1.0 , pi , psi , meta_phi))
+for i,h in ipairs(header) do
+	--print(i,h,pi[h],psi[h])
+	table.insert(params,DSGumowskiMira:new(h,0.008,0.05,-0.485,1.0 , pi[h] , psi[h] , meta_phi))
+	table.insert(params,DSGumowskiMira:new(h,0.008,0.05, 0    ,1.0 , pi[h] , psi[h] , meta_phi))
+end
 
 for i,gm in ipairs(params) do
 	print(i,gm)
