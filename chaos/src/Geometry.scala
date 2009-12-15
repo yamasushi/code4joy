@@ -25,7 +25,7 @@ object Geometry
 	
 	// geom     : picture geometry
 	// dataGeom : target data geometry
-	def transform(	imgGeom:Geometry [Int] , 
+	def transform(	imgGeom:Geometry [Int]    , 
 					dataGeom:Geometry[Double] ):(Vector[Double])=>Vector[Double] = {
 		//
 		val ratio=	if (dataGeom.aspectRatio < imgGeom.aspectRatio)
