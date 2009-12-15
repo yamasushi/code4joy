@@ -25,14 +25,20 @@ object Geometry
 	
 	// geom     : picture geometry
 	// dataGeom : target data geometry
-	def transform(	imgGeom:Geometry [Int]    , 
-					dataGeom:Geometry[Double] ):(Vector[Double])=>Vector[Double] = {
+	def transform(	imgGeom      :Geometry [Int]    , 
+					paramDataGeom:Geometry[Double] ):(Vector[Double])=>Vector[Double] = {
+		// inflate data frame
+		val r = 1.1
+		val c = paramDataGeom.frame.min operate(paramDataGeom.frame.max , (l,r)=>(l+r)*0.5 )
+		val w = paramDataGeom.size.x * r
+		val h = paramDataGeom.size.y * r
+		val dataGeom=Geometry(Frame( Vector(c.x-0.5*w , c.y-0.5*h),Vector(c.x+0.5*w , c.y+0.5*h)))
 		//
 		val ratio=	if (dataGeom.aspectRatio < imgGeom.aspectRatio)
 						imgGeom.size.y.asInstanceOf[Double] / dataGeom.size.y
 					else
 						imgGeom.size.x.asInstanceOf[Double] / dataGeom.size.x
-		
+		//
 		val origin = dataGeom.frame.min map { _ *ratio }
 		val offset:Vector[Double]=if( dataGeom.aspectRatio < imgGeom.aspectRatio  ){
 			//data     canvas
