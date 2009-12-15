@@ -65,20 +65,21 @@ function ChaosRenderer:render(img_width,img_height)
 
 	local ib = ImageBuffer:new(img_width,img_height)
 	local max_h = 0
+	local update_max = function(h) max_h = math.max(max_h,h) end
 	self:do_iteration(
 		function(pt0)
 			(self.chaos):iterate_with(pt0 , tf ,
 				function(pt)
 					local x,y = pt:xy()
-					ib:update(x,y,1,function(h) max_h = math.max(max_h,h) end)
+					ib:update(x,y,1,update_max)
 				end )
 		end )
 	--print("max_h = "..tostring(max_h))
-	ib:smooth( function(h) return (h/max_h >  0.5) end )
-	ib:smooth( function(h) return (h/max_h >  0.5) end )
-	ib:smooth( function(h) return (h/max_h <= 0.5) end )
-	ib:smooth( function(h) return (h/max_h <= 0.5) end )
-	ib:smooth( function(h) return true end )
+--~ 	ib:smooth( function(h) return (h/max_h >  0.5) end ,update_max)
+--~ 	ib:smooth( function(h) return (h/max_h >  0.5) end ,update_max)
+--~ 	ib:smooth( function(h) return (h/max_h <= 0.5) end ,update_max)
+--~ 	ib:smooth( function(h) return (h/max_h <= 0.5) end ,update_max)
+	ib:smooth( function(h) return true end ,update_max)
 	make_bitmap_png(self.filename ,
 				img_width  ,
 				img_height ,

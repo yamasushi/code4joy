@@ -17,8 +17,12 @@ function ImageBuffer:new(img_width,img_height)
 	return setmetatable(o,ImageBuffer_mt)
 end
 
-function ImageBuffer:update(x,y,v,op)
+function ImageBuffer:update(x,y,v,on_update)
 	assert(self)
+	assert(x)
+	assert(y)
+	assert(v)
+	assert(on_update)
 	assert(self.histgram)
 	assert(self.width)
 	assert(self.height)
@@ -31,11 +35,15 @@ function ImageBuffer:update(x,y,v,op)
 	local ix = math.floor(x/self.rx +0.5)
 	local iy = math.floor(y/self.ry +0.5)
 	--print(x,y)
-	return self:update_cell(ix,iy,v,op)
+	return self:update_cell(ix,iy,v,on_update)
 end
 
-function ImageBuffer:update_cell(ix,iy,v,op)
+function ImageBuffer:update_cell(ix,iy,v,on_update)
 	assert(self)
+	assert(ix)
+	assert(iy)
+	assert(v)
+	assert(on_update)
 	assert(self.histgram)
 	assert(self.width)
 	assert(self.height)
@@ -55,13 +63,15 @@ function ImageBuffer:update_cell(ix,iy,v,op)
 		current = 0.0
 	end
 	local result = (v+current)*0.5
-	if(op)then op(result) end
+	if(on_update)then on_update(result) end
 	self.histgram[ix][iy] = result
 	return result
 end
 
 function ImageBuffer:cell(ix,iy)
 	assert(self)
+	assert(ix)
+	assert(iy)
 	assert(self.histgram)
 	assert(self.width)
 	assert(self.height)
@@ -77,15 +87,16 @@ function ImageBuffer:cell(ix,iy)
 	return self.histgram[ix][iy]
 end
 
-function ImageBuffer:smooth(condOp)
+function ImageBuffer:smooth(cond_op,on_update)
 	assert(self)
-	assert(condOp)
+	assert(cond_op)
+	assert(on_update)
 	assert(self.histgram)
 	assert(self.width)
 	assert(self.height)
 	for ix = 0,self.cell_width-1 do
 		for iy = 0,self.cell_height-1 do
-			if( condOp(self:cell(ix,iy)) ) then
+			if( cond_op(self:cell(ix,iy)) ) then
 				self:update_cell(
 					ix ,
 					iy ,
@@ -95,7 +106,7 @@ function ImageBuffer:smooth(condOp)
 						self:cell(ix-1,iy+1) +
 						self:cell(ix-2,iy  ) +
 						self:cell(ix+1,iy-1) +
-						self:cell(ix-1,iy-1) ) / 7.0 )
+						self:cell(ix-1,iy-1) ) / 7.0 , on_update )
 			end
 		end
 	end
