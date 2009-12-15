@@ -25,6 +25,20 @@ function ImageBuffer:update(x,y,v,op)
 	local ix = math.floor(x+0.5)
 	local iy = math.floor(y+0.5)
 	--print(x,y)
+	return self:update_cell(ix,iy,v,op)
+end
+
+function ImageBuffer:update_cell(ix,iy,v,op)
+	assert(self)
+	assert(self.histgram)
+	assert(self.width)
+	assert(self.height)
+	--
+	if( ix <  0 ) then return 0 end
+	if( ix >= self.width ) then return 0 end
+	if( iy <  0 ) then return 0 end
+	if( iy >= self.height ) then return 0 end
+
 	local current = 0.0
 	if (self.histgram[ix] == nil) then
 		self.histgram[ix]= {}
@@ -40,6 +54,52 @@ function ImageBuffer:update(x,y,v,op)
 	return result
 end
 
+function ImageBuffer:cell(ix,iy)
+	assert(self)
+	assert(self.histgram)
+	assert(self.width)
+	assert(self.height)
+	--
+	if( ix <  0 ) then return 0 end
+	if( ix >= self.width ) then return 0 end
+	if( iy <  0 ) then return 0 end
+	if( iy >= self.height ) then return 0 end
+	--
+	if( self.histgram[ix] == nil ) then return 0 end
+	if( self.histgram[ix][iy] == nil ) then return 0 end
+	--
+	return self.histgram[ix][iy]
+end
+
+function ImageBuffer:smooth()
+	assert(self)
+	assert(self.histgram)
+	assert(self.width)
+	assert(self.height)
+	for ix = 0,self.width-1 do
+		jx = ix - 1
+		kx = ix + 1
+		for iy = 0,self.height-1 do
+			jy = iy - 1
+			ky = iy + 1
+			--
+			self:update_cell(
+				ix ,
+				iy ,
+				(	self:cell(ix,iy) +
+					self:cell(ix,jy) +
+					self:cell(ix,ky) +
+					self:cell(jx,iy) +
+					self:cell(jx,jy) +
+					self:cell(jx,ky) +
+					self:cell(kx,iy) +
+					self:cell(kx,jy) +
+					self:cell(kx,ky) ) / 9.0 )
+		end
+	end
+end
+
+
 function ImageBuffer:eachcell(op)
 	assert(self)
 	assert(self.histgram)
@@ -51,4 +111,3 @@ function ImageBuffer:eachcell(op)
 		end
 	end
 end
-

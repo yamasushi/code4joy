@@ -73,6 +73,8 @@ function ChaosRenderer:render(img_width,img_height)
 					ib:update(x,y,1,function(h) max_h = math.max(max_h,h) end)
 				end )
 		end )
+	ib:smooth()
+	ib:smooth()
 	--print("max_h = "..tostring(max_h))
 	make_bitmap_png(self.filename ,
 				img_width  ,
