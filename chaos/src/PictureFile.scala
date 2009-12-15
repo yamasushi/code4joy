@@ -4,7 +4,8 @@
 // 2009-09-30 shuji TYPE_USHORT_555_RGB
 // 15:43 2009/11/06 divide into traits --> Picture,Canvas
 // 18:57 2009/11/13 filename ---> File object
-
+// 6:55 2009/12/16  TYPE_BYTE_GRAY
+ 
 import java.awt._
 import java.awt.image._
 import javax.imageio._
@@ -17,7 +18,7 @@ class PictureFile(
 		val colorBG  : Color  ) extends Picture[BufferedImage]
 {
 	override def startPaint : BufferedImage = {
-		new BufferedImage(geom.size.x,geom.size.y,BufferedImage.TYPE_USHORT_555_RGB)
+		new BufferedImage(geom.size.x,geom.size.y,BufferedImage.TYPE_BYTE_GRAY )
 	}
 	
 	override def endPaint(bi:BufferedImage):Unit = {

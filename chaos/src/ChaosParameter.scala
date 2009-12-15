@@ -39,7 +39,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 	val paramCellUnit:(String)=>Int = {
 		case "poor" =>   1
 		case "low"  =>   2
-		case "high" =>   5
+		case "high" =>   2
 		case _      =>   2
 	}
 	
