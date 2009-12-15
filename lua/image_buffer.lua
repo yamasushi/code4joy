@@ -52,20 +52,13 @@ function ImageBuffer:update_cell(ix,iy,v,on_update)
 	if( ix >= self.cell_width  ) then return 0 end
 	if( iy <  0 ) then return 0 end
 	if( iy >= self.cell_height ) then return 0 end
-
-	local current = 0.0
+	--
 	if (self.histgram[ix] == nil) then
 		self.histgram[ix]= {}
 	end
-	if ( self.histgram[ix][iy] ) then
-		current = self.histgram[ix][iy]
-	else
-		current = 0.0
-	end
-	local result = (v+current)*0.5
-	if(on_update)then on_update(result) end
-	self.histgram[ix][iy] = result
-	return result
+	if(on_update)then on_update(v) end
+	self.histgram[ix][iy] = v
+	return v
 end
 
 function ImageBuffer:cell(ix,iy)
@@ -118,10 +111,10 @@ function ImageBuffer:eachcell(op)
 	assert(self.histgram)
 	--
 	for ix,row in pairs(self.histgram) do
-		local x = math.floor( ix*self.rx + 0.5 )
+		local x = math.floor( ix*self.rx + math.random() )
 		--print("ix--"..ix)
 		for iy,h in pairs(row) do
-			local y = math.floor( iy*self.ry + 0.5 )
+			local y = math.floor( iy*self.ry + math.random() )
 			op(x,y,h)
 		end
 	end
