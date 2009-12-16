@@ -2,17 +2,17 @@ require "Vector"
 
 Matrix = {}
 Matrix_mt = {__index = Matrix}
-function Matrix:new(param_u,param_v)
-	assert(param_u)
-	assert(param_v)
-	local o = {param_u,param_v}
+function Matrix:new(u,v)
+	assert(u)
+	assert(v)
+	local o = {Vector:new(u[1],u[2]),Vector:new(v[1],v[2])}
 	o.u = o[1]
 	o.v = o[2]
 	return setmetatable(o,Matrix_mt)
 end
 
-Matrix.zero = Matrix:new( Vector.zero     , Vector.zero )
-Matrix.unit = Matrix:new( Vector:new(1,0) , Vector:new(0,1) )
+Matrix.zero = Matrix:new( {0,0} , {0,0} )
+Matrix.unit = Matrix:new( {1,0} , {0,1} )
 
 function Matrix:uv()
 	assert(self)
@@ -63,10 +63,10 @@ function Matrix:map()
 	assert(self)
 	local o = self
 	return function(t)
-		print (o[1],o[2])
+		--print (o[1],o[2])
 		local x = Vector:dot(o[1] , t)
 		local y = Vector:dot(o[2] , t)
-		print(x,y)
+		--print(x,y)
 		return Vector:new( x , y )
 	end
 end
