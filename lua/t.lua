@@ -20,31 +20,6 @@ require "gd_bitmap"
 --~ 	end )
 
 local l  = Lattice:new(3 ,40.0)
-local star={}
-star.inner = {
-	{{ 0, 0},{ 2, 0},{ 3, 1},{ 1, 1}} ,
-	{{ 0, 0},{ 1, 1},{ 0, 2},{-1, 1}} ,
-	{{ 0, 0},{-1, 1},{-3, 1},{-2, 0}} ,
-	{{ 0, 0},{-2, 0},{-3,-1},{-1,-1}} ,
-	{{ 0, 0},{-1,-1},{ 0,-2},{ 1,-1}} ,
-	{{ 0, 0},{ 1,-1},{ 3,-1},{ 2, 0}} }
-
-star.outer = {
-	{{ 4, 0},{ 3, 1},{ 2, 0},{ 3,-1}} ,
-	{{ 2, 2},{ 0, 2},{ 1, 1},{ 3, 1}} ,
-	{{-2, 2},{-3, 1},{-1, 1},{ 0, 2}} ,
-	{{-4, 0},{-3,-1},{-2, 0},{-3, 1}} ,
-	{{-2,-2},{ 0,-2},{-1,-1},{-3,-1}} ,
-	{{ 2,-2},{ 3,-1},{ 1,-1},{ 0,-2}} }
-
---
-local i_in,j_in = 5,6--4,5--3,4--2,3 --1,2 --6,1
-local star_1=star
-local i_in_val = { star.outer[j_in][1] , star.inner[i_in][4] , star.inner[i_in][2] , star.inner[i_in][3] }
-local j_in_val = { star.outer[j_in][1] , star.inner[j_in][3] , star.inner[j_in][4] , star.inner[j_in][2] }
-local j_out_val= { {0,0} , star.inner[i_in][2] , star.outer[j_in][3] , star.inner[j_in][4] }
-
-star_1.inner[j_in] , star_1.inner[i_in] , star_1.outer[j_in]= j_in_val , i_in_val , j_out_val
 
 --
 
@@ -82,10 +57,11 @@ end
 
 make_bitmap_png("a.png",1000,1000,
 	function (im)
-		draw_star(im,Lattice:star_shape(0),{150,150} )
-		draw_star(im,Lattice:star_shape(1),{150,450} )
-		draw_star(im,Lattice:star_shape(2),{150,750} )
-		draw_star(im,Lattice:star_shape(3),{450,150} )
-		draw_star(im,Lattice:star_shape(4),{450,450} )
-		draw_star(im,Lattice:star_shape(5),{450,750} )
+		draw_star(im,Lattice.star[0],{150,150} )
+		draw_star(im,Lattice.star[1],{450,150} )
+		draw_star(im,Lattice.star[2],{750,150} )
+		draw_star(im,Lattice.star[3],{150,450} )
+		draw_star(im,Lattice.star[4],{450,450} )
+		draw_star(im,Lattice.star[5],{750,450} )
+		draw_star(im,Lattice.star[6],{150,750} )
 	end )
