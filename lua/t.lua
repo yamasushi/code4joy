@@ -19,8 +19,7 @@ require "gd_bitmap"
 --~ 			end )
 --~ 	end )
 
-local l  = Lattice:new(3 ,40.0)
-
+local l  = Lattice:new(3 , 5.0)
 --
 
 function draw_star(im,star,origin)
@@ -55,13 +54,15 @@ function draw_star(im,star,origin)
 	end
 end
 
+local sp = Vector.zero
+local ep = Vector.zero
 make_bitmap_png("a.png",1000,1000,
 	function (im)
-		draw_star(im,Lattice.star[0],{150,150} )
-		draw_star(im,Lattice.star[1],{450,150} )
-		draw_star(im,Lattice.star[2],{750,150} )
-		draw_star(im,Lattice.star[3],{150,450} )
-		draw_star(im,Lattice.star[4],{450,450} )
-		draw_star(im,Lattice.star[5],{750,450} )
-		draw_star(im,Lattice.star[6],{150,750} )
+		local black = im:colorAllocate(  0,   0,   0)
+		Lattice:star_neighbor(2,{10,10},
+			function(r)
+				sp = ep
+				ep = l:pos( (r[1]+r[2]+r[3]+r[4])*0.25 )
+				im:line(sp.x,sp.y,ep.x,ep.y,black)
+			end )
 	end )
