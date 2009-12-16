@@ -5,43 +5,43 @@ Matrix_mt = {__index = Matrix}
 function Matrix:new(param_u,param_v)
 	assert(param_u)
 	assert(param_v)
-	local o = {}
-	o.u = param_u
-	o.v = param_v
+	local o = {param_u,param_v}
+	o.u = o[1]
+	o.v = o[2]
 	return setmetatable(o,Matrix_mt)
 end
 
+Matrix.zero = Matrix:new( Vector.zero     , Vector.zero )
+Matrix.unit = Matrix:new( Vector:new(1,0) , Vector:new(0,1) )
+
 function Matrix:uv()
 	assert(self)
-	return self.u,self.v
-end
-
-function Matrix:zero()
-	return Matrix:new( Vector:zero() , Vector:zero() )
+	return self[1] , self[2]
 end
 
 function Matrix:transpose()
 	assert(self)
-	return Matrix:new( Vector:new( self.u.x , self.v.x ) , Vector:new( self.u.y , self.v.y ) )
+	return Matrix:new( Vector:new( self[1][1] , self[2][1] ) , Vector:new( self[1][2] , self[2][2] ) )
 end
 
-Matrix_mt.__unm = function(a)   return Matrix:new( -a.u , -a.v ) end
-Matrix_mt.__add = function(a,b) return Matrix:new( a.u+b.u , a.u+b.u ) end
-Matrix_mt.__sub = function(a,b) return Matrix:new( a.v-b.v , a.v-b.v ) end
-Matrix_mt.__tostring = function(a) return string.format("(%s,%s)", tostring(a.u) , tostring(a.v) ) end
+Matrix_mt.__call= function(a,b) return (a:map())(b) end
+Matrix_mt.__unm = function(a)   return Matrix:new( -a[1] , -a[2] ) end
+Matrix_mt.__add = function(a,b) return Matrix:new( a[1]+b[1] , a[2]+b[2] ) end
+Matrix_mt.__sub = function(a,b) return Matrix:new( a[1]-b[1] , a[2]-b[2] ) end
+Matrix_mt.__tostring = function(a) return string.format("(%s,%s)", tostring(a[1]) , tostring(a[2]) ) end
 
 Matrix_mt.__mul = function(a,b)
 	if( type(a)=="number" ) then
-		return Matrix:new( a*b.u , a*b.v )
+		return Matrix:new( a*b[1] , a*b[2] )
 	end
 	if( type(b)=="number" ) then
-		return Matrix:new( b*a.u , b*a.v )
+		return Matrix:new( b*a[1] , b*a[2] )
 	end
 
 	local tb = b:transpose()
 	return Matrix:new(
-			Vector:new( Vector:dot(a.u,tb.u) , Vector:dot(a.u,tb.v) ) ,
-			Vector:new( Vector:dot(a.v,tb.u) , Vector:dot(a.v,tb.v) ) )
+			Vector:new( Vector:dot(a[1],tb[1]) , Vector:dot(a[1],tb[2]) ) ,
+			Vector:new( Vector:dot(a[2],tb[1]) , Vector:dot(a[2],tb[2]) ) )
 end
 
 function Matrix:rotate(t)
@@ -58,16 +58,15 @@ function Matrix:scale(x,y)
 			Vector:new(0,y))
 end
 
-function Matrix:unit()
-	return Matrix:new(
-			Vector:new(1,0) ,
-			Vector:new(0,1) )
-end
 
 function Matrix:map()
 	assert(self)
 	local o = self
 	return function(t)
-		return Vector:new( Vector:dot(o.u , t) , Vector:dot(o.v , t) )
+		print (o[1],o[2])
+		local x = Vector:dot(o[1] , t)
+		local y = Vector:dot(o[2] , t)
+		print(x,y)
+		return Vector:new( x , y )
 	end
 end
