@@ -103,9 +103,6 @@ object Lattice
 		p = p operate(v , _-_)
 		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//
-		p = p operate(w , _-_)
-		param = param enqueue sampling(n-1,p)(getOp,accOp)
-		//
 		return accOp(param)
 	}
 }
