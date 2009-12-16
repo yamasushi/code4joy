@@ -1,7 +1,7 @@
 require "Lattice"
 require "gd_bitmap"
 
-local ldim =8.0
+local ldim =5
 local l   = Lattice:new(3 ,ldim)
 local l2  = Lattice:new(3 ,ldim/2)
 
@@ -10,14 +10,14 @@ local sp = l:pos ( {0,0} )
 local ep = l:pos ( {0,0} )
 
 local i = 0
-make_bitmap_png("a.png",1000,1000,
+make_bitmap_png("a.png",1000,1200,
 	function (im)
 		local black = im:colorAllocate(  0,   0,   0)
 		local gray  = im:colorAllocate(128, 128, 128)
 		local red   = im:colorAllocate(255,   0,   0)
 		local white = im:colorAllocate(255, 255, 255)
 
-		Lattice:scan(2,{60,30},
+		Lattice:scan(3,{100,60},
 			function(ip)
 				local j = 1
 				local jp = Vector:new( ip.x*2 , ip.y*2 )
@@ -30,18 +30,19 @@ make_bitmap_png("a.png",1000,1000,
 							table.insert(rhombus,l2:pos(p))
 						end
 						if( j <= 6 ) then
-							im:filledPolygon(rhombus,gray)
+							--im:filledPolygon(rhombus,gray)
 						else
 							im:filledPolygon(rhombus,black)
 						end
 						j = j+1
 						--
 					end )
-				local nb = {}
-				for k,p in ipairs(Lattice:neighbor(ip)) do
-					table.insert(nb,l:pos(p))
-				end
-				im:polygon(nb,red)
+
+--~ 				local nb = {}
+--~ 				for k,p in ipairs(Lattice:neighbor(ip)) do
+--~ 					table.insert(nb,l:pos(p))
+--~ 				end
+--~ 				im:polygon(nb,red)
 				--
 				i = (i+1)%7
 			end )
