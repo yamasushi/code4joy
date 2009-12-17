@@ -13,19 +13,32 @@ Matrix.zero = Matrix:new( {0,0} , {0,0} )
 Matrix.unit = Matrix:new( {1,0} , {0,1} )
 
 
-function Matrix:u()
+function Matrix:u(t)
 	assert(self)
-	return self[1]
+	if(t)then
+		self[1] = t
+	else
+		return self[1]
+	end
 end
 
-function Matrix:v()
+function Matrix:v(t)
 	assert(self)
-	return self[2]
+	if(t)then
+		self[2] = t
+	else
+		return self[2]
+	end
 end
 
-function Matrix:uv()
+function Matrix:uv(u,v)
 	assert(self)
-	return self[1] , self[2]
+	if( u and v ) then
+		self[1] = u
+		self[2] = v
+	else
+		return self[1] , self[2]
+	end
 end
 
 function Matrix:transpose()

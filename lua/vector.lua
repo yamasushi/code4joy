@@ -41,9 +41,14 @@ function Vector:y(v)
 	end
 end
 
-function Vector:xy()
+function Vector:xy(x,y)
 	assert(self)
-	return self[1] , self[2]
+	if(x and y) then
+		self[1] = x
+		self[2] = y
+	else
+		return self[1] , self[2]
+	end
 end
 
 Vector_mt.__unm = function(a)   return Vector:new( -a[1] , -a[2] ) end
