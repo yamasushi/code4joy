@@ -45,10 +45,10 @@ Vector_mt.__mul = function(a,b)
 	assert(false)
 end
 
-Vector_mt.__div = function(a,b)
-	if( type(b)=="number" ) then
-		assert(b ~= 0)
-		return Vector:new( a[1]/b , a[2]/b )
-	end
-	assert(false)
-end
+--~ Vector_mt.__div = function(a,b)
+--~ 	if( type(b)=="number" ) then
+--~ 		assert(b ~= 0)
+--~ 		return Vector:new( a[1]/b , a[2]/b )
+--~ 	end
+--~ 	assert(false)
+--~ end

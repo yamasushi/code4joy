@@ -113,7 +113,7 @@ function ImageBuffer:smooth(cond_op,on_update)
 end
 
 
-function ImageBuffer:eachcell(op)
+function ImageBuffer:each_hexcell(op)
 	assert(self)
 	assert(self.histgram)
 	--

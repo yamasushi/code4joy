@@ -63,6 +63,7 @@ function ChaosRenderer:render(img_width,img_height)
 
 	local tf = canvas_geom:canvas_transform(data_geom)
 
+
 	local ib = ImageBuffer:new(img_width,img_height)
 	local max_h = 0
 	local update_max = function(h) max_h = math.max(max_h,h) end
@@ -84,14 +85,21 @@ function ChaosRenderer:render(img_width,img_height)
 				img_width  ,
 				img_height ,
 				function(im)
-					--local white = im:colorAllocate(255,255,255)
-					--local black = im:colorAllocate(0, 0, 0)
-					ib:eachcell( function(cell,h)
+					local white = im:colorAllocate(255,255,255)
+					local black = im:colorAllocate(0, 0, 0)
+					local red   = im:colorAllocate(255,0,0)
+					--
+					ib:each_hexcell( function(cell,h)
 							local ratio = h/max_h
 							local icol  = 255 - math.min( math.floor(ratio*255) , 255 )
 							local col   = im:colorAllocate(icol,icol,icol)
 							im:filledPolygon(cell,col)
 						end )
+					--
+--~ 					local sp = tf({0,0})
+--~ 					local ep = tf({100,200})
+--~ 					im:line(sp.x,sp.y,ep.x,ep.y,red)
+					--
 				end )
 end
 

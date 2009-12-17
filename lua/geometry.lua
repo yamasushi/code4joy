@@ -28,9 +28,9 @@ function Geometry:canvas_transform(param_data_geom)
 	local img_geom = self
 	--
 	-- inflate data geometry
-	local c = (param_data_geom.frame.min + param_data_geom.frame.max ) / 2
-	local s = param_data_geom.size * 1.1
-	local data_geom=Geometry:new(Frame:new( c - s/2 , c + s/2 ) )
+	local c = (param_data_geom.frame.min + param_data_geom.frame.max ) * 0.5
+	local s = ( param_data_geom.size * 1.1 ) * 0.5
+	local data_geom=Geometry:new(Frame:new( c - s , c + s ) )
 	--
 	local ratio = 0.0
 	if(data_geom.aspect_ratio < img_geom.aspect_ratio)then
@@ -57,7 +57,7 @@ function Geometry:canvas_transform(param_data_geom)
 	end
 
 	return function(p)
-			local q = p*ratio + offset
+			local q = Vector:new(p[1],p[2])*ratio + offset
 			q.y = img_geom.size.y - q.y
 			return q
 		end
