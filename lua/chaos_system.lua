@@ -47,7 +47,7 @@ end
 function ChaosSystem:calc_frame(pt0,data_frame)
 	assert(self)
 	assert(self.max_iter)
-	local frame = (data_frame) and data_frame or Frame:empty()
+	local frame = (data_frame) and data_frame or Frame.empty
 	self:iterate(pt0,function(pt) frame = frame:inflate(pt) end)
 	return frame
 end

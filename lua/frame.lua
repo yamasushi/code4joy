@@ -13,9 +13,7 @@ function Frame:new(param_min,param_max)
 	return setmetatable(o,Frame_mt)
 end
 
-function Frame:empty()
-	return Frame:new(Vector.zero,Vector.zero)
-end
+Frame.empty = Frame:new(Vector.zero,Vector.zero)
 
 Frame_mt.__tostring = function(a) return string.format("(min=%s,max=%s)", tostring(a.min) , tostring(a.max) ) end
 
