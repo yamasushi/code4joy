@@ -14,7 +14,7 @@ function Frame:new(param_min,param_max)
 end
 
 function Frame:empty()
-	return Frame:new(Vector:zero(),Vector:zero())
+	return Frame:new(Vector.zero,Vector.zero)
 end
 
 Frame_mt.__tostring = function(a) return string.format("(min=%s,max=%s)", tostring(a.min) , tostring(a.max) ) end

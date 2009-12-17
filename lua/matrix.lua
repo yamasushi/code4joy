@@ -44,6 +44,14 @@ Matrix_mt.__mul = function(a,b)
 			Vector:new( Vector:dot(a[2],tb[1]) , Vector:dot(a[2],tb[2]) ) )
 end
 
+Matrix_mt.__div = function(a,b)
+	if( type(b)=="number" ) then
+		assert(b ~= 0)
+		return Matrix:new( a[1]/b , a[2]/b )
+	end
+	assert(false)
+end
+
 function Matrix:rotate(t)
 	local cos_t = math.cos(t)
 	local sin_t = math.sin(t)

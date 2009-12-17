@@ -1,3 +1,5 @@
+require "lattice"
+
 ImageBuffer = {}
 ImageBuffer_mt = {__index = ImageBuffer}
 
@@ -14,6 +16,9 @@ function ImageBuffer:new(img_width,img_height)
 	o.ry = math.sqrt(3)*o.cell_unit
 	o.cell_width  = math.floor(o.width /o.rx + 0.5)
 	o.cell_height = math.floor(o.height/o.ry + 0.5)
+	--
+	o.scan_depth  = 4
+	o.center_cell = Vector:new(o.cell_width/2,o.cell_height/2)
 	--
 	return setmetatable(o,ImageBuffer_mt)
 end
@@ -129,4 +134,28 @@ function ImageBuffer:eachcell(op)
 					{x +   self.rx , y - self.ry }} , h)
 		end
 	end
+end
+
+function ImageBuffer:each_starcell(op)
+	assert(self)
+	assert(self.histgram)
+	--
+	local i = 0
+	Lattice:scan( self.scan_depth , self.center_cell/2 ,
+		function(ip)
+			Lattice:star_neighbor(i,ip*2,
+				function(r)
+					--
+					local h = (	self:cell(r[1][1],r[1][2]) +
+								self:cell(r[2][1],r[2][2]) +
+								self:cell(r[3][1],r[3][2]) +
+								self:cell(r[4][1],r[4][2]) ) / 4.0
+					op( {	{r[1][1]*self.rx , r[1][2]*self.ry } ,
+							{r[2][1]*self.rx , r[2][2]*self.ry } ,
+							{r[3][1]*self.rx , r[3][2]*self.ry } ,
+							{r[4][1]*self.rx , r[4][2]*self.ry } } , h)
+					--
+				end )
+			i = (i+1)%7
+		end )
 end
