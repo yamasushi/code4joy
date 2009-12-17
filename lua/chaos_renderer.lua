@@ -90,7 +90,7 @@ function ChaosRenderer:render(img_width,img_height)
 					local black = im:colorAllocate(0, 0, 0)
 					local red   = im:colorAllocate(255,0,0)
 					--
-					ib:each_hexcell( function(cell,h)
+					ib:each_starcell( function(cell,h)
 							local ratio = h/max_h
 							local icol  = 255 - math.min( math.floor(ratio*255) , 255 )
 							local col   = im:colorAllocate(icol,icol,icol)

@@ -11,7 +11,7 @@ local img_height = 3000
 local oval_r     = 0.1
 
 local max_iter= 2000
-local num_traj= 101
+local num_traj= 100
 
 local header = {"_","A","Q","C"}
 local common_fn = {}
@@ -39,17 +39,17 @@ for i,h in ipairs(header) do
 	table.insert(params,DSGumowskiMira:new(h,0.008,0.05, 0    ,1.0 , pi[h] , psi[h] , meta_phi))
 end
 
---~ for i,gm in ipairs(params) do
---~ 	print(i,gm)
---~ 	chaos_system = ChaosSystem:new(gm,max_iter)
---~ 	--print(chaos_system)
---~ 	cr = ChaosRenderer:new(chaos_system,num_traj,oval_r)
---~ 	--print(cr)
---~ 	cr:render(img_width,img_height)
---~ end
+for i,gm in ipairs(params) do
+	print(i,gm)
+	chaos_system = ChaosSystem:new(gm,max_iter)
+	--print(chaos_system)
+	cr = ChaosRenderer:new(chaos_system,num_traj,oval_r)
+	--print(cr)
+	cr:render(img_width,img_height)
+end
 
-chaos_system = ChaosSystem:new(DSGingerbreadMan:new(),max_iter)
-print(chaos_system)
-cr = ChaosRenderer:new(chaos_system,num_traj,oval_r)
---print(cr)
-cr:render(img_width,img_height)
+--~ chaos_system = ChaosSystem:new(DSGingerbreadMan:new(),max_iter)
+--~ print(chaos_system)
+--~ cr = ChaosRenderer:new(chaos_system,num_traj,oval_r)
+--~ --print(cr)
+--~ cr:render(img_width,img_height)
