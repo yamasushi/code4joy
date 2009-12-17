@@ -4,8 +4,6 @@ function Vector:new(x,y)
 	assert(x)
 	assert(y)
 	local o = {x,y}
-	o.x = o[1]
-	o.y = o[2]
 	return setmetatable(o,Vector_mt)
 end
 
@@ -23,6 +21,24 @@ end
 function Vector:abs()
 	assert(self)
 	return math.sqrt( Vector:dot(self,self) )
+end
+
+function Vector:x(v)
+	assert(self)
+	if(v) then
+		self[1] = v
+	else
+		return self[1]
+	end
+end
+
+function Vector:y(v)
+	assert(self)
+	if(v) then
+		self[2] = v
+	else
+		return self[2]
+	end
 end
 
 function Vector:xy()
@@ -45,10 +61,10 @@ Vector_mt.__mul = function(a,b)
 	assert(false)
 end
 
---~ Vector_mt.__div = function(a,b)
---~ 	if( type(b)=="number" ) then
---~ 		assert(b ~= 0)
---~ 		return Vector:new( a[1]/b , a[2]/b )
---~ 	end
---~ 	assert(false)
---~ end
+Vector_mt.__div = function(a,b)
+	if( type(b)=="number" ) then
+		assert(b ~= 0)
+		return Vector:new( a[1]/b , a[2]/b )
+	end
+	assert(false)
+end

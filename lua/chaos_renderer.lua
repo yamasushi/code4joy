@@ -69,9 +69,13 @@ function ChaosRenderer:render(img_width,img_height)
 	local update_max = function(h) max_h = math.max(max_h,h) end
 	self:do_iteration(
 		function(pt0)
-			(self.chaos):iterate_with(pt0 , tf ,
+--~ 			local z = tf({0,0})
+--~ 			local q = tf(pt0)
+--~ 			print(pt0,q,z)
+			self.chaos:iterate(pt0,
 				function(pt)
-					local x,y = pt:xy()
+					local q = tf(pt)
+					local x,y = q:xy()
 					ib:update(x,y,1,update_max)
 				end )
 		end )
@@ -96,9 +100,10 @@ function ChaosRenderer:render(img_width,img_height)
 							im:filledPolygon(cell,col)
 						end )
 					--
---~ 					local sp = tf({0,0})
---~ 					local ep = tf({100,200})
---~ 					im:line(sp.x,sp.y,ep.x,ep.y,red)
+					local sp = tf({0,0})
+					print(sp)
+					local ep = tf({100,200})
+					im:line(sp:x() , sp:y() , ep:x() , ep:y() , red)
 					--
 				end )
 end

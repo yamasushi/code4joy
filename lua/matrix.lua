@@ -6,13 +6,22 @@ function Matrix:new(u,v)
 	assert(u)
 	assert(v)
 	local o = {Vector:new(u[1],u[2]),Vector:new(v[1],v[2])}
-	o.u = o[1]
-	o.v = o[2]
 	return setmetatable(o,Matrix_mt)
 end
 
 Matrix.zero = Matrix:new( {0,0} , {0,0} )
 Matrix.unit = Matrix:new( {1,0} , {0,1} )
+
+
+function Matrix:u()
+	assert(self)
+	return self[1]
+end
+
+function Matrix:v()
+	assert(self)
+	return self[2]
+end
 
 function Matrix:uv()
 	assert(self)

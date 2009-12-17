@@ -26,17 +26,17 @@ end
 
 function Frame:size()
 	assert(self)
-	return Vector:new(	self.max.x - self.min.x ,
-						self.max.y - self.min.y )
+	return Vector:new(	self.max:x() - self.min:x() ,
+						self.max:y() - self.min:y() )
 end
 
 function Frame:inflate( p )
 	assert(self)
 	--print(p)
-	local min_x = (p[1] < self.min.x) and p[1] or self.min.x
-	local min_y = (p[2] < self.min.y) and p[2] or self.min.y
-	local max_x = (p[1] > self.max.x) and p[1] or self.max.x
-	local max_y = (p[2] > self.max.y) and p[2] or self.max.y
+	local min_x = (p[1] < self.min:x()) and p[1] or self.min:x()
+	local min_y = (p[2] < self.min:y()) and p[2] or self.min:y()
+	local max_x = (p[1] > self.max:x()) and p[1] or self.max:x()
+	local max_y = (p[2] > self.max:y()) and p[2] or self.max:y()
 	return Frame:new(
 			Vector:new(min_x,min_y) ,
 			Vector:new(max_x,max_y) )
