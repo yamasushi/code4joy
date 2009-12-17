@@ -44,9 +44,16 @@ end
 function Vector:xy(x,y)
 	assert(self)
 	if(x and y) then
+		assert(type(x)=="number")
+		assert(type(y)=="number")
 		self[1] = x
 		self[2] = y
+	elseif(x and x[1] and x[2] ) then
+		self[1] = x[1]
+		self[2] = x[2]
 	else
+		assert(x==nil)
+		assert(y==nil)
 		return self[1] , self[2]
 	end
 end

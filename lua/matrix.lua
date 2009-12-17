@@ -38,7 +38,12 @@ function Matrix:uv(u,v)
 		assert(type(v)=="table")
 		self[1] = Vector:new(u[1],u[2])
 		self[2] = Vector:new(v[1],v[2])
+	elseif( u and u[1] and u[2] ) then
+		self[1] = Vector:new(u[1][1],u[1][2])
+		self[2] = Vector:new(u[2][1],u[2][2])
 	else
+		assert(u==nil)
+		assert(v==nil)
 		return self[1] , self[2]
 	end
 end
