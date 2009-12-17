@@ -1,9 +1,9 @@
 Vector = {}
 Vector_mt = {__index = Vector}
-function Vector:new(param_x,param_y)
-	assert(param_x)
-	assert(param_y)
-	local o = {param_x,param_y}
+function Vector:new(x,y)
+	assert(x)
+	assert(y)
+	local o = {x,y}
 	o.x = o[1]
 	o.y = o[2]
 	return setmetatable(o,Vector_mt)

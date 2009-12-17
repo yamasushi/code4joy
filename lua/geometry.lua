@@ -23,14 +23,22 @@ Geometry_mt.__tostring = function(a)
 end
 
 -- self ... canvas
-function Geometry:canvas_transform(data_geom)
+function Geometry:canvas_transform(param_data_geom)
+	assert(self)
 	local img_geom = self
+	--
+	-- inflate data geometry
+	local c = (param_data_geom.frame.min + param_data_geom.frame.max ) / 2
+	local s = param_data_geom.size * 1.1
+	local data_geom=Geometry:new(Frame:new( c - s/2 , c + s/2 ) )
+	--
 	local ratio = 0.0
 	if(data_geom.aspect_ratio < img_geom.aspect_ratio)then
 		ratio = img_geom.size.y / data_geom.size.y
 	else
 		ratio = img_geom.size.x / data_geom.size.x
 	end
+	assert(ratio>0.0)
 
 	local origin = data_geom.frame.min * ratio
 	local offset = -origin
