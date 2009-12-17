@@ -1,7 +1,7 @@
 require "Lattice"
 require "gd_bitmap"
 
-local ldim =5
+local ldim =10
 local l   = Lattice:new(3 ,ldim)
 local l2  = Lattice:new(3 ,ldim/2)
 
@@ -10,10 +10,15 @@ local sp = l:pos ( {0,0} )
 local ep = l:pos ( {0,0} )
 
 local i = 0
-make_bitmap_png("a.png",1000,1200,
+make_bitmap_png("a.png",2000,2400,
 	function (im)
 		local black = im:colorAllocate(  0,   0,   0)
-		local gray  = im:colorAllocate(128, 128, 128)
+		--
+		local gray0 = im:colorAllocate( 50,  50,  50)
+		local gray1 = im:colorAllocate(100, 100, 100)
+		local gray2 = im:colorAllocate(150, 150, 150)
+		local gray3 = im:colorAllocate(200, 200, 200)
+		--
 		local red   = im:colorAllocate(255,   0,   0)
 		local white = im:colorAllocate(255, 255, 255)
 
@@ -21,7 +26,7 @@ make_bitmap_png("a.png",1000,1200,
 			function(ip)
 				local j = 1
 				local jp = Vector:new( ip.x*2 , ip.y*2 )
-				print(i , ip , jp)
+				--print(i , ip , jp)
 				Lattice:star_neighbor(i,jp,
 					function(r)
 						rhombus = {}
@@ -30,9 +35,18 @@ make_bitmap_png("a.png",1000,1200,
 							table.insert(rhombus,l2:pos(p))
 						end
 						if( j <= 6 ) then
-							--im:filledPolygon(rhombus,gray)
+							if(i==0) then
+								--- outside of star
+								im:filledPolygon(rhombus,gray2)
+							else
+								im:filledPolygon(rhombus,gray1)
+							end
 						else
-							im:filledPolygon(rhombus,black)
+							if(i==0) then
+								-- star
+							else
+								im:filledPolygon(rhombus,gray0)
+							end
 						end
 						j = j+1
 						--
