@@ -113,6 +113,34 @@ function ImageBuffer:smooth(cond_op,on_update)
 end
 
 
+function ImageBuffer:each_tricell(op)
+	assert(self)
+	assert(self.histgram)
+	--
+	for iy = 0,self.cell_height-1 do
+		local y = iy*self.ry
+		local isx = 0
+		if( iy%2 == 0 ) then
+			isx = isx+1
+		end
+		for ix = isx , isx + self.cell_width-1 , 2 do
+			local x = ix*self.rx
+			--
+			local h1 = ( self:cell(ix,iy) + self:cell(ix+2,iy) + self:cell(ix+1,iy-1) ) /3
+			local h2 = ( self:cell(ix,iy) + self:cell(ix+2,iy) + self:cell(ix+1,iy+1) ) /3
+			--
+			op(	{	{x             , y} ,
+					{x + 2*self.rx , y} ,
+					{x +   self.rx , y - self.ry} } , h1 )
+			--
+			op(	{	{x             , y} ,
+					{x + 2*self.rx , y} ,
+					{x +   self.rx , y + self.ry} } , h2 )
+		end
+	end
+end
+
+
 function ImageBuffer:each_hexcell(op)
 	assert(self)
 	assert(self.histgram)
