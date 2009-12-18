@@ -22,7 +22,7 @@ make_bitmap_png("a.png",2000,2400,
 		local red   = im:colorAllocate(255,   0,   0)
 		local white = im:colorAllocate(255, 255, 255)
 
-		Lattice:scan(3,{100,60},
+		Lattice:scan(1,{100,60},
 			function(ip)
 				local j = 1
 				local jp = Vector:new( ip:x()*2 , ip:y()*2 )
