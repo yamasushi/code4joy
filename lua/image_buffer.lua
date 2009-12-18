@@ -156,6 +156,6 @@ function ImageBuffer:each_starcell(op)
 							{r[4][1]*self.rx , r[4][2]*self.ry } } , h)
 					--
 				end )
-			i = (i+1)%7
+			i = (i+6)%7
 		end )
 end

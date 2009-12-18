@@ -58,7 +58,7 @@ make_bitmap_png("a.png",2000,2400,
 --~ 				end
 --~ 				im:polygon(nb,red)
 				--
-				i = (i+1)%7
+				i = (i+6)%7
 			end )
 	end )
 
