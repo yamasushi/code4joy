@@ -87,16 +87,18 @@ function Lattice:star_neighbor(n,ip,op)
 	local x,y = ip[1] , ip[2]
 	for i,r in ipairs(star.outer) do
 		local v={}
-		for j,p in ipairs(r) do
-			table.insert(v,Vector:new( p[1]+x , p[2]+y ) )
-		end
+		table.insert(v,Vector:new( r[1][1]+x , r[1][2]+y ) )
+		table.insert(v,Vector:new( r[2][1]+x , r[2][2]+y ) )
+		table.insert(v,Vector:new( r[3][1]+x , r[3][2]+y ) )
+		table.insert(v,Vector:new( r[4][1]+x , r[4][2]+y ) )
 		op(v)
 	end
 	for i,r in ipairs(star.inner) do
 		local v={}
-		for j,p in ipairs(r) do
-			table.insert(v,Vector:new( p[1]+x , p[2]+y ) )
-		end
+		table.insert(v,Vector:new( r[4][1]+x , r[4][2]+y ) )
+		table.insert(v,Vector:new( r[1][1]+x , r[1][2]+y ) )
+		table.insert(v,Vector:new( r[2][1]+x , r[2][2]+y ) )
+		table.insert(v,Vector:new( r[3][1]+x , r[3][2]+y ) )
 		op(v)
 	end
 end

@@ -143,18 +143,33 @@ function ImageBuffer:each_starcell(op)
 	local i = 0
 	Lattice:scan( self.scan_depth , self.center_cell/2 ,
 		function(ip)
+			local j=0
 			Lattice:star_neighbor(i,ip*2,
 				function(r)
 					--
-					local h = (	self:cell(r[1][1],r[1][2]) +
+--~ 					local h = (	self:cell(r[1][1],r[1][2]) +
+--~ 								self:cell(r[2][1],r[2][2]) +
+--~ 								self:cell(r[3][1],r[3][2]) +
+--~ 								self:cell(r[4][1],r[4][2]) ) / 4.0
+--~ 					op( {	{r[1][1]*self.rx , r[1][2]*self.ry } ,
+--~ 							{r[2][1]*self.rx , r[2][2]*self.ry } ,
+--~ 							{r[3][1]*self.rx , r[3][2]*self.ry } ,
+--~ 							{r[4][1]*self.rx , r[4][2]*self.ry } } , h)
+					local h1= (	self:cell(r[1][1],r[1][2]) +
 								self:cell(r[2][1],r[2][2]) +
-								self:cell(r[3][1],r[3][2]) +
-								self:cell(r[4][1],r[4][2]) ) / 4.0
+								self:cell(r[4][1],r[4][2]) ) / 3.0
 					op( {	{r[1][1]*self.rx , r[1][2]*self.ry } ,
 							{r[2][1]*self.rx , r[2][2]*self.ry } ,
-							{r[3][1]*self.rx , r[3][2]*self.ry } ,
-							{r[4][1]*self.rx , r[4][2]*self.ry } } , h)
+							{r[4][1]*self.rx , r[4][2]*self.ry } } , h1)
 					--
+					local h2= (	self:cell(r[2][1],r[2][2]) +
+								self:cell(r[3][1],r[3][2]) +
+								self:cell(r[4][1],r[4][2]) ) / 3.0
+					op( {	{r[2][1]*self.rx , r[2][2]*self.ry } ,
+							{r[3][1]*self.rx , r[3][2]*self.ry } ,
+							{r[4][1]*self.rx , r[4][2]*self.ry } } , h2)
+					--
+					j = j+1
 				end )
 			i = (i+6)%7
 		end )
