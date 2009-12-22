@@ -1,0 +1,15 @@
+(import '(java.awt.image BufferedImage))
+(import '(java.awt Color))
+(import '(java.io File))
+(import '(javax.imageio ImageIO))
+(let  [ bi (BufferedImage. 1000 2000 BufferedImage/TYPE_BYTE_GRAY)
+        g  (.createGraphics bi) 
+        f  (File. "a.png") ] 
+  (.setPaint g Color/WHITE)
+  (.fillRect g 0,0,1000,2000)
+  (.setColor g Color/BLACK)
+  (.drawLine g 0,0,100,100)
+  (.drawLine g 30,20,100,100)
+  (ImageIO/write bi "png",f)
+)
+
