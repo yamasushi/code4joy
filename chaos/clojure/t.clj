@@ -9,7 +9,7 @@
 (def  max-iter 2000)
 (def  num-traj 100)
 (def  rand-seq (repeatedly #(rand) ))
-(def  pt0-seq (map (fn [t] [(Math/cos t) (Math/sin t)]) rand-seq))
+(def  pt0-seq (map (fn [t] [(Math/cos (* 2.0 Math/PI t)) (Math/sin (* 2.0 Math/PI t))]) rand-seq))
 
 (defn sgm-map [pt]
   (let [ [x y] pt]
