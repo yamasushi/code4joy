@@ -15,3 +15,15 @@
     (ImageIO/write bi "png",f)
   )
 )
+
+
+(defn draw-line [g s e] 
+  (let [[sx sy] s , [ex ey] e ]
+    ;(println sx sy ex ey)
+    (.drawLine g sx sy ex ey)
+  ))
+
+(defn draw-point [g p] 
+  (let [[x y] p]
+    (.drawLine g x y x y)
+  ))

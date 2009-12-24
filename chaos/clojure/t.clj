@@ -6,6 +6,10 @@
 (def  d    0.9 )
 (defn pi  [t] (* t t))
 (defn psi [t] (* t t))
+(def  max-iter 2000)
+(def  num-traj 100)
+(def  rand-seq (repeatedly #(rand) ))
+(def  pt0-seq (map (fn [t] [(Math/cos t) (Math/sin t)]) rand-seq))
 
 (defn sgm-map [pt]
   (let [ [x y] pt]
@@ -13,31 +17,22 @@
     [ (+ (* a x) (* b y) (/ (+ (* c (pi x) ) d ) (+ 1 (psi x) ) )) , (- x)]
     ))
 
+
+(def  calc-next sgm-map)
+(defn ds[pt0]  (iterate calc-next pt0))
+
 (defn transform [pt]
   (let [[x y] pt]
   [(* x 100),(* y 100)]
   ))
 
-(def calc-next sgm-map)
-(def ds  (iterate calc-next [-1.0 , 0.0] ))
-(def ds2 (rest ds) )
-
-(defn draw-line [g s e] 
-  (let [[sx sy] (transform s) , [ex ey] (transform e) ]
-    ;(println sx sy ex ey)
-    (.drawLine g sx sy ex ey)
-  ))
-
-(defn draw-point [g p] 
-  (let [[x y] (transform p)]
-    (.drawLine g x y x y)
-  ))
-
 (create-picture-png 1000 600 "a.png" (fn [g]
-  (doseq [p (take 100000 ds)]
-    ;(println p)
-    (draw-point g p)
-  )
+  (doseq [pt0 (take num-traj pt0-seq)]
+    (println (str "pt0 = " pt0))
+    (doseq [p (take max-iter (ds pt0))]
+      ;(println p)
+      (draw-point g (transform p))
+    ))
 ))
 
 ;(create-picture-png 1000 600 "a.png" (fn [g]
