@@ -15,5 +15,3 @@
     (ImageIO/write bi "png",f)
   )
 )
-
-(create-picture-png 500 600 "a.png" (fn [g] (.drawLine g 0 0 100 100) ) )
