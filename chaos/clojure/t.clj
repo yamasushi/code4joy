@@ -21,18 +21,18 @@
 (def  calc-next sgm-map)
 (defn ds[pt0]  (iterate calc-next pt0))
 
+(def ds-seq (for [pt0 (take num-traj pt0-seq) p (take max-iter (ds pt0))] p ))
+
 (defn transform [pt]
   (let [[x y] pt]
   [(* x 100),(* y 100)]
   ))
 
 (create-picture-png 1000 600 "a.png" (fn [g]
-  (doseq [pt0 (take num-traj pt0-seq)]
-    (println (str "pt0 = " pt0))
-    (doseq [p (take max-iter (ds pt0))]
-      ;(println p)
-      (draw-point g (transform p))
-    ))
+  (doseq [p ds-seq]
+    ;(println p)
+    (draw-point g (transform p)) 
+  )
 ))
 
 ;(create-picture-png 1000 600 "a.png" (fn [g]
