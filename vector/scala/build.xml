@@ -16,7 +16,7 @@
   </taskdef>
   
   <!-- jar file name -->
-  <property name="jar.name" value="vector.jar"/>
+  <property name="jar.name" value="${env.CODE_HOME}/vector.jar"/>
 
   <!-- =================================================================
   End-user targets

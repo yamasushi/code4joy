@@ -1,0 +1,1 @@
+scala -cp %CODE_HOME%\vector.jar;%CODE_HOME%\lattice.jar;%CODE_HOME%\graphics.jar;%CODE_HOME%\chaos.jar %1 %2 %3 %4 %5 %6 %7 %8 %9

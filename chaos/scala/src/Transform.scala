@@ -1,4 +1,3 @@
-import vector.scala._
 import Math.{log,sin,cos,sqrt,abs}
 
 object Transform
