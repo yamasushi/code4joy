@@ -16,7 +16,7 @@
   </taskdef>
 
   <!-- jar file name -->
-  <property name="jar.name" value="lattice.jar"/>
+  <property name="jar.name" value="graphics.jar"/>
 
   <!-- =================================================================
   End-user targets

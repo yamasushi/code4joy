@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="simple_build" default="build">
+<project name="simple_build" default="jar">
+  <property name="src"     value="src" />
+  <property name="etc"     value="etc" />
+  <property name="classes" value="out" />
+  
   <property environment="env" />
   <property name="version" value="${version.major}.${version.minor}"/>
 
@@ -11,6 +15,8 @@
     </classpath>
   </taskdef>
 
+  <!-- jar file name -->
+  <property name="jar.name" value="chaos.jar"/>
 
   <!-- =================================================================
   End-user targets
@@ -22,27 +28,34 @@
   <!-- =================================================================
   Build targets
   ================================================================== -->
+  
+  <!-- jar file -->
+  <target name="jar" depends="build.out">
+    <jar jarfile="${jar.name}" basedir="${classes}"
+	></jar>
+  </target>
 
   <target name="build.out">
-    <mkdir dir="out"/>
-    <scalac srcdir ="src"
-            destdir="out"
+    <mkdir dir="${classes}"/>
+    <scalac srcdir ="${src}"
+            destdir="${classes}"
             includes="**/*.scala">
       <classpath>
         <pathelement location="${env.SCALA_HOME}/lib/scala-library.jar"/>
         <pathelement location="${env.SCALA_HOME}/lib/scala-compiler.jar"/>
+		<pathelement location="${env.CODE_HOME}/vector/scala/vector.jar"/>
+		<pathelement location="${env.CODE_HOME}/lattice/scala/lattice.jar"/>
       </classpath>
     </scalac>
   </target>
 
-
   <!-- =================================================================
   Clean targets
   ================================================================== -->
-
   <target name="clean.build">
-    <delete dir="out" includeemptydirs="yes"
+    <delete dir="${classes}" includeemptydirs="yes"
             quiet="yes" failonerror="no"/>
+    <delete file="${jar.name}" quiet="yes" />
   </target>
 
 </project>
