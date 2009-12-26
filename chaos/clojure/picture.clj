@@ -1,10 +1,12 @@
-(import '(java.awt.image BufferedImage))
-(import '(java.awt Color))
-(import '(java.io File))
-(import '(javax.imageio ImageIO))
+(ns picture
+(:import  (java.awt.image BufferedImage)
+          (java.awt Color)
+          (java.io File)
+          (javax.imageio ImageIO) ) )
 
-(defn create-picture-png [width height filename op]
-  (let  [ bi (BufferedImage. width height BufferedImage/TYPE_BYTE_GRAY)
+(defn create-png [size filename op]
+  (let  [ [width height] size
+          bi (BufferedImage. width height BufferedImage/TYPE_BYTE_GRAY)
           g  (.createGraphics bi) 
           f  (File. filename) ] 
     (.setPaint g Color/WHITE)
@@ -17,13 +19,13 @@
 )
 
 
-(defn draw-line [g s e] 
+(defn line [g s e] 
   (let [[sx sy] s , [ex ey] e ]
     ;(println sx sy ex ey)
     (.drawLine g sx sy ex ey)
   ))
 
-(defn draw-point [g p] 
+(defn point [g p] 
   (let [[x y] p]
     (.drawLine g x y x y)
   ))
