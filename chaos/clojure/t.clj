@@ -28,6 +28,8 @@
   [(* x 100),(* y 100)]
   ))
 
+(def frame (reduce (fn [p q] ) [0 0 0 0] ds-seq))
+
 (create-picture-png 1000 600 "a.png" (fn [g]
   (doseq [p ds-seq]
     ;(println p)

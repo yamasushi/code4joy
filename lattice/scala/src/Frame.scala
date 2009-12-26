@@ -1,3 +1,4 @@
+
 case class Frame[T <% Ordered[T]](min:Vector[T],max:Vector[T])
 {
 	def isInside( pt:Vector[T] ) : Boolean = {

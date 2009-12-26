@@ -1,3 +1,4 @@
+
 trait Geometry[T]
 {
 	val aspectRatio:Double
