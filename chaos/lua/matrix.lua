@@ -1,4 +1,4 @@
-require "Vector"
+require "vector"
 
 Matrix = {}
 Matrix_mt = {__index = Matrix}

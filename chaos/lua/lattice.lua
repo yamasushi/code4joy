@@ -1,6 +1,6 @@
 -- Hexagonal Lattce
-require "Matrix"
-require "Vector"
+require "matrix"
+require "vector"
 
 Lattice = {}
 Lattice_mt = {__index = Lattice}
