@@ -1,5 +1,7 @@
 import java.awt.{Color,Point}
 
+// !!! scala 2.8 has "Vector" collection. be aware  !!!
+
 trait Vector[T]
 {
 	import Vector._
