@@ -81,7 +81,7 @@ object Lattice
 		val v = map ( ( 0 , -2 ) )
 		val w = map ( (-3 , -1 ) )
 		//
-		var param = new Queue[T]
+		var param = Queue[T]()
 		var p = ip
 		param = param enqueue sampling(n-1,p)(getOp,accOp)
 		//

@@ -28,8 +28,8 @@ object chaosParam extends ChaosParameter[DSGumowskiMira]
 	def setup() : Unit = {
 		import GumowskiMiraPhi._
 		
-		var maps  =new Queue[(String,(Double)=>Double)]
-		var params=new Queue[((Double,Double),Stream[Double],Stream[Double],Double)]
+		var maps  =Queue[(String,(Double)=>Double)]()
+		var params=Queue[((Double,Double),Stream[Double],Stream[Double],Double)]()
 		
 		maps=maps enqueue ("Quadratic",phi(psiQuadratic _ ))
 		maps=maps enqueue ("Abs",phi(psiAbs       _ ))

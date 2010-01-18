@@ -8,9 +8,9 @@ object chaosParam extends ChaosParameter[DSChaosGame with ChaosStream]
 {
 	def setup() : Unit = {
 		import GumowskiMiraPhi._
-	
+		
 		var sys:List[ChaosSystem] = Nil
-	        sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
+		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
 									( 0.008, 0.05 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys
 		sys = (new DSGumowskiMira("",phi(psiAbs _ ) ,
 									( 0.008, 0.04 ) , ( -0.475 , 1.0 ) , 1 , 1 )).chaosSystem :: sys

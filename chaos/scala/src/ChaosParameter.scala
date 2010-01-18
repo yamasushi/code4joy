@@ -19,7 +19,7 @@ abstract class ChaosParameter[ T<:ChaosStream with ChaosStream ]
 	//
 	def setup() : Unit
 	//
-	private var param = new Queue[T]
+	private var param = Queue[T]()
 	//
 	var fileFilter:(java.io.File)=>Boolean = {!_.exists}
 	//
