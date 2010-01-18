@@ -27,8 +27,8 @@ object chaosParam extends ChaosParameter[DSGingerbreadMan]
 		import Transform._
 		val rot = rotate(-(3*Math.Pi)/4.0) 
 		//
-		var maps   = new Queue[(String,(Double)=>Double)]
-		var params = new Queue[(Stream[Double],Stream[Double],Double)] 
+		var maps   = Queue[(String,(Double)=>Double)]()
+		var params = Queue[(Stream[Double],Stream[Double],Double)]() 
 		maps = maps enqueue ("_" ,{x=>abs(x)}            )
 		// maps = maps enqueue ("2" ,{x=>x*x/(1+abs(x)) }   )
 		// maps = maps enqueue ("R" ,{x=>sqrt(abs(x))}      )

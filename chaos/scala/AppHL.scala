@@ -23,12 +23,12 @@ object chaosParam extends ChaosParameter[DSHenonLozi]
 	}
 	//----------------------------
 	def setup() : Unit = {
-		var maps = new Queue[(String,(Double,Double)=>Double)]
+		var maps = Queue[(String,(Double,Double)=>Double)]()
 		maps = maps enqueue ( "H"  , {(x:Double,y:Double)=>x*x    }      ) 
 		maps = maps enqueue ( "L"  , {(x:Double,y:Double)=>abs(x) }      ) 
 		maps = maps enqueue ( "ML" , {(x:Double,y:Double)=>y*y - abs(x) }) 
 		//
-		var params = new Queue[(Stream[Double],Stream[Double],Double)] 
+		var params = Queue[(Stream[Double],Stream[Double],Double)] ()
 		params = params.enqueue(	ParamRange.neighbor(-1.8 , 0.01  ,0) ,
 									ParamRange.neighbor( 0.3 , 0.001 ,0) , 0.1 )
 					

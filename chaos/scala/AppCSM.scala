@@ -32,8 +32,8 @@ object chaosParam extends ChaosParameter[DSChirikov]
 			( radius*cos(theta) , radius*sin(theta) )
 		}
 		
-		var params = new Queue[(String,Stream[Double])]
-		var maps   = new Queue[(String,(Vector[Double])=>Vector[Double])]
+		var params = Queue[(String,Stream[Double])]()
+		var maps   = Queue[(String,(Vector[Double])=>Vector[Double])]()
 		
 		params = params enqueue ("H" ,ParamRange.neighbor( 1. / 34.0     , 0.01 , 1 )) //Hermann 
 		params = params enqueue ("CC",ParamRange.neighbor( 419. / 500.0  , 0.01 , 1 )) //Cellette,Chierchia 1995 

@@ -70,8 +70,8 @@ object chaosParam extends ChaosParameter[DSSimplifiedGumowskiMira]
 			else       { p => scale(1    ,ratio)(rotate(theta)(p) ) }
 		}
 		
-		var maps  =new Queue[(String,(Double)=>Double,(Double)=>Double)]
-		var params=new Queue[(Stream[Double],Stream[Double],Stream[Double],Stream[Double],Double)]
+		var maps  =Queue[(String,(Double)=>Double,(Double)=>Double)]()
+		var params=Queue[(Stream[Double],Stream[Double],Stream[Double],Stream[Double],Double)]()
 		
 		// maps=maps enqueue("GB"      ,{t=>abs(t)} , {t=>0} )
 		// maps=maps enqueue("C"       ,{x=>abs(x*x*x)  },{x=>abs(x*x*x) })

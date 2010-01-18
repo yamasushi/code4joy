@@ -6,8 +6,8 @@ chaosParam.doMain(args)
 object chaosParam extends ChaosParameter[DSIkeda]
 {
 	def setup() : Unit = {
-		var paramsAB = new Queue[(Stream[Double],Stream[Double])]
-		var paramsKP = new Queue[(Stream[Double],Stream[Double])]
+		var paramsAB = Queue[(Stream[Double],Stream[Double])]()
+		var paramsKP = Queue[(Stream[Double],Stream[Double])]()
 		//
 		paramsAB=paramsAB enqueue (
 						ParamRange.neighbor(0.9,0.01,20) ,

@@ -29,8 +29,8 @@ object chaosParamGM extends ChaosParameter[DSGumowskiMira]
 	def setup() : Unit = {
 		import GumowskiMiraPhi._
 		
-		var maps  =new Queue[(String,(Double)=>Double)]
-		var params=new Queue[((Double,Double),Stream[Double],Stream[Double],Double)]
+		var maps  =Queue[(String,(Double)=>Double)]()
+		var params=Queue[((Double,Double),Stream[Double],Stream[Double],Double)]()
 		
 		maps=maps enqueue ("_",phi({x=>x*x        },{x=>x*x}))
 		maps=maps enqueue ("A",phi({x=>abs(x)     },{x=>abs(x)    }))
@@ -93,8 +93,8 @@ object chaosParamSGM extends ChaosParameter[DSSimplifiedGumowskiMira]
 			else       { p => scale(1    ,ratio)(rotate(theta)(p) ) }
 		}
 		
-		var maps  =new Queue[(String,(Double)=>Double,(Double)=>Double)]
-		var params=new Queue[(Stream[Double],Stream[Double],Stream[Double],Stream[Double],Double)]
+		var maps  =Queue[(String,(Double)=>Double,(Double)=>Double)]()
+		var params=Queue[(Stream[Double],Stream[Double],Stream[Double],Stream[Double],Double)]()
 		
 		// maps=maps enqueue("C"       ,{x=>abs(x*x*x)  },{x=>abs(x*x*x) })
 		// maps=maps enqueue("Q"       ,{x=>x*x*x*x     },{x=>x*x*x*x    })

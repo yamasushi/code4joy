@@ -28,9 +28,9 @@ object chaosParam extends ChaosParameter[DSHenon]
 			( radius*cos(theta) , radius*sin(theta) )
 		}
 		val period=2*Math.Pi
-		var funs  = new Queue[(String,(Double)=>Double)]
-		var params= new Queue[Double] 
-		var maps  = new Queue[(String,((Vector[Double])=>Vector[Double]))]
+		var funs  = Queue[(String,(Double)=>Double)]()
+		var params= Queue[Double] ()
+		var maps  = Queue[(String,((Vector[Double])=>Vector[Double]))]()
 		
 		// grav-lens : sq-d1 0.3pi
 		
